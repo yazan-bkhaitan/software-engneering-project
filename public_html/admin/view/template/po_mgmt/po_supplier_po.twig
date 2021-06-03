@@ -1,0 +1,137 @@
+<div class="page-header">
+    <div class="container-fluid">
+      <h3>{{ heading_title_po_list }}</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="container-fluid"  id="product_assign">
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-supplier-purchase-id">{{ column_po_id }}</label>
+                <input type="text" name="filter_purchase_id" value="{{ filter_purchase_id }}" placeholder="{{ column_po_id }}" id="input-supplier-purchase-id" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="input-created-date">{{ column_created_date }}</label>
+              <div class='input-group date'>
+                <input type="text" name="filter_purchase_date" value="{{ filter_purchase_date }}" placeholder="{{ column_created_date }}" id="input-created-date" class="form-control" data-date-format="YYYY-MM-DD" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-order-total">{{ column_grand_total }}</label>
+                <input type="text" name="filter_grand_total_po" value="{{ filter_grand_total_po }}" placeholder="{{ column_grand_total }}" id="input-order-total" class="form-control"/>
+              </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-order-status">{{ entry_status }}</label>
+              <select name="filter_status" id="input-order-status" class="form-control">
+                <option value="*">{{ entry_select }}</option>
+                {% for key, status in quotation_status %}
+                  <option value="{{ key }}" {% if filter_status is same as (key) %}{{ 'selected' }}{% endif %}>{{ status }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+          </div>
+          <div class="pull-right" style="margin-top:35px;">
+            <button type="button" onclick="filter_supplier_po();" class="btn btn-info" style="border-radius:0px;">
+              <i class="fa fa-search"></i>{{ button_supplier_product_filter }}</button>
+            <a href="{{ clear_quotation_filter }}" class="btn btn-default" style="border-radius:0px;"><i class="fa fa-eraser" aria-hidden="true"></i>{{ button_clear_filter }}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-horizontal">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <td class="text-left">{{ column_po_id }}</td>
+                <td class="text-left">{{ column_created_date }}</td>
+                <td class="text-center">{{ column_ordered_qty }}</td>
+                <td class="text-center">{{ column_received_qty }}</td>
+                <td class="text-center">{{ column_grand_total }}</td>
+                <td class="text-center">{{ column_status }}</td>
+                <td class="text-center">{{ column_action }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if supplier_pos %}
+              {% for po_entry in supplier_pos %}
+              <tr>
+                <td class="text-left">{{ po_entry.format_po_id }}</td>
+                <td class="text-left">{{ po_entry.purchase_date }}</td>
+                <td class="text-center">{{ po_entry.total_ordered_qty }}</td>
+                <td class="text-center">{{ po_entry.total_received_qty }}</td>
+                <td class="text-center">{{ po_entry.grand_total }}</td>
+                <td class="text-center">{{ po_entry.status }}</td>
+                <td class="text-center"><a href="{{ po_entry.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-warning" target="_blank" ><i class="fa fa-eye"></i> {{ button_view }}<a></td>
+              </tr>
+              {% endfor %}
+               {% else %}
+              <tr>
+                <td class="text-center" colspan="7">{{ text_no_results }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 text-left">{{ pagination }}</div>
+      <div class="col-sm-6 text-right">{{ results }}</div>
+    </div>
+  </div>
+
+  <script type="text/javascript"><!--
+  function filter_supplier_po() {
+    url = 'index.php?route=po_mgmt/po_supplier/edit&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_active=supplier_po';
+
+    var filter_purchase_id = $('input[name=\'filter_purchase_id\']').val();
+
+    if (filter_purchase_id) {
+      var getQuotationId = filter_purchase_id.split('#');
+      if(getQuotationId[1]){
+        url += '&filter_purchase_id=' + encodeURIComponent(getQuotationId[1]);
+      }else{
+        url += '&filter_purchase_id=' + encodeURIComponent(getQuotationId);
+      }
+    }
+
+  	var filter_grand_total_po = $('input[name=\'filter_grand_total_po\']').val();
+
+  	if (filter_grand_total_po) {
+  		url += '&filter_grand_total_po=' + encodeURIComponent(filter_grand_total_po);
+  	}
+
+    var filter_purchase_date = $('input[name=\'filter_purchase_date\']').val();
+
+    if (filter_purchase_date) {
+      url += '&filter_purchase_date=' + encodeURIComponent(filter_purchase_date);
+    }
+
+  	var filter_status = $('select[name=\'filter_status\']').val();
+
+  	if (filter_status != '*') {
+  		url += '&filter_status=' + encodeURIComponent(filter_status);
+  	}
+
+  	location = url;
+  }
+  $('.date').datetimepicker({
+    pickDate: true,
+    pickTime: false
+  });
+  //--></script>

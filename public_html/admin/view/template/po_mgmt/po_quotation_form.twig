@@ -1,0 +1,1261 @@
+{{ header }}{{ column_left }}
+<div id="content" class="supplier_mgmt">
+<style type="text/css">
+  .tabs-left > .li-format{
+    margin:12px 0;
+    margin-right: -18px;
+    border-left: 3px solid #009e8a;
+    float: none;
+  }
+  .tabs-left > .li-format > a{
+    border-radius: 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .tabs-left > li.active{
+    border-left: 3px solid #E22C5C;
+  }
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 1px solid #e8e8e8;
+    border-right: none;
+  }
+  .supplier_mgmt .panel-heading,  #pagination .text-right, .page-header h1, .breadcrumb li a, .supplier_heading_section{
+    color: #39372b;
+  }
+  hr{
+    border-color: #009e8a;
+    border-width: 1px 0 0;
+    margin-right: 20px;
+  }
+  .btn{
+    border-radius: 0;
+  }
+  .supplier_heading_section{
+    font-size: 15px;
+    font-weight: normal;
+    padding-left: 40px;
+    padding-right: 0;
+    margin: 0;
+    color: #009e8a;
+  }
+  #multi-step {
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      counter-reset: step;
+  }
+  #multi-step li {
+    color: #39372b;
+    float: left;
+    font-size: 12px;
+    list-style-type: none;
+    position: relative;
+    text-align: center;
+    width: 20%;
+  }
+  #multi-step li:before {
+      content: counter(step);
+      counter-increment: step;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      display: block;
+      font-size: 12px;
+      color: #333;
+      background: white;
+      border: 2px solid #333;
+      margin: 0 auto 10px auto;
+  }
+  #multi-step li.active:before {
+    border-color: #53d871;
+    font-weight: 600;
+  }
+  .additional_options{
+    display: none;
+  }
+  </style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-6 pull-right">
+        <ul id="multi-step">
+            <li class="active general_info">{{ text_general_info }}</li>
+            <li class="add_product">{{ text_add_product }}</li>
+            <li class="add_comment">{{ text_add_comment }}</li>
+            <li class="summary_quotation">{{ text_submit }}</li>
+        </ul>
+      </div>
+    </div>
+
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <form action="{{ create_quotation }}" method="post" enctype="multipart/form-data" id="form-quotation-data" class="form-horizontal">
+        <fieldset>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> {{ text_general_info }}</h3>
+              </div>
+              <div class="panel-body" id="general_info_section">
+                  <div class="col-sm-12" style="padding-top:20px;" id="quotation_supplier_details">
+                    <label class="col-sm-2 supplier_heading_section">{{ text_owner_details }}</label><hr>
+
+                    <input type="hidden" name="general_info[supplier_id]" id="input-supplier-id" value="{% if sessionStepData.general_info.supplier_id %}{{ sessionStepData.general_info.supplier_id }}{% endif %}" class="form-control" />
+
+                    <div class="form-group required">
+                      <label class="col-sm-3 control-label" for="input-owner-name">{{ entry_owner_name }}</label>
+                      <div class="col-sm-8">
+                        <select name="general_info[supplier_name]" class="form-control" id="input-owner-name">
+                          <option value="">{{ entry_select }}</option>
+                        {% if suppliers%}
+                          {% for key, supplier in suppliers %}
+                              <option value="{{ supplier.supplier_id }}" {% if sessionStepData.general_info.supplier_id and sessionStepData.general_info.supplier_id is same as (supplier.supplier_id) %}{{ 'selected' }}{% endif %}>{{ supplier.owner_name }}</option>
+                          {% endfor %}
+                        {% endif %}
+                        </select>
+                      </div>
+                    </div>
+
+                    <input type="hidden" name="general_info[supplier_name]" id="input-supplier-name" value="{% if sessionStepData.general_info.supplier_name %}{{ sessionStepData.general_info.supplier_name }}{% endif %}" class="form-control" />
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label" for="input-company-name">{{ entry_company_name }}</label>
+                      <div class="col-sm-8">
+                        <input type="text" name="general_info[supplier_company_name]" id="input-company-name" value="{% if sessionStepData.general_info.supplier_company_name %}{{ sessionStepData.general_info.supplier_company_name }}{% endif %}" class="form-control" placeholder="{{ placeholder_company_name }}" readonly />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="col-sm-7">
+                        <label class="col-sm-5 control-label" for="input-email-name">{{ entry_email }}</label>
+                        <div class="col-sm-7">
+                          <input type="text" name="general_info[supplier_email]" id="input-owner-name" value="{% if sessionStepData.general_info.supplier_email %}{{ sessionStepData.general_info.supplier_email }}{% endif %}" class="form-control" placeholder="{{ placeholder_email }}" readonly />
+                        </div>
+                      </div>
+                      <div class="col-sm-5">
+                        <label class="col-sm-3 control-label" for="input-telephone">{{ entry_telephone }}</label>
+                        <div class="col-sm-7">
+                          <input type="text" name="general_info[supplier_telephone]" id="input-telephone" value="{% if sessionStepData.general_info.supplier_telephone %}{{ sessionStepData.general_info.supplier_telephone }}{% endif %}" class="form-control" placeholder="{{ placeholder_telephone }}" readonly />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label" for="input-address">{{ entry_address }}</label>
+                      <div class="col-sm-8" style="padding: 0 7px;">
+                        <input type="text" name="general_info[supplier_address]" id="input-address" value="{% if sessionStepData.general_info.supplier_address %}{{ sessionStepData.general_info.supplier_address }}{% endif %}" class="form-control" placeholder="{{ placeholder_address }}" readonly />
+                      </div>
+                    </div>
+                </div><!--End Supplier Details-->
+
+                <div class="col-sm-12" style="padding-top:20px;" id="quotation_shipping_details">
+                  <label class="col-sm-2 supplier_heading_section">{{ text_shipping_details }}</label><hr>
+
+                  <div class="form-group">
+                    <div class="col-sm-7 required">
+                      <label class="col-sm-5 control-label" for="input-shipping-method">{{ entry_shipping_method }}</label>
+                      <div class="col-sm-7">
+                        <select name="general_info[shipping_method]" class="form-control" id="input-shipping-method">
+                          <option value="">{{ entry_select }}</option>
+                        {% if shipping_methods%}
+                          {% for key, method in shipping_methods %}
+                            {% if method.status %}
+                                <option value="{{ method.method_id }}" {% if sessionStepData.general_info.shipping_method and sessionStepData.general_info.shipping_method is same as (method.method_id) %}{{ 'selected' }}{% endif %}>{{ method.shipping_description[config_langauge_id].name }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                        </select>
+                        <input type="hidden" name="general_info[shipping_method_name]" value="{% if sessionStepData.general_info.shipping_method_name %}{{ sessionStepData.general_info.shipping_method_name }}{% endif %}" />
+                      </div>
+                    </div>
+                    <div class="col-sm-5">
+                      <label class="col-sm-4 control-label" for="input-shipping-cost">{{ entry_shipping_cost }}</label>
+                      <div class="col-sm-6" style="padding:0px;">
+                        <input type="text" name="general_info[shipping_cost]" id="input-shipping-cost" value="{% if sessionStepData.general_info.shipping_cost %}{{ sessionStepData.general_info.shipping_cost }}{% else %} {{ '0.00' }}{% endif %}" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-7">
+                      <label class="col-sm-5 control-label" for="input-shipment-start-date">{{ entry_shipment_start_date }}</label>
+                      <div class="col-sm-7 input-group datetime"  style="padding-left:15px;">
+                        <input type="text" name="general_info[shipping_start_date]" value="{{ sessionStepData.general_info.shipping_start_date ? sessionStepData.general_info.shipping_start_date : '' }}" id="input-shipment-start-date" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" />
+                        <span class="input-group-btn">
+                          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                      {% if error_shipping_start_date is defined and error_shipping_start_date %}
+                        <div class="text-danger">{{ error_shipping_start_date }}</div>
+                      {% endif %}
+                    </div>
+                    <div class="col-sm-5">
+                      <label class="col-sm-4 control-label" for="input-expected-delivery-date">{{ entry_expected_delivery_date }}</label>
+                      <div class="col-sm-6" style="padding:0;">
+                        <div class="input-group datetime">
+                          <input type="text" name="general_info[expected_delivery_date]" id="input-expected-delivery-date" value="{% if sessionStepData.general_info.expected_delivery_date %}{{ sessionStepData.general_info.expected_delivery_date }}{% else %}{{ '' }}{% endif %}" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss"  />
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                          </span>
+                        </div>
+                        {% if expected_delivery_date is defined and expected_delivery_date %}
+                          <div class="text-danger">{{ expected_delivery_date }}</div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-shipping-address">{{ entry_shipping_address }}</label>
+                    <div class="col-sm-8">
+                      <textarea name="general_info[shipping_address]" id="input-shipping-address" class="form-control" placeholder="{{ placeholder_shipping_address }}" >{{ sessionStepData.general_info.shipping_address ? sessionStepData.general_info.shipping_address : '' }}</textarea>
+                    </div>
+                  </div>
+
+                </div><!--End Shipping Details-->
+
+                <div class="col-sm-12" style="padding-top:20px;" id="quotation_payment_details">
+                  <label class="col-sm-2 supplier_heading_section">{{ text_payment_details }}</label><hr>
+
+                  <div class="form-group">
+                    <div class="col-sm-7 required">
+                      <label class="col-sm-5 control-label" for="input-payment-method">{{ entry_payment_method }}</label>
+                      <div class="col-sm-7">
+                        <select name="general_info[payment_method]" class="form-control" id="input-payment-method">
+                          <option value="">{{ entry_select }}</option>
+                        {% if payment_methods %}
+                          {% for key, method in payment_methods %}
+                            {% if method.status %}
+                                <option value="{{ method.method_id }}" {% if sessionStepData.general_info.payment_method and sessionStepData.general_info.payment_method is same as (method.method_id) %}{{ 'selected' }}{% endif %}>{{ method.payment_description[config_langauge_id].name }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                        </select>
+                        <input type="hidden" name="general_info[payment_method_name]" value="{% if sessionStepData.general_info.payment_method_name %}{{ sessionStepData.general_info.payment_method_name }}{% endif %}" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-7">
+                      <label class="col-sm-5 control-label" for="input-order-source">{{ entry_order_source }}</label>
+                      <div class="col-sm-7">
+                        {% if order_source_options %}
+                        {% for key, source_option in order_source_options %}
+                          <div class="col-sm-10">
+                            <label class="radio-inline">
+                              <input type="radio" name="general_info[order_source]" value="{{ source_option|lower }}" {% if sessionStepData.general_info.order_source and sessionStepData.general_info.order_source is same as (source_option|lower) %}{{ "checked"}}{% endif %}>{{ '   '~source_option }}
+                            </label>
+                          </div>
+                        {% endfor %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div><!--End Payment Details-->
+
+                <button class="next_tab btn btn-primary pull-right" type="button" name="general_info" id="general_info">{{ button_add_product }}</button>
+              </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list" aria-hidden="true"></i> {{ text_add_product }}</h3>
+              </div>
+              <div class="panel-body" id="add_product_section">
+                  <div class="col-sm-12" style="padding-top:20px;">
+                    <label class="col-sm-2 supplier_heading_section" style="padding:0px;">{{ text_choose_supplier_product }}</label><hr>
+                    <div class="col-sm-6 pull-right input-group">
+                      <input type="text" class="form-control" id="supplier_product" placeholder="{{ placeholder_find_product }}" style="border-radius:0px;border-color:#FF7830;" />
+                      <span class="input-group-btn">
+                      <button type="button" class="btn" style="border-color:#FF7830;color:#FF7830;"><i class="fa fa-arrow-down"></i></button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-12" style="padding-top:20px;">
+                    <label class="col-sm-2 supplier_heading_section" style="padding:0px;">{{ text_supplier_product_list }}</label><hr>
+                    <br>
+                    <br>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover" id="add_product_table">
+                        <thead>
+                          <tr>
+                            <td class="text-left">{{ column_image }}</td>
+                            <td class="text-left">{{ column_product_name }}</td>
+                            <td class="text-left">{{ column_product_model }}</td>
+                            <td class="text-left">{{ column_supplier_sku }}</td>
+                            <td class="text-left">{{ column_price~' ('~currency_symbol~')' }}</td>
+                            <td class="text-left">{{ column_supplier_cost~' ('~currency_symbol~')' }}</td>
+                            <td class="text-left">{{ column_supplier_qty }}</td>
+                            <td class="text-left">{{ column_supplier_tax }}</td>
+                            <td class="text-left">{{ 'Action' }}</td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% if sessionStepData.update_product %}
+                          {% for product_id, s_product in sessionStepData.update_product %}
+                          <tr id="supplier_product_{{ product_id }}">
+                            <td class="text-center">
+                              {% if s_product.image %}
+                                <img src="{{ s_product.image }}" alt="{{ s_product.product_name }}" class="img-thumbnail" />
+                              {% else %}
+                                <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
+                              {% endif %}</td>
+                            <td class="text-left">{{ s_product.product_name }}</td>
+                            <td class="text-left">{{ s_product.model }}</td>
+                            <td class="text-left">{{ s_product.supplier_sku }}</td>
+                            <td class="text-left">{{ s_product.price }}</td>
+                            <td class="text-left">
+                              <input type="text" name="add_product[{{ product_id }}][product_id]" value="{{ s_product.product_id }}" class="form-control" />
+                              <input type="text" name="add_product[{{ product_id }}][supplier_cost]" value="{{ s_product.supplier_cost ? s_product.supplier_cost : '0.00' }}" class="form-control" />
+                              </td>
+                            <td class="text-left">
+                              <input type="text" name="add_product[{{ product_id }}][supplier_qty]" value="{{ s_product.supplier_qty ? s_product.supplier_qty : s_product.supplier_qty ? s_product.supplier_qty :  default_quantity }}"  class="form-control"/>
+                              </td>
+
+                            <td class="text-left">
+                              <input type="text" name="add_product[{{ product_id }}][supplier_tax]" value="{{ s_product.supplier_tax ? s_product.supplier_tax :s_product.supplier_tax }}"  class="form-control"/>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove_product" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>
+                                {% if s_product.options_data %}
+                                    <button type="button" class="btn btn-info showOption">Option List <span class="caret"></span></button>
+                                {% endif %}
+                            </td>
+                          </tr>
+                              {% if s_product.options_data %}
+                                <tr><td class="text-left additional_options" colspan="9" id="additional_options_{{ product_id }}" style="display:{% if sessionStepData.update_product and product_id in  sessionStepData_update_product %}{{ 'table-cell'}}{% endif %}">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                      <thead><tr>
+                                        <th class="text-center">{{ column_option_name}}</th>
+                                        <th class="text-center">{{ column_option_value }}</th>
+                                      </tr></thead>
+                                      <tbody>
+                                        {% for product_option_id, p_option in s_product.options_data %}
+                                            <tr>
+                                            {% if p_option.type is same as ('text') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ key }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-center">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                    <input type="text" name="add_product[{{ product_id }}][options][{{ product_option_id }}]" value="{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}" placeholder="{{ 'Option value' }}" id="input-value{{ product_option_id }}" class="form-control" />
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('textarea') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ key }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-center">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                    <textarea name="add_product[{{ product_id }}][options][{{ product_option_id }}]" rows="5" id="input-value{{ product_option_id }}" class="form-control">{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}</textarea>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('file') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-left">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                      <button type="button" id="button-upload{{ product_option_id }}" data-loading-text="{{ 'Loading...' }}" class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+                                                      <input type="hidden" name="add_product[{{ product_id }}][options][{{ product_option_id }}]" value="{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}" id="input-value{{ product_option_id }}" />
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+
+                                            {% if p_option.type is same as ('date') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-left">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                    <div class="input-group date">
+                                                      <input type="text" name="add_product[{{ product_id }}][options][{{ product_option_id }}]" value="{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}" data-date-format="YYYY-MM-DD" id="input-value{{ product_option_id }}" class="form-control" />
+                                                      <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                                      </span></div>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('time') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-left">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                    <div class="input-group time">
+                                                      <input type="text" name="add_product[{{ product_id }}][options][{{ product_option_id }}]" value="{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}" data-date-format="HH:mm" id="input-value{{ product_option_id }}" class="form-control" />
+                                                      <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                                      </span></div>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('datetime') %}
+                                              <td class="text-center">
+                                                <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                  <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                </div>
+                                              </td>
+                                              <td class="text-left">
+                                                <div class="form-group">
+                                                  <div class="col-sm-8">
+                                                    <div class="input-group datetime">
+                                                      <input type="text" name="add_product[{{ product_id }}][options][{{ product_option_id }}]" value="{% if s_product.options[product_option_id] %}{{ s_product.options[product_option_id] }}{% endif %}" data-date-format="YYYY-MM-DD HH:mm" id="input-value{{ product_option_id }}" class="form-control" />
+                                                      <span class="input-group-btn">
+                                                      <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                                      </span></div>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('select')  or  p_option.type is same as ('radio') %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <select name="add_product[{{ product_id }}][options][{{ product_option_id }}]" id="input-value{{ product_option_id }}" class="form-control">
+                                                      <option value="">{{ text_select }}</option>
+                                                      {% for product_option_value in p_option.product_option_value %}
+                                                        <option value="{{ product_option_value.product_option_value_id }}" {% if s_product.options[product_option_id] and s_product.options[product_option_id] is same as (product_option_value.product_option_value_id) %}{{ 'selected' }}{% endif %}>{{ product_option_value.name }}
+                                                        {% if product_option_value.price %}
+                                                        ({{ product_option_value.price_prefix }}{{ product_option_value.price }})
+                                                        {% endif %}
+                                                        </option>
+                                                      {% endfor %}
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                            {% endif %}
+                                            {% if p_option.type is same as ('checkbox') %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <div id="input-value{{ product_option_id }}">
+                                                        {% for product_option_value in p_option %}
+                                                          <div class="checkbox">
+                                                            <label id="checkbox_multivalue_{{ product_option_value.option_value_id }}">
+                                                              <input type="checkbox" name="add_product[{{ product_id }}][options][{{ product_option_id }}][]" value="{{ product_option_value.product_option_value_id }}" {% if s_product.options[product_option_id] and product_option_value.product_option_value_id in s_product.options[product_option_id] %}{{ 'checked'}}{% endif %}/>
+                                                              {{ product_option_value.name }}
+                                                              {% if product_option_value.price %}
+                                                              ({{ product_option_value.price_prefix }}{{ product_option_value.price }})
+                                                              {% endif %}
+                                                            </label>
+                                                          </div>
+                                                        {% endfor %}
+
+                                                      </div>
+                                                    </div>
+
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+
+                                            </tr>
+                                          {% endfor %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                  {% endif %}
+                                </td></tr>
+                              {% endfor %}
+
+                           {% else %}
+                            <tr id="no_supplier_product">
+                              <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                            </tr>
+                          {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <button class="prev_tab btn btn-warning pull-left" type="button" name="back_general" id="back_general_info"><i class="fa fa-reply" aria-hidden="true"></i> {{ button_back }}</button>
+
+                  <button class="next_tab btn btn-primary pull-right" type="button" name="add_product" id="add_product">{{ button_add_selected_product }}</button>
+              </div><!--add_product panel-->
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ text_pannel_comment }}</h3>
+              </div>
+              <div class="panel-body" id="add_comment_section">
+                  <div class="col-sm-12" style="padding-top:20px;">
+                    <label class="col-sm-2 supplier_heading_section" style="padding:0px;">{{ text_comment_section }}</label><hr>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                      <div class="col-sm-12">
+                        <textarea name="add_comment[comment]" id="input-quotation-comment" class="form-control" placeholder="{{ placeholder_quotation_comment }}" rows="12" >{{ sessionStepData.add_comment.comment ? sessionStepData.add_comment.comment : '' }}</textarea>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6 checkbox">
+                      <label for="input-mail-supplier"><input name="add_comment[mail_supplier]" value="1" type="checkbox" id="input-mail-supplier" style="margin-right:5px;" {% if sessionStepData.add_comment.mail_supplier %}{{ 'checked' }}{% endif %}>{{ text_send_comment_mail }}</label>
+                    </div>
+
+                  </div>
+                  {% if sessionStepData.update_product %}
+                    <button class="prev_tab btn btn-warning pull-left" type="button" name="back_product" id="back_add_product"><i class="fa fa-reply" aria-hidden="true"></i> {{ button_back }}</button>
+                    <button class="next_tab btn btn-primary pull-right" type="button" name="add_comment" id="add_comment">{{ button_add_comment }}</button>
+                  {% endif %}
+              </div><!--add_comment panel-->
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-shopping-cart" aria-hidden="true"></i> {{ text_summary_quotation }}</h3>
+              </div>
+              <div class="panel-body" id="summary_quotation_section">
+                  <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ panel_supplier_info }}</h3>
+                          </div>
+                          <div class="panel-body" id="panel_supplier_info">
+                              <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                  <label class="col-sm-6" style="padding:0px;"><i class="fa fa-user text-danger" aria-hidden="true"></i> {{ entry_supplierinfo_name }}:  </label>
+                                  <div class="col-sm-6" style="padding:0px;">
+                                    <a href="{{ sessionStepData.general_info.supplier_link ? sessionStepData.general_info.supplier_link : '#' }}" target="_blank">{% if sessionStepData.general_info.supplier_name %}{{ sessionStepData.general_info.supplier_name }}{% else %}{{ 'N/A' }}{% endif %}</a>
+                                    </div>
+                              </div>
+                              <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                  <label class="col-sm-6" style="padding:0px;"><i class="fa fa-envelope-o text-warning" aria-hidden="true"></i> {{ entry_supplierinfo_email }}:  </label>
+                                  <div class="col-sm-6" style="padding:0px;">
+                                    {% if sessionStepData.general_info.supplier_email %}{{ sessionStepData.general_info.supplier_email }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                              </div>
+                              <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                  <label class="col-sm-6" style="padding:0px;"><i class="fa fa-phone  text-primary" aria-hidden="true"></i> {{ entry_supplierinfo_contact }}:</label>
+                                  <div class="col-sm-6" style="padding:0px;">
+                                    {% if sessionStepData.general_info.supplier_telephone %}{{ sessionStepData.general_info.supplier_telephone }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                              </div>
+                              <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-12">{{ text_purchase_from }}</label>
+                                <div class="col-sm-8 pull-right alert alert-info" >
+                                  <i class="fa fa-building" aria-hidden="true"></i>
+                                  {% if sessionStepData.general_info.supplier_company_name %}{{ '    '~sessionStepData.general_info.supplier_company_name }}{% else %}{{ 'N/A' }}{% endif %}
+                                <br><br>
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                  {% if sessionStepData.general_info.supplier_address %}{{ '    '~sessionStepData.general_info.supplier_address }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title"><i class="fa fa-truck" aria-hidden="true"></i> {{ panel_shipping_details }}</h3>
+                        </div>
+                        <div class="panel-body" id="panel_supplier_info">
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-calendar" aria-hidden="true"></i> {{ entry_created_date }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;color:#338FFF;">
+                                  {{ created_date }}
+                                  </div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-cart-arrow-down  text-success" aria-hidden="true"></i> {{ entry_shipped_by }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;color:#338FFF;">
+                                  {% if sessionStepData.general_info.shipping_method_name %}{{ sessionStepData.general_info.shipping_method_name }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-calendar-plus-o  text-warning" aria-hidden="true"></i> {{ entry_start_date }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;">
+                                  {% if start_date %}{{ start_date }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-calendar-minus-o text-danger" aria-hidden="true"></i> {{ entry_expected_date }}:</label>
+                                <div class="col-sm-6" style="padding:0px;">
+                                  {% if expected_date %}{{ expected_date }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-money  text-info" aria-hidden="true"></i> {{ entry_shiping_cost }}:</label>
+                                <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                                  {% if sessionStepData.general_info.shipping_cost_formatted %}{{ sessionStepData.general_info.shipping_cost_formatted }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-th-list" aria-hidden="true"></i> {{ panel_ordered_product }}</h3>
+                          </div>
+                          <div class="panel-body" id="panel_order_item_info">
+                              <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                  <thead>
+                                    <tr>
+                                      <td class="text-left">{{ column_image }}</td>
+                                      <td class="text-left">{{ column_product_name }}</td>
+                                      <td class="text-left">{{ column_product_model }}</td>
+                                      <td class="text-left">{{ column_supplier_sku }}</td>
+                                      <td class="text-left">{{ column_supplier_cost~' ('~currency_symbol~')' }}</td>
+                                      <td class="text-left">{{ column_supplier_qty }}</td>
+                                      <td class="text-left">{{ column_supplier_tax }}</td>
+                                      <td class="text-center">{{ column_action }}</td>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% if sessionStepData.update_product %}
+                                    {% for key, added_product in sessionStepData.update_product %}
+                                    <tr>
+                                      <td class="text-center">{% if added_product.image %}
+                                        <img src="{{ added_product.image }}" alt="{{ added_product.product_name }}" class="img-thumbnail" />
+                                        {% else %}
+                                        <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
+                                        {% endif %}</td>
+                                      <td class="text-left">
+                                        {{ added_product.product_name ? added_product.product_name : '-' }}
+
+                                        {% if added_product.options_data %}
+                                        {% for product_option_id, option in added_product.options_data %}
+                                          {% if added_product.options[product_option_id] %}
+                                            <br />
+                                              {% if option.type and option.type is same as ('select') or option.type is same as ('radio') or option.type is same as ('checkbox') and option.product_option_value and added_product.options[product_option_id] %}
+                                                  {% if not added_product.options[product_option_id] is iterable and option.product_option_value[added_product.options[product_option_id]].name %}
+                                                    &nbsp;<small><i>- {{ option.name}}: {{ option.product_option_value[added_product.options[product_option_id]].name }}</i></small>
+                                                  {% elseif added_product.options[product_option_id] is iterable %}
+                                                      {% for checkbox_po_id in added_product.options[product_option_id] %}
+                                                          {% if option.product_option_value[checkbox_po_id].name %}
+                                                              &nbsp;<small><i>- {{ option.name}}: {{ option.product_option_value[checkbox_po_id].name }}</i></small><br />
+                                                          {% endif %}
+                                                      {% endfor %}
+                                                  {% endif %}
+                                              {% elseif option.type and option.type is same as ('file') %}
+                                                  &nbsp;<small><i>- {{ option.name }}: {{ option.value }}</i></small>
+                                              {% else %}
+                                                  &nbsp;<small><i>- {{ option.name }}: {{ added_product.options[product_option_id] }}</i></small>
+                                              {% endif %}
+                                            {% endif %}
+                                          {% endfor %}
+                                        {% endif %}
+                                      </td>
+                                      <td class="text-left">{{ added_product.model ? added_product.model : '-' }}</td>
+                                      <td class="text-left">{{ added_product.supplier_sku ? added_product.supplier_sku : '-' }}</td>
+                                      <td class="text-left">
+                                        <input type="hidden" name="update_product[{{ key }}][product_id]" value="{{ added_product.product_id }}" class="form-control" />
+
+                                        <input type="text" name="update_product[{{ key }}][supplier_cost]" value="{{ added_product.supplier_cost ? added_product.supplier_cost : '0.00' }}" class="form-control" readonly />
+                                        {% if added_product.total_option_cost %}
+                                          <small><i>- {{ text_total_options_cost~added_product.total_option_cost }}</i></small><br />
+                                          <small><i>- {{ 'Total Supplier Cost: '~added_product.supplier_cost ? added_product.supplier_cost ? added_product.supplier_cost + added_product.total_option_cost : added_product.supplier_cost :  '0.00' }}</i></small>
+                                        {% endif %}
+
+                                        {% if error_add_product.key.supplier_cost %}
+                                          <div class="text-danger">{{ error_add_product.key.supplier_cost }}</div>
+                                        {% endif %}
+                                        </td>
+                                      <td class="text-left">
+                                        <input type="text" name="update_product[{{ key }}][supplier_qty]" value="{{ added_product.supplier_qty ? added_product.supplier_qty : '1' }}"  class="form-control" readonly/>
+                                        {% if error_add_product.key.supplier_qty %}
+                                          <div class="text-danger">{{ error_add_product.key.supplier_qty }}</div>
+                                        {% endif %}
+                                        </td>
+                                        <td class="text-left">
+                                          <input type="text" name="update_product[{{ key }}][supplier_tax]" value="{{ added_product.supplier_tax ? added_product.supplier_tax : '0' }}"  class="form-control" readonly/>
+                                          </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-info order_edit"> <i class="fa fa-pencil" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-danger order_delete"> <i class="fa fa-minus" aria-hidden="true"></i></button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                     {% else %}
+                                    <tr>
+                                      <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                                    </tr>
+                                    {% endif %}
+                                  </tbody>
+                                </table>
+                              </div>
+
+                              <button class="next_tab btn btn-primary pull-right" type="button" name="update_product" id="update_product" style="display:none;">{{ "Update Product" }}</button>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-credit-card" aria-hidden="true"></i> {{ panel_other_information }}</h3>
+                          </div>
+                          <div class="panel-body" id="panel_payment_info">
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-money text-danger" aria-hidden="true"></i> {{ entry_payment_mode }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;color:#338FFF;">
+                                  {% if sessionStepData.general_info.payment_method_name %}{{ sessionStepData.general_info.payment_method_name }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"><i class="fa fa-compress text-primary" aria-hidden="true"></i> {{ entry_order_placed }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;">
+                                  {% if sessionStepData.general_info.order_source %}{{ sessionStepData.general_info.order_source|capitalize }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> {{ panel_total_info }}</h3>
+                            <span style="float: right;font-weight: 600; font-size: 15px;color: #FF3C00;">
+                              {{ totals.grand.text }}</span>
+                          </div>
+                          <div class="panel-body" id="panel_total_info">
+
+                            <div class="table-responsive">
+                              <table class="table table-striped table-hover">
+                                  <tbody>
+                                    {% for key, total in totals %}
+                                    <tr>
+                                      <th class="text-right" scope="row">{{ total.title~'  :' }}</th>
+                                      <td class="text-right">{{ total.text }}
+                                        <input type="hidden" name="totals[{{ key }}]" value="{{ total.value }}" />
+                                      </td>
+                                    </tr>
+                                    {% endfor %}
+                                  </tbody>
+                                </table>
+                            </div>
+
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                </form>
+
+                {% if sessionStepData.update_product %}
+                  <button class="prev_tab btn btn-warning pull-left" type="button" name="back_comment" id="back_add_comment"><i class="fa fa-reply" aria-hidden="true"></i> {{ button_back }}</button>
+                  <button class="btn btn-primary pull-right" type="submit" form="form-quotation-data" data-toggle="tooltip" title="{{ button_confirm }}"><i class="fa fa-save"></i> {{ button_confirm }}</button>
+                {% endif %}
+              </div><!--summary_quotation panel-->
+            </div>
+        </fieldset>
+
+  </div>
+</div>
+<script type="text/javascript"><!--
+$(document).ready(function(){
+  $('#multi-step > li').removeClass('active');
+  $('#form-quotation-data > fieldset').css('display', 'none');
+  var lastKeyOfStep = '{{ last_key }}';
+
+  if(lastKeyOfStep && lastKeyOfStep != 'summary_quotation'){
+    $('#multi-step .'+lastKeyOfStep).next().addClass('active');
+    $('#form-quotation-data #'+lastKeyOfStep).parents("fieldset").next().css('display', 'block');
+  }else if(lastKeyOfStep != 'submit'){
+    $('#multi-step > li:nth-child(1)').addClass('active');
+    $('#form-quotation-data > fieldset:nth-child(1)').css('display', 'block');
+  }
+})
+
+$('.prev_tab').on('click', function(e){
+    e.preventDefault();
+    var getBackId = $(this).attr('id')
+    var makeId = getBackId.replace("back_", "");
+    $('#multi-step > li').removeClass('active');
+    $('#multi-step .'+makeId).addClass('active');
+    $(this).parents('fieldset').css('display','none');
+    $(this).parents('fieldset').prev('fieldset').css('display','block');
+})
+
+$('.order_edit').on('click', function(){
+  $(this).parents('tr').find('input[name*=\'supplier_cost\']').prop("readonly", false);
+  $(this).parents('tr').find('input[name*=\'supplier_qty\']').prop("readonly", false);
+  $(this).parents('tr').find('input[name*=\'supplier_tax\']').prop("readonly", false);
+})
+
+$('.order_delete').on('click', function(e){
+  e.preventDefault();
+  $('#content .alert-danger, #content .alert-success').remove();
+    var product_id = $(this).parents('tr').find('input[name*=\'product_id\']').val();
+    if(product_id){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/removeQuotationProducts&user_token={{ user_token }}',
+          data:     {product_id: product_id},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.error_warning){
+                $('#panel_order_item_info').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.error_warning +'<button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }
+})
+
+$('select[name*=\'supplier_name\']').on('change', function(){
+  var supplier_id = $(this).val();
+  if(supplier_id){
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_supplier/autocomplete&user_token={{ user_token }}&supplier_id=' +supplier_id,
+        dataType: 'json',
+        success: function(json) {
+            if(json['success']){
+                $('input[name*=\'supplier_id\']').val(json['success']['supplier_id']);
+            		$('input[name*=\'supplier_name\']').val(json['success']['owner_name']);
+                $('input[name*=\'supplier_company_name\']').val(json['success']['company_name']);
+                $('input[name*=\'supplier_email\']').val(json['success']['email']);
+                $('input[name*=\'supplier_telephone\']').val(json['success']['telephone']);
+                $('input[name*=\'supplier_address\']').val(json['success']['address']);
+            }
+        },
+      });
+  }else{
+    $('#quotation_supplier_details input[type="text"], #quotation_supplier_details input[type="hidden"]').val('');
+  }
+})
+
+$('#panel_order_item_info input[type=text]').on('change', function(){
+    $('#panel_order_item_info .next_tab').trigger('click');
+})
+
+$('.datetime').datetimepicker({
+  pickDate: true,
+  pickTime: true
+});
+
+$('.next_tab').on('click', function(e){
+    e.preventDefault();
+    $('.alert, .text-danger').remove();
+    var getStepId = $(this).attr('id');
+
+    if(validateFormFields(getStepId)){
+      var quotationFormData = new FormData($('#form-quotation-data')[0]);
+                              quotationFormData.append('step', getStepId);
+
+      $.ajax({
+          url:      'index.php?route=po_mgmt/po_quotation/quotationFormStepData&user_token={{ user_token }}',
+          data:     quotationFormData,
+          dataType: 'json',
+          type:     'POST',
+          cache:    false,
+          contentType: false,
+          processData: false,
+          beforeSend: function() {
+            $('.block_div').css('display','block');
+            $('.container-fluid > .alert, .container-fluid > .text-danger').remove();
+          },
+          success: function(jsonResponse) {
+            if(jsonResponse.warning){
+                $('#form-quotation-data').parent().prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.warning+' </div>');
+            }else{
+              if(jsonResponse.error){
+                  if(getStepId == 'general_info'){
+                      for (i in jsonResponse.error) {
+                          if(i == 'expected_delivery_date'){
+                              $('input[name*=\''+i+'\']').parent().parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error[i]+'</div>');
+                          }else{
+                              $('select[name*=\''+i+'\']').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error[i]+'</div>');
+                          }
+                      }
+                  }
+                  if((getStepId == 'add_product' || getStepId == 'update_product') && jsonResponse.error.add_product){
+                      if(jsonResponse.error.add_product.warning){
+                          $('#form-quotation-data').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error.add_product.warning+' </div>');
+                      }else{
+                          for (i in jsonResponse.error.add_product) {
+                              if(jsonResponse.error.add_product[i]['options']){
+                                  $('#additional_options_'+i).css('display', 'table-cell');
+                                  var optionArray = jsonResponse.error.add_product[i]['options'];
+                                  for (j in optionArray) {
+                                      if(typeof(optionArray[j]) == 'object'){
+                                          for (k in optionArray[j]) {
+                                              if($('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().hasClass("input-group")){
+                                                  $('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().parent().append('<div class="text-left text-danger"> '+optionArray[j][k]+' </div>');
+                                              }else{
+                                                  $('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().append('<div class="text-left text-danger"> '+optionArray[j][k]+' </div>');
+                                              }
+                                          }
+                                      }else{
+                                          if($('#additional_options_'+i).find('#input-value'+j).parent().hasClass("input-group")){
+                                              $('#additional_options_'+i).find('#input-value'+j).parent().parent().append('<div class="text-left text-danger"> '+optionArray[j]+' </div>');
+                                          }else{
+                                              $('#additional_options_'+i).find('#input-value'+j).parent().append('<div class="text-left text-danger"> '+optionArray[j]+' </div>');
+                                          }
+                                      }
+                                  }
+                              }
+                              if(jsonResponse.error.add_product[i]['supplier_cost']){
+                                $('input[name=\''+getStepId+'['+i+'][supplier_cost]\'').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error.add_product[i]['supplier_cost']+'</div>');
+                              }
+                              if(jsonResponse.error.add_product[i]['supplier_qty']){
+                                $('input[name=\''+getStepId+'['+i+'][supplier_qty]\'').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error.add_product[i]['supplier_qty']+'</div>');
+                              }
+                          }
+                      }
+                  }
+                  if(getStepId == 'add_comment' && jsonResponse.error.add_comment){
+                      $('#input-quotation-comment').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> '+jsonResponse.error.add_comment+' </div>');
+                  }
+                }else{
+                    if(jsonResponse.success){
+                        location.reload();
+                    }
+                }
+            }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+    }
+})
+
+function validateFormFields(step){
+  var statusError = true;
+    if(step == 'general_info'){
+        $('#general_info_section select').each(function(k, val) {
+          var getSelectValue  = $(this).val();
+          var getId           = $(val).attr('id');
+          if(!getSelectValue){
+              statusError = false;
+              $('#'+getId).parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> Warning: This is mandatory field! </div>');
+          }
+        });
+    }else if(step == 'add_comment'){
+        var getComment = $('#add_comment_section textarea[name=\'add_comment[comment]\']').val();
+        if(getComment.length < 5 || getComment.length > 500){
+          statusError = false;
+          $('#input-quotation-comment').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_comment_length }}</div>');
+        }
+    }
+    return statusError;
+}
+
+$(document).on('click', '.showOption', function(){
+  var getDisplay = $(this).parents('tr').next('tr').find('.additional_options').css('display');
+  if(getDisplay == 'none'){
+      $(this).parents('tr').next('tr').find('.additional_options').css('display', 'table-cell');
+  }else{
+      $(this).parents('tr').next('tr').find('.additional_options').css('display', 'none');
+  }
+})
+
+
+$('#content').delegate('button[id^=\'button-upload\']', 'click', function() {
+	var node = this;
+
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload/upload&user_token={{ user_token }}',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(node).button('loading');
+				},
+				complete: function() {
+					$(node).button('reset');
+				},
+				success: function(json) {
+					$(node).parent().find('.text-danger').remove();
+
+					if (json['error']) {
+						$(node).parent().find('input[type=\'hidden\']').after('<div class="text-danger">' + json['error'] + '</div>');
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+					}
+
+					if (json['code']) {
+						$(node).parent().find('input[type=\'hidden\']').attr('value', json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+
+$('.date').datetimepicker({
+	pickTime: false
+});
+
+$('.datetime').datetimepicker({
+	pickDate: true,
+	pickTime: true
+});
+
+$('.time').datetimepicker({
+	pickDate: false
+});
+
+// Manufacturer
+$('#supplier_product').autocomplete({
+	'source': function(request, response) {
+      var supplier_id = $('select[name*=\'supplier_name\']').val();
+      if(supplier_id){
+        $.ajax({
+        	url: 'index.php?route=po_mgmt/po_quotation/autocompleteProduct&user_token={{ user_token }}&supplier_id='+supplier_id+'&filter_name=' +  encodeURIComponent(request),
+        	dataType: 'json',
+        	success: function(json) {
+        		response($.map(json, function(item) {
+        			return {
+                key: item['key'],
+                image: item['image'],
+                label: item['product_name'],
+    						value: item['product_id'],
+    						model: item['model'],
+                supplier_sku: item['supplier_sku'],
+                price: item['price'],
+                supplier_cost: item['supplier_cost'],
+                supplier_qty: item['supplier_qty'],
+                supplier_tax: item['supplier_tax'],
+    						option: item['options'],
+        			}
+        		}));
+        	}
+        });
+      }
+	},
+	'select': function(item) {
+		$('#supplier_product').val('');
+    html = '';
+    html += '<tr id="supplier_product_'+item['key']+'">';
+    html += '<td class="text-center"><input type="hidden" name="add_product['+item['key']+'][product_id]" value="'+item['value']+'" />';
+      if (item['image'] != '') {
+          html += '<img src="'+item['image']+'" alt="'+item['label']+'" class="img-thumbnail" />';
+      }else{
+          html += '<span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>';
+      }
+    html += '</td>';
+    html += '<td class="text-left">'+item['label']+'</td>';
+    html += '<td class="text-left">'+item['model']+'</td>';
+    html += '<td class="text-left">'+item['supplier_sku']+'</td>';
+    html += '<td class="text-left">'+item['price']+'</td>';
+    html += '<td class="text-left"><input type="text" name="add_product['+item['key']+'][supplier_cost]" value="'+item['supplier_cost']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><input type="text" name="add_product['+item['key']+'][supplier_qty]" value="'+item['supplier_qty']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><input type="text" name="add_product['+item['key']+'][supplier_tax]" value="'+item['supplier_tax']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><button type="button" class="btn btn-danger remove_product" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>';
+    if (item['option'] != '') {
+        html += '<button type="button" class="btn btn-info showOption">Option List <span class="caret"></span></button>';
+    }
+    html += '</td>';
+    html += '</tr>';
+
+    if (item['option'] != '') {
+        html += '<tr><td class="text-left additional_options" colspan="9" id="additional_options_'+item['key']+'" style="display:none;">';
+        html += '<div class="table-responsive" style="overflow-x:unset;"><table class="table table-bordered table-hover"><thead><tr><th class="text-center">{{ column_option_name }}</th><th class="text-center">{{ column_option_value }}</th></tr></thead><tbody>';
+        for (i = 0; i < item['option'].length; i++) {
+            option = item['option'][i];
+
+            html += '<tr>';
+            if (option['type'] == 'text') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<input type="text" name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" placeholder="Option value" id="input-value' + option['product_option_id'] + '" class="form-control" />';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'textarea') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<textarea name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" rows="5" id="input-value' + option['product_option_id'] + '" class="form-control">' + option['value'] + '</textarea>';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'file') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<button type="button" id="button-upload' + option['product_option_id'] + '" data-loading-text="Loading..." class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>';
+                html += '<input type="hidden" id="input-value'+option['product_option_id']+'" name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" />';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'date') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group date">';
+                html += '<input type="text" name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="YYYY-MM-DD" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'time') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group time">';
+                html += '<input type="text" name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="HH:mm" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'datetime') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group datetime">';
+                html += '<input type="text" name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="YYYY-MM-DD HH:mm" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'select' || option['type'] == 'radio') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<select name="add_product['+item['key']+'][options][' + option['product_option_id'] + ']" id="input-value' + option['product_option_id'] + '" class="form-control">';
+                html += '<option value="">{{ text_select }}</option>';
+                  for (j = 0; j < option['product_option_value'].length; j++) {
+                    option_value = option['product_option_value'][j];
+
+        						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+                    if (option_value['price']) {
+        							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+        						}
+        						html += '</option>';
+                  }
+                html += '</select></div></div></td>';
+            }
+
+            if (option['type'] == 'checkbox') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<div id="input-value' + option['product_option_id'] + '">';
+
+      					for (j = 0; j < option['product_option_value'].length; j++) {
+      						option_value = option['product_option_value'][j];
+      						html += '<div class="checkbox">';
+      						html += '  <label id="checkbox_multivalue_' + option_value['product_option_value_id'] + '"><input type="checkbox" name="add_product['+item['key']+'][options][' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" /> ' + option_value['name'];
+
+      						if (option_value['price']) {
+      							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+      						}
+      						html += '  </label>';
+      						html += '</div>';
+      					}
+                html += '</div></div></div></td>';
+            }
+
+          html += '</tr>';
+        }
+        html += '</tbody></table></div></td></tr>';
+    }
+
+    if($('#add_product_table > tbody').find('#no_supplier_product')){
+        $('#no_supplier_product').remove();
+    }
+    $('#add_product_table > tbody').append(html);
+    $('.date').datetimepicker({
+      language: '{{ datepicker }}',
+      pickTime: false
+    });
+
+    $('.datetime').datetimepicker({
+      language: '{{ datepicker }}',
+      pickDate: true,
+      pickTime: true
+    });
+
+    $('.time').datetimepicker({
+      language: '{{ datepicker }}',
+      pickDate: false
+    });
+	}
+});
+$(document).on('click', '.remove_product', function(){
+    var getElementId  = $(this).parent().parent();
+    $(getElementId).next('tr').find('.additional_options').remove();
+    $(getElementId).remove();
+})
+//--></script>
+{{ footer }}

@@ -1,0 +1,55 @@
+
+a	php:S1192"LDefine a constant instead of duplicating this literal "sale/order" 48 times.(ÉË§Ë
+f	php:S1192“"KDefine a constant instead of duplicating this literal "{postcode}" 5 times.(˜ıÑ¢øÿÿÿÿ
+Œphp:S138Ì"wThis function "getForm" has 230 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(¡’®‘
+o	php:S3776ş"TRefactor this function to reduce its Cognitive Complexity from 57 to the 15 allowed.(æÍÁùÿÿÿÿ
+s	php:S1192å"QDefine a constant instead of duplicating this literal "po_mgmt/po_order" 3 times.(¿Ê°Îÿÿÿÿÿ8›³Ùúø.
+d	php:S1192±"IDefine a constant instead of duplicating this literal "user/api" 3 times.(É°ú·ûÿÿÿÿ
+l	php:S1192Â"QDefine a constant instead of duplicating this literal "common/dashboard" 3 times.(‹‹¦Ûıÿÿÿÿ
+v	php:S3776ù"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(ÌŸâÜøÿÿÿÿ8‘š±øø.
+php:S138W"wThis function "getList" has 266 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(‰ı«şÿÿÿÿ
+b	php:S1192"LDefine a constant instead of duplicating this literal "{firstname}" 5 times.(Š®«
+n	php:S3776W"TRefactor this function to reduce its Cognitive Complexity from 71 to the 15 allowed.(‰ı«şÿÿÿÿ
+\	php:S1192’"GDefine a constant instead of duplicating this literal "{city}" 5 times.(æØ£1
+k	php:S11925"VDefine a constant instead of duplicating this literal "&filter_order_status=" 6 times.(Şíœœ
+c	php:S1192‰"MDefine a constant instead of duplicating this literal "{address_1}" 10 times.(€ÀÅŒ
+m	php:S1192¤"RDefine a constant instead of duplicating this literal "customer/customer" 7 times.(Ûğüÿÿÿÿÿ
+a	php:S1192¤"KDefine a constant instead of duplicating this literal "&order_id=" 6 times.(ÜŠ‰÷
+g	php:S1192•"LDefine a constant instead of duplicating this literal "{zone_code}" 5 times.(œğ“·şÿÿÿÿ
+‰php:S138ˆ"tThis function "info" has 421 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(»Ñù¼
+a	php:S1192‰"KDefine a constant instead of duplicating this literal "{country}" 10 times.(€ÀÅŒ
+J	php:S1125…"(Remove the literal "true" boolean value.(…ıÑÿÿÿÿÿ8›³Ùúø.
+j	php:S3776Ì"TRefactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.(¡’®‘
+l	php:S1192"PDefine a constant instead of duplicating this literal "setting/setting" 3 times.(şş±=8‘š±øø.
+c	php:S1192¦"HDefine a constant instead of duplicating this literal "<br />" 10 times.(ÍìÉøÿÿÿÿ
+p	php:S1192©"ZDefine a constant instead of duplicating this literal "localisation/order_status" 3 times.(¶€°Ì
+g	php:S1192-"RDefine a constant instead of duplicating this literal "&filter_order_id=" 7 times.(€¦Ô¦
+c	php:S1192¦"HDefine a constant instead of duplicating this literal "/\r\r+/" 5 times.(ÍìÉøÿÿÿÿ
+c	php:S1192¦"HDefine a constant instead of duplicating this literal "/\n\n+/" 5 times.(ÍìÉøÿÿÿÿ
+‘php:S138ş"wThis function "invoice" has 171 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(æÍÁùÿÿÿÿ
+i	php:S1192Ç"NDefine a constant instead of duplicating this literal "common/footer" 3 times.(Áİ‰­ûÿÿÿÿ
+q	php:S1192E"WDefine a constant instead of duplicating this literal "&filter_date_modified=" 6 times.(ëû¬´ùÿÿÿÿ
+n	php:S1192Æ"SDefine a constant instead of duplicating this literal "common/column_left" 3 times.(·ÁÇìúÿÿÿÿ
+s	php:S11929"YDefine a constant instead of duplicating this literal "&filter_order_status_id=" 6 times.(ª¡ù­ùÿÿÿÿ
+h	php:S1192‰"RDefine a constant instead of duplicating this literal "{city} {postcode}" 5 times.(€ÀÅŒ
+b	php:S1192M"HDefine a constant instead of duplicating this literal "&order=" 5 times.(àÜ“˜şÿÿÿÿ
+g	php:S11921"RDefine a constant instead of duplicating this literal "&filter_customer=" 6 times.(¦¢ü®
+f	php:S1192"KDefine a constant instead of duplicating this literal "{lastname}" 5 times.(Èò‚úÿÿÿÿ
+^	php:S1192‰"HDefine a constant instead of duplicating this literal "{zone}" 10 times.(€ÀÅŒ
+m	php:S4144"SUpdate this method so that its implementation is not identical to "add" on line 15.(óËæñûÿÿÿÿ
+z	php:S1192Ï
+"_Define a constant instead of duplicating this literal "Content-Type: application/json" 5 times.(ßË·şşÿÿÿÿ
+i	php:S1192="ODefine a constant instead of duplicating this literal "&filter_total=" 6 times.(á¤¢²ÿÿÿÿÿ
+c	php:S1192¦"HDefine a constant instead of duplicating this literal "/\s\s+/" 5 times.(ÍìÉøÿÿÿÿ
+d	php:S1192Å"NDefine a constant instead of duplicating this literal "common/header" 3 times.(±ğÌ›
+b	php:S1192Ì"LDefine a constant instead of duplicating this literal "tool/upload" 3 times.(€âÙÏ
+k	php:S3776ˆ"URefactor this function to reduce its Cognitive Complexity from 241 to the 15 allowed.(»Ñù¼
+g	php:S1192T"MDefine a constant instead of duplicating this literal "user_token=" 33 times.(“¢Ç¢øÿÿÿÿ
+a	php:S1192Q"GDefine a constant instead of duplicating this literal "&page=" 5 times.(óÑšÈüÿÿÿÿ
+j	php:S3776Ï"TRefactor this function to reduce its Cognitive Complexity from 61 to the 15 allowed.(Ï“‰
+n	php:S1192A"TDefine a constant instead of duplicating this literal "&filter_date_added=" 6 times.(˜¢úüÿÿÿÿ
+\	php:S1192I"GDefine a constant instead of duplicating this literal "&sort=" 5 times.(á©ˆœ
+c	php:S1192‰"MDefine a constant instead of duplicating this literal "{address_2}" 10 times.(€ÀÅŒ
+n	php:S1192æ	"SDefine a constant instead of duplicating this literal "extension/payment/" 3 times.(ëœË¨øÿÿÿÿ
+m	php:S1192‰"WDefine a constant instead of duplicating this literal "{firstname} {lastname}" 5 times.(€ÀÅŒ
+a	php:S1192‰"KDefine a constant instead of duplicating this literal "{company}" 10 times.(€ÀÅŒ

@@ -1,0 +1,152 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i> {{ heading_title_list }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="input-supplier">{{ entry_supplier }}</label>
+                                <input type="text" class="form-control" name="filter_supplier" placeholder="{{ entry_supplier }}" value="{{ filter_supplier }}">
+                            </div>                            
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" for="input-date-added">{{ entry_date }}</label>
+                                <div class="input-group date">
+                                  <input type="text" name="filter_date_added" value="{{ filter_date }}" placeholder="{{ entry_date }}" data-date-format="YYYY-MM-DD" id="input-date-added" class="form-control" readonly>
+                                  <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                  </span>
+                                </div>
+                            </div>                            
+                            <div class="pull-right">
+                                <a href="{{ reset }}" class="btn btn-default"><i class="fa fa-eraser"></i> {{ button_reset }}</a>
+                                <button class="btn btn-primary" id="button-filter"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td>
+                                    {% if sort == 'date' %}
+                                        <a href="{{ sort_date }}" class="{{ order|lower }}">{{ column_date }}</a>
+                                    {% else %}
+                                        <a href="{{ sort_date }}">{{ column_date }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if sort == 'psd.owner_name' %}
+                                        <a href="{{ sort_name }}" class="{{ order|lower }}">{{ column_supplier }}</a>
+                                    {% else %}
+                                        <a href="{{ sort_name }}">{{ column_supplier }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>{{ column_total_credit }}</td>
+                                <td>{{ column_total_debit }}</td>
+                                <td>{{ column_expense }}</td>
+                                <td>{{ column_net_balance }}</td>
+                                <td>{{ column_pay }}</td>
+                                <td>{{ column_profit_loss }}</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if suppliers is defined and suppliers %}
+                                {% for supplier in suppliers %}
+                                    <tr>
+                                        <td>{{ supplier.date }}</td>
+                                        <td>{{ supplier.name }}</td>
+                                        <td>{{ supplier.credit }}</td>
+                                        <td>{{ supplier.debit }}</td>
+                                        <td>{{ supplier.expense }}</td>
+                                        <td>{{ supplier.net_balance }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ supplier.pay_now }}" data-toggle="tooltip" title="{{ button_pay }}" class="btn btn-primary"><i class="fa fa-credit-card"></i></a>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ supplier.view_profit }}" class="btn btn-primary" data-toggle="tooltip" title="{{ button_profit }}"><i class="fa fa-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td class="text-center" colspan="8">{{ text_no_result }}</td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 text-left">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>        
+    $('.date').datetimepicker({
+        language: 'en-gb',
+        pickTime: false
+    });
+    $('input[name=\'filter_supplier\']').autocomplete({
+        'source': function(request, response) {
+            $.ajax({
+                url: 'index.php?route=po_mgmt/po_supplier_ledger/supplierAutoComplete&user_token={{ user_token }}&filter_supplier=' +  encodeURIComponent(request),
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['name'],
+                            value: item['supplier_id']
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $('input[name=\'filter_supplier\']').val(item['label']);
+        }
+    });
+    $(document).find("#button-filter").on("click",function() {
+
+        {% if sort == 'psd.owner_name' %}
+            {% set url_link = 'index.php?route=po_mgmt/po_supplier_ledger&user_token=' ~ user_token ~ '&sort=psd.owner_name' ~ '&order=' ~ order %}
+        {% else %}
+            {% set url_link = 'index.php?route=po_mgmt/po_supplier_ledger&user_token=' ~ user_token ~ '&order=' ~ order %}
+        {% endif %}
+
+        var url = '{{ url_link }}';
+        
+        var filter_supplier = $('input[name=\'filter_supplier\']').val();
+
+        if (filter_supplier) {
+          url += '&filter_supplier=' + encodeURIComponent(filter_supplier);
+        }    
+        
+        location = url;
+    });
+</script>
+{{ footer }}

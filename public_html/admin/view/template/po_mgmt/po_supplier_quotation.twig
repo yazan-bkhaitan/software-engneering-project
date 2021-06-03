@@ -1,0 +1,135 @@
+<div class="page-header">
+    <div class="container-fluid">
+      <h3>{{ heading_title_quotation }}</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="container-fluid"  id="product_assign">
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-supplier-quote-id">{{ column_quotation_id }}</label>
+                <input type="text" name="filter_quotation_id" value="{{ filter_quotation_id }}" placeholder="{{ column_quotation_id }}" id="input-supplier-quote-id" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="input-created-date">{{ column_created_date }}</label>
+              <div class='input-group date'>
+                <input type="text" name="filter_created_date" value="{{ filter_created_date }}" placeholder="{{ column_created_date }}" id="input-created-date" class="form-control" data-date-format="YYYY-MM-DD" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-order-total">{{ column_grand_total }}</label>
+                <input type="text" name="filter_grand_total" value="{{ filter_grand_total }}" placeholder="{{ column_grand_total }}" id="input-order-total" class="form-control"/>
+              </div>
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-order-status">{{ entry_status }}</label>
+              <select name="filter_status" id="input-order-status" class="form-control">
+                <option value="*">{{ entry_select }}</option>
+                {% for key, status in quotation_status %}
+                  <option value="{{ key }}" {% if filter_status is same as (key) %}{{ 'selected' }}{% endif %}>{{ status }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+          </div>
+          <div class="pull-right" style="margin-top:35px;">
+            <button type="button" onclick="filter_supplier_quotation();" class="btn btn-info" style="border-radius:0px;">
+              <i class="fa fa-search"></i>{{ button_supplier_product_filter }}</button>
+            <a href="{{ clear_quotation_filter }}" class="btn btn-default" style="border-radius:0px;"><i class="fa fa-eraser" aria-hidden="true"></i>{{ button_clear_filter }}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-horizontal">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <td class="text-left">{{ column_quotation_id }}</td>
+                <td class="text-left">{{ column_created_date }}</td>
+                <td class="text-center">{{ column_ordered_qty }}</td>
+                <td class="text-center">{{ column_grand_total }}</td>
+                <td class="text-center">{{ column_status }}</td>
+                <td class="text-center">{{ column_action }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if supplier_quotations %}
+              {% for quote in supplier_quotations %}
+              <tr>
+                <td class="text-left">{{ quote.format_quote_id }}</td>
+                <td class="text-left">{{ quote.created_date }}</td>
+                <td class="text-center">{{ quote.total_ordered_qty }}</td>
+                <td class="text-center">{{ quote.grand_total }}</td>
+                <td class="text-center">{{ quote.status }}</td>
+                <td class="text-center"><a href="{{ quote.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-warning" target="_blank" ><i class="fa fa-eye"></i> {{ button_view }}<a></td>
+              </tr>
+              {% endfor %}
+               {% else %}
+              <tr>
+                <td class="text-center" colspan="7">{{ text_no_results }}</td>
+              </tr>
+              {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 text-left">{{ pagination }}</div>
+      <div class="col-sm-6 text-right">{{ results }}</div>
+    </div>
+  </div>
+
+  <script type="text/javascript"><!--
+  function filter_supplier_quotation() {
+    url = 'index.php?route=po_mgmt/po_supplier/edit&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_active=supplier_quotation';
+
+    var filter_quotation_id = $('input[name=\'filter_quotation_id\']').val();
+
+    if (filter_quotation_id) {
+      var getQuotationId = filter_quotation_id.split('#');
+      if(getQuotationId[1]){
+        url += '&filter_quotation_id=' + encodeURIComponent(getQuotationId[1]);
+      }else{
+        url += '&filter_quotation_id=' + encodeURIComponent(getQuotationId);
+      }
+    }
+
+  	var filter_grand_total = $('input[name=\'filter_grand_total\']').val();
+
+  	if (filter_grand_total) {
+  		url += '&filter_grand_total=' + encodeURIComponent(filter_grand_total);
+  	}
+
+    var filter_created_date = $('input[name=\'filter_created_date\']').val();
+
+    if (filter_created_date) {
+      url += '&filter_created_date=' + encodeURIComponent(filter_created_date);
+    }
+
+  	var filter_status = $('select[name=\'filter_status\']').val();
+
+  	if (filter_status != '*') {
+  		url += '&filter_status=' + encodeURIComponent(filter_status);
+  	}
+
+  	location = url;
+  }
+  $('.date').datetimepicker({
+    pickDate: true,
+    pickTime: false
+  });
+  //--></script>

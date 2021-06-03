@@ -1,0 +1,4 @@
+
+n	php:S1192"MDefine a constant instead of duplicating this literal "common/login" 3 times.(Ş†æãıÿÿÿÿ8­§Ëöø.
+=	php:S1110"!Remove these useless parentheses.(µ•¥ç8­§Ëöø.
+p	php:S3776"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(Îò±ì8­§Ëöø.

@@ -1,0 +1,1137 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<style type="text/css">
+  .btn{
+    border-radius: 0;
+  }
+  .tabs-left > .li-format{
+    margin:12px 0;
+    margin-right: -18px;
+    border-left: 3px solid #1978ab;
+    float: none;
+  }
+  .tabs-left > .li-format > a{
+    border-radius: 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .tabs-left > li.active{
+    border-left: 3px solid #E22C5C;
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 1px solid #e8e8e8;
+    border-right: none;
+  }
+  .vertical-step-quotation{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .vertical-step {
+      display: table;
+      width: 50%;
+      height: 300px;
+      position: relative; }
+
+  .vertical-step-line {
+    display: table-row;
+  }
+  .vertical-step-line:before {
+      position: absolute;
+      top: 0px;
+      content: " ";
+      width: 2px;
+      height: 70%;
+      background-color: #ccc; }
+
+  .step-container {
+      display: table-cell;
+      text-align: center;
+      position: relative; left: -9px;
+      z-index: 1;
+      height: 50px;
+    }
+  .quotation-step{
+     background-color: #ccc;
+     border: 2px solid;
+     border-radius: 50%;
+     height: 20px;
+     line-height: 1.42857;
+     width: 20px;
+     content: " ";
+  }
+  .vertical-step-line > span{
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    padding: 5px;
+    width: 20%;
+  }
+</style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ print_quotation }}" class="btn btn-warning" target="_blank" id="print_quotation_email"  data-toggle="tooltip" title="{{ button_print }}" ><i class="fa fa-print" aria-hidden="true"></i> {{ button_print }}</a>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_quotation_id }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-eye"></i> {{ heading_title_view }}</h3>
+      </div>
+      <div class="panel-body">
+
+          <div class="col-sm-3" id="quotation_left_link">
+              <div class="panel-group panel-primary" id="accordion_quotation" role="tablist" aria-multiselectable="true">
+              <div class="panel">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <center><b><a role="button" data-toggle="collapse" data-parent="#accordion_quotation" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      {{ entry_quotation_info|upper }}
+                    </a></b></center>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs tabs-left"><!-- 'tabs-right' for right tabs -->
+                      <li class="active li-format"><a href="#quotation_details" data-toggle="tab">{{ text_quotation_details_tab }}</a></li>
+                      <li class="li-format"><a href="#quotation_comment" data-toggle="tab">{{ text_quotation_comment_tab }}</a></li>
+                  </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vertical-step-quotation">
+              <div class="vertical-step">
+                {% for key, quote_status in quotation_status %}
+                    <div class="vertical-step-line">
+                        <div class="step-container">
+                          {% if quotation_info.quotation_status and quotation_info.quotation_status >= key and key != 6 %}
+                              <div class="quotation-step" style="background-color:#05E177;border-color:#009C1A;"></div>
+                          {% else %}
+                            {% if quotation_info.quotation_status and quotation_info.quotation_status >= key and key  == 6 %}
+                              <div class="quotation-step" style="background-color:#ff5252;border-color:#ff0000;"></div>
+                            {% else %}
+                              <div class="quotation-step"></div>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <span>{{ quote_status }}</span>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
+
+          </div><!--Col-sm-3-->
+
+          <div class="col-sm-9">
+              <div class="tab-content" id="quotaion_right_link">
+                  <div class="tab-pane active" id="quotation_details">
+
+                    <div class="panel panel-default">
+                      <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ text_quotation_details }}</h3></div>
+                      <div class="panel-body">
+                          <input type="hidden" name="quotation_id" value="{{ quotation_id }}" />
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_quotation_details }}</h3>
+                                  </div>
+                                  <div class="panel-body" id="quotation_summery">
+                                      <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_quotation_id }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;color:#338FFF;">
+                                              {{ '#'~quotation_info.id }}
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_submitted_date }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;">
+                                            {{ created_date }}
+                                          </div>
+                                      </div>
+
+                                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_quotation_status }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;">
+                                              <select class="form-control" name="quotation_status" style="color:#009e8a;font-weight:600;font-size:14px;padding: 5px;border-radius:0;" {% if quotation_info.quotation_status == 6 %}{{ 'disabled' }}{% endif %}>
+                                              {% for key, q_status in quotation_status %}
+                                                <option value="{{ key }}" {% if key == quotation_info.quotation_status %}{{ 'selected' }}{% endif %}>{{ q_status }}</option>
+                                              {% endfor %}
+                                              </select>
+                                          </div>
+                                      </div>
+
+                                </div>
+                              </div>
+                          </div><!--col-sm-6-->
+                          <div class="col-sm-6">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_supplier_details }}</h3>
+                                </div>
+                                <div class="panel-body" id="supplier_summery">
+                                    <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_owner_name }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          <a href="{{ quotation_info.supplier_link }}" target="_blank">
+                                              {{ supplier_details.owner_name }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_email }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          {{ supplier_details.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_contact }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          {{ supplier_details.telephone }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                      <label>{{ entry_supplier_address }}:-</label>
+                                      <div class="col-sm-12 pull-right alert alert-info">
+                                        <i class="fa fa-building" aria-hidden="true"></i> {{ supplier_details.company_name }}<br><br>
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        {{ supplier_details.address~', '~supplier_details.postcode }}
+                                      </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div><!--col-sm-6-->
+                        </div><!--row-->
+
+                        <div class="row">
+                          <div class="col-sm-6">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_shipping_details }}</h3>
+                                </div>
+                                <div class="panel-body" id="shipping_summery">
+                                    <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_by }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          {{ quotation_info.shipping_method }}
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_start_date }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                        {{ quotation_info.shipping_start_date ? quotation_info.shipping_start_date : 'N/A' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_expected_delivery_date }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                        {{ quotation_info.shipping_expected_date ? quotation_info.shipping_expected_date : 'N/A' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shiping_cost }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                                        {{ quotation_info.shipping_cost_formatted }}
+                                        </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                        </div><!--col-sm-6-->
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_other_details }}</h3>
+                              </div>
+                              <div class="panel-body" id="other_summery">
+                                  <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                      <label class="col-sm-6" style="padding:0px;"> {{ entry_payment_mode }}:  </label>
+                                      <div class="col-sm-6" style="padding:0px;">
+                                        {{ quotation_info.payment_term }}
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                      <label class="col-sm-6" style="padding:0px;"> {{ entry_order_source }}:  </label>
+                                      <div class="col-sm-6" style="padding:0px;">
+                                      {{ quotation_info.order_source ? quotation_info.order_source|capitalize : 'N/A' }}
+                                      </div>
+                                  </div>
+
+                            </div>
+                          </div>
+                        </div><!--col-sm-6-->
+                      </div><!--row-->
+
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-th-list" aria-hidden="true"></i> {{ panel_ordered_product }}</h3>
+                                {% if quotation_info.quotation_status != 6 %}
+                                <span style="float: right;font-weight: 600; font-size: 15px;color:#338FFF;cursor:pointer;">
+                                  <div data-toggle="modal" data-target="#moreProduct">
+                                  {{ button_add_more_product }}</div>
+                                </span>
+                                {% endif %}
+                              </div>
+                              <div class="panel-body" id="panel_order_item_info">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                      <thead>
+                                        <tr>
+                                          <td class="text-left">{{ column_image }}</td>
+                                          <td class="text-left">{{ column_product_name }}</td>
+                                          <td class="text-left">{{ column_supplier_sku }}</td>
+                                          <td class="text-left">{{ column_ordered_cost~' ('~currency_symbol~')' }}</td>
+                                          <td class="text-left" style="width: 12%;">{{ column_ordered_qty }}</td>
+                                          <td class="text-left" style="width: 12%;">{{ column_supplier_tax }}</td>
+                                          <td class="text-left">{{ column_sub_total }}</td>
+                                          {% if quotation_info.quotation_status != 6 %}
+                                          <td class="text-left">{{ column_action }}</td>
+                                          {% endif %}
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% if quotation_products %}
+                                        {% for key, quote_product in quotation_products %}
+                                        <tr>
+                                          <td class="text-center">
+                                            <img src="{{ quote_product.image }}" alt="{{ quote_product.product_name }}" class="img-thumbnail" />
+                                          <td class="text-left">{{ quote_product.product_name }}
+                                            {% for option in quote_product.options %}
+                                            <br />
+                                            {% if option.type != 'file' %}
+                                            &nbsp;<small><i> - {{ option.name }}: {{ option.value }}</i></small>
+                                            {% else %}
+                                            &nbsp;<small><i> - {{ option.name }}: <a href="{{ option.href }}">{{ option.value }}</a></i></small>
+                                            {% endif %}
+                                            {% endfor %}</td>
+                                          <td class="text-left">{{ quote_product.supplier_sku }}</td>
+                                          <td class="text-left">
+                                            <input type="hidden" name="quotation_product[{{ quote_product.po_product_id }}][po_product_id]" value="{{ quote_product.po_product_id }}" class="form-control" id="quotation_po_product_id" />
+                                            <input type="hidden" name="quotation_product[{{ quote_product.po_product_id }}][product_id]" value="{{ quote_product.product_id }}" class="form-control" id="quotation_product_id" />
+                                            <input type="hidden" name="quotation_product[{{ quote_product.po_product_id }}][name]" value="{{ quote_product.product_name }}" class="form-control" id="quotation_product_name" />
+                                            {% if quotation_info.quotation_status == 6 %}
+                                              <b>{{ quote_product.ordered_cost ? quote_product.ordered_cost : '0.00' }} </b>
+                                            {% else %}
+                                              <input type="text" name="quotation_product[{{ quote_product.po_product_id }}][ordered_cost]" value="{{ quote_product.ordered_cost ? quote_product.ordered_cost : '0.00' }}" class="form-control" />
+                                            {% endif %}
+                                            </td>
+                                          <td class="text-left">
+                                            {% if quotation_info.quotation_status == 6 %}
+                                              <b>{{ quote_product.ordered_qty ? quote_product.ordered_qty : '1' }}</b>
+                                            {% else %}
+                                              <input type="text" name="quotation_product[{{ quote_product.po_product_id }}][ordered_qty]" value="{{ quote_product.ordered_qty ? quote_product.ordered_qty : '1' }}"  class="form-control" />
+                                            {% endif %}
+                                            </td>
+                                            <td class="text-left">
+                                              {% if quotation_info.quotation_status == 6 %}
+                                                <b>{{ quote_product.supplier_tax ? quote_product.supplier_tax : '0' }}</b>
+                                              {% else %}
+                                                <input type="text" name="quotation_product[{{ quote_product.po_product_id }}][supplier_tax]" value="{{ quote_product.supplier_tax ? quote_product.supplier_tax : '0' }}"  class="form-control" style="width:70%;"/>
+                                              {% endif %}
+                                              </td>
+                                          <td class="text-left">{{ quote_product.sub_total }}</td>
+                                          {% if quotation_info.quotation_status != 6 %}
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-info product_update"> <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                                <button type="button" class="btn btn-danger product_delete"> <i class="fa fa-minus" aria-hidden="true"></i></button>
+                                            </td>
+                                          {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                      {% else %}
+                                        <tr>
+                                          <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                                        </tr>
+                                      {% endif %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  <button class="next btn btn-primary pull-right" type="button" name="update_product" id="update_product" style="display:none;">{{ "Update Product" }}</button>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6 pull-right">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> {{ panel_total_info }}</h3>
+                                <span style="float: right;font-weight: 600; font-size: 15px;color: #FF3C00;">
+                                  {{ totals.grand.text }}</span>
+                              </div>
+                              <div class="panel-body" id="panel_total_info">
+
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-hover">
+                                      <tbody>
+                                        {% for key, total in totals %}
+                                        <tr>
+                                          <th class="text-right" scope="row">{{ total.title~'  :' }}</th>
+                                          <td class="text-right">{{ total.text }}
+                                            <input type="hidden" name="totals[{{ key }}]" value="{{ total.value }}" />
+                                          </td>
+                                        </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                </div>
+
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div><!--quotation_details-->
+
+                <div class="tab-pane" id="quotation_comment">
+                  <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list" aria-hidden="true"></i> {{ text_comment_section }}</h3><hr></div>
+
+                    <div class="panel-body">
+                        <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                            <textarea class="form-control" name="quote_comment" rows="8" placeholder="{{ placeholder_quotation_comment }}" id="quote_comment">{{ quotation_comment ? quotation_comment : '' }}</textarea>
+                        </div>
+                        <div class="col-sm-12 checkbox">
+                            <label for="quotation_mail"><input name="quotation_mail" value="1" type="checkbox" id="quotation_mail" style="margin-right:5px;">{{ text_send_comment_mail }}</label>
+                        </div>
+                        <button class="btn btn-primary pull-right" name="send_comment" type="button" id="send_comment"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> {{ button_send }}</button>
+
+                        <div class="col-sm-12">
+                          <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                  <tr>
+                                    <th class="text-left" style="width: 30%;">{{ column_added_time }}</th>
+                                    <th class="text-left">{{ column_added_comment }}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% if comment_histories %}
+                                  {% for key, comment in comment_histories %}
+                                  <tr>
+                                    <td class="text-left">{{ comment.date_added }}</td>
+                                    <td class="text-left">{{ comment.description}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                  {% else %}
+                                    <tr><td class="text-center" colspan="3">{{ text_no_record }}</td></tr>
+                                  {% endif %}
+                                </tbody>
+                              </table>
+                          </div>
+                        </div>
+                        <div class="row" id="pagination">
+                          <div class="col-sm-6 text-left">{{ pagination }}</div>
+                          <div class="col-sm-6 text-right">{{ results }}</div>
+                        </div>
+                    </div>
+                  </div>
+                </div><!--quotaion_comment-->
+
+            </div><!--tab-content-col-sm-9-->
+          </div><!--Col-sm-9-->
+          <div class="modal fade" id="moreProduct" tabindex="-1" role="dialog" aria-labelledby="moreProductLabel">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="moreProductLabel">{{ heading_add_more }}</h4>
+                </div>
+                <div class="modal-body col-sm-12">
+                  <form action="{{ add_more_product }}" method="post" enctype="multipart/form-data" id="form-more-product" class="form-horizontal">
+                    <div class="form-group col-sm-12">
+                      <label for="supplier-product-name" class="control-label">{{ entry_supplier_product }}</label>
+                      <input type="text" name="moreSupplierProduct" class="form-control" id="supplier-product-name" />
+                      <input type="hidden" name="supplier_id" value="{{ supplier_details.supplier_id }}" />
+                    </div>
+                    <div class="form-group col-sm-12">
+                      <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="moreProductTable">
+                          <thead>
+                            <tr>
+                              <td class="text-left">{{ column_image }}</td>
+                              <td class="text-left">{{ column_product_name }}</td>
+                              <td class="text-left">{{ column_supplier_sku }}</td>
+                              <td class="text-left">{{ column_ordered_cost~' ('~currency_symbol~')' }}</td>
+                              <td class="text-left" style="width: 12%;">{{ column_ordered_qty }}</td>
+                              <td class="text-left" style="width: 12%;">{{ column_supplier_tax }}</td>
+                              <td class="text-left" style="width: 12%;">{{ column_action }}</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% if more_products %}
+                            {% for product_id, s_product in more_products %}
+                            <tr id="supplier_product_{{ product_id }}">
+                              <td class="text-center">
+                                <input type="hidden" name="more_product[{{ product_id }}][product_id]" value="{{ product_id }}" />
+                                <input type="hidden" name="more_product[{{ product_id }}][name]" value="{{ s_product.product_name }}" />
+                                {% if s_product.image %}
+                                <img src="{{ s_product.image }}" alt="{{ s_product.product_name }}" class="img-thumbnail" />
+                                {% else %}
+                                <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
+                                {% endif %}</td>
+                              <td class="text-left">{{ s_product.product_name }}</td>
+                              <td class="text-left">{{ s_product.supplier_sku }}</td>
+                              <td class="text-left">
+                                <input type="text" name="more_product[{{ product_id }}][supplier_cost]" value="{{ s_product.supplier_cost }}" class="form-control" />
+                              </td>
+                              <td class="text-left">
+                                <input type="text" name="more_product[{{ product_id }}][supplier_qty]" value="{{ s_product.supplier_qty }}"  class="form-control"/>
+                              </td>
+                              <td class="text-left">
+                                <input type="text" name="more_product[{{ product_id }}][supplier_tax]" value="{{ s_product.supplier_tax }}"  class="form-control"/>
+                              </td>
+                              <td>
+                                <button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove();" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>
+                                {% if s_product.options %}
+                                    <button type="button" class="btn btn-info showOption">Option List <span class="caret"></span></button>
+                                {% endif %}
+                              </td>
+                            </tr>
+                                {% if s_product.options %}
+                                  <tr><td class="text-left additional_options" colspan="9" id="additional_options_{{ product_id }}" style="display:{% if more_products and product_id == more_products.product_id %}{{ 'table-cell'}}{% endif %}">
+                                    <div class="table-responsive">
+                                      <table class="table table-bordered table-hover">
+                                        <thead><tr>
+                                          <th class="text-center">{{ column_option_name}}</th>
+                                          <th class="text-center">{{ column_option_value }}</th>
+                                        </tr></thead>
+                                        <tbody>
+                                          {% for product_option_id, p_option in s_product %}
+                                              <tr>
+                                              {% if p_option.type == 'text' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ key }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-center">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <input type="text" name="more_product[{{ product_id }}][options][{{ product_option_id }}]" value="{{ p_option.value }}" placeholder="{{ 'Option value' }}" id="input-value{{ product_option_id }}" class="form-control" />
+                                                      {% if error_more_product.product_id.options.product_option_id %}
+                                                        <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'textarea' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ key }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-center">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <textarea name="more_product[{{ product_id }}][options][{{ product_option_id }}]" rows="5" id="input-value{{ product_option_id }}" class="form-control">{{ p_option.value }}</textarea>
+                                                      {% if error_more_product.product_id.options.product_option_id %}
+                                                        <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'file' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                        <button type="button" id="button-upload{{ product_option_id }}" data-loading-text="{{ 'Loading...' }}" class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+                                                        <input type="hidden" name="more_product[{{ product_id }}][options][{{ product_option_id }}]" value="{{ p_option.value }}" id="input-value{{ product_option_id }}" />
+                                                        {% if error_more_product.product_id.options.product_option_id %}
+                                                          <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'date' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <div class="input-group date">
+                                                        <input type="text" name="more_product[{{ product_id }}][options][{{ product_option_id }}]" value="{{ p_option.value }}" data-date-format="YYYY-MM-DD" id="input-value{{ product_option_id }}" class="form-control" />
+                                                        <span class="input-group-btn">
+                                                          <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                                        </span></div>
+                                                        {% if error_more_product.product_id.options.product_option_id %}
+                                                          <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'time' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <div class="input-group time">
+                                                        <input type="text" name="more_product[{{ product_id }}][options][{{ product_option_id }}]" value="{{ p_option.value }}" data-date-format="HH:mm" id="input-value{{ product_option_id }}" class="form-control" />
+                                                        <span class="input-group-btn">
+                                                          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                                        </span></div>
+                                                        {% if error_more_product.product_id.options.product_option_id %}
+                                                          <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'datetime' %}
+                                                <td class="text-center">
+                                                  <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                    <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                  </div>
+                                                </td>
+                                                <td class="text-left">
+                                                  <div class="form-group">
+                                                    <div class="col-sm-8">
+                                                      <div class="input-group datetime">
+                                                        <input type="text" name="more_product[{{ product_id }}][options][{{ product_option_id }}]" value="{{ p_option.value }}" data-date-format="YYYY-MM-DD HH:mm" id="input-value{{ product_option_id }}" class="form-control" />
+                                                        <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                                                        </span></div>
+                                                        {% if error_more_product.product_id.options.product_option_id %}
+                                                          <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'select' or p_option.type == 'radio' %}
+                                                  <td class="text-center">
+                                                    <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                      <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                    </div>
+                                                  </td>
+                                                  <td class="text-left">
+                                                    <div class="form-group">
+                                                      <div class="col-sm-8">
+                                                        <select name="more_product[{{ product_id }}][options][{{ product_option_id }}]" id="input-value{{ product_option_id }}" class="form-control">
+                                                        <option value="">{{ text_select }}</option>
+                                                        {% for product_option_value in p_option %}
+                                                          <option value="{{ product_option_value.product_option_value_id }}" {% if p_option.value and p_option.value == product_option_value.product_option_value_id %}{{ 'selected' }}{% endif %}>{{ product_option_value.name }}
+                                                          {% if product_option_value.price %}
+                                                          ({{ product_option_value.price_prefix }}{{ product_option_value.price }})
+                                                          {% endif %}
+                                                          </option>
+                                                        {% endfor %}</select>
+                                                        {% if error_more_product.product_id.options.product_option_id %}
+                                                          <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                      </div>
+                                                    </div>
+                                                  </td>
+                                              {% endif %}
+                                              {% if p_option.type == 'checkbox' %}
+                                                  <td class="text-center">
+                                                    <div class="form-group {% if p_option.required %}{{ 'required' }}{% endif %}">
+                                                      <label class="col-sm-8 control-label" for="input-value{{ product_option_id }}">{{ p_option.name }}</label>
+                                                    </div>
+                                                  </td>
+                                                  <td class="text-left">
+                                                    <div class="form-group">
+                                                      <div class="col-sm-8">
+                                                        <div id="input-value{{ product_option_id }}">
+                                                          {% for product_option_value in p_option %}
+                                                            <div class="checkbox">
+                                                              <label id="checkbox_multivalue_{{ product_option_value.option_value_id }}">
+                                                                <input type="checkbox" name="more_product[{{ product_id }}][options][{{ product_option_id }}][]" value="{{ product_option_value.product_option_value_id }}" {% if p_option.value and p_option.value is iterable and product_option_value.product_option_value_id in p_option.value %}{{ 'checked'}}{% endif %}/>
+                                                                {{ product_option_value.name}}
+                                                                {% if product_option_value.price %}
+                                                                ({{ product_option_value.price_prefix }}{{ product_option_value.price }})
+                                                                {% endif %}
+                                                              </label>
+                                                            </div>
+                                                          {% endfor %}
+                                                          {% if error_more_product.product_id.options.product_option_id %}
+                                                            <div class="text-left text-danger">{{ error_more_product.product_id.options.product_option_id }}</div>{% endif %}
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </td>
+                                                  {% endif %}
+                                              </tr>
+                                              {% endfor %}
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </td></tr>
+                                  {% endif %}
+                                {% endfor %}
+                             {% else %}
+                              <tr id="no_supplier_product">
+                                <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                              </tr>
+                            {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" {% if not more_products %}{{ 'Disabled' }}{% endif %} name="submit_more">{{ button_add_to_quote }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+  {% if error_more_product and error_more_product%}
+      $('#moreProduct').modal('show');
+  {% endif %}
+})
+$(document).on('click', '.showOption', function(){
+  var getDisplay = $(this).parents('tr').next('tr').find('.additional_options').css('display');
+  if(getDisplay == 'none'){
+      $(this).parents('tr').next('tr').find('.additional_options').css('display', 'table-cell');
+  }else{
+      $(this).parents('tr').next('tr').find('.additional_options').css('display', 'none');
+  }
+})
+
+
+$('#content').delegate('button[id^=\'button-upload\']', 'click', function() {
+	var node = this;
+
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload/upload&user_token={{ user_token }}',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(node).button('loading');
+				},
+				complete: function() {
+					$(node).button('reset');
+				},
+				success: function(json) {
+					$(node).parent().find('.text-danger').remove();
+
+					if (json['error']) {
+						$(node).parent().find('input[type=\'hidden\']').after('<div class="text-danger">' + json['error'] + '</div>');
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+					}
+
+					if (json['code']) {
+						$(node).parent().find('input[type=\'hidden\']').attr('value', json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+
+$('.date').datetimepicker({
+	pickTime: false
+});
+
+$('.datetime').datetimepicker({
+	pickDate: true,
+	pickTime: true
+});
+
+$('.time').datetimepicker({
+	pickDate: false
+});
+
+
+$('.product_update').on('click', function(e){
+  e.preventDefault();
+  $('#content .alert').remove();
+  var productData = [];
+    $(this).parents('tr').find('input').each(function(key, val){
+        productData.push($(val).val());
+    })
+    if(productData.length == 6){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/updateQuotationProducts&user_token={{ user_token }}&quotation_id={{ quotation_id }}',
+          data:     {product_data: productData, action:'update'},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.warning){
+                for(i in json.warning){
+                  $('#panel_order_item_info').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.warning[i] +' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+                }
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }
+})
+
+$('.product_delete').on('click', function(e){
+  e.preventDefault();
+  $('#content .alert').remove();
+    var po_product_id = $(this).parents('tr').find('#quotation_po_product_id').val();
+    if(po_product_id){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/removeQuotationProducts&user_token={{ user_token }}',
+          data:     {po_product_id: po_product_id,quotation_id: '{{ quotation_id }}',supplier_id: '{{ supplier_details.supplier_id }}'},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.warning){
+                for(i in json.warning){
+                  $('#panel_order_item_info').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.warning[i] +'<button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+                }
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }
+})
+
+$('input[name=\'moreSupplierProduct\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=po_mgmt/po_quotation/autocompleteProduct&user_token={{ user_token }}&quotation_id={{ quotation_id }}&supplier_id={{ supplier_details.supplier_id }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+            key: item['key'],
+            image: item['image'],
+            label: item['product_name'],
+            value: item['product_id'],
+            supplier_sku: item['supplier_sku'],
+            supplier_cost: item['supplier_cost'],
+            supplier_qty: item['supplier_qty'],
+            supplier_tax: item['supplier_tax'],
+            option: item['options'],
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+    $('#moreProduct  button[name=\'submit_more\']').prop('disabled', false);
+    $('input[name=\'filter_company_name\']').val('');
+
+    var html = '';
+
+    html += '<tr id="supplier_product_'+item['key']+'">';
+    html += '<td class="text-center"><input type="hidden" name="more_product['+item['key']+'][product_id]" value="'+item['value']+'" /><input type="hidden" name="more_product['+item['key']+'][name]" value="'+item['label']+'" />';
+      if (item['image'] != '') {
+          html += '<img src="'+item['image']+'" alt="'+item['label']+'" class="img-thumbnail" />';
+      }else{
+          html += '<span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>';
+      }
+    html += '</td>';
+    html += '<td class="text-left">'+item['label']+'</td>';
+    html += '<td class="text-left">'+item['supplier_sku']+'</td>';
+    html += '<td class="text-left"><input type="text" name="more_product['+item['key']+'][supplier_cost]" value="'+item['supplier_cost']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><input type="text" name="more_product['+item['key']+'][supplier_qty]" value="'+item['supplier_qty']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><input type="text" name="more_product['+item['key']+'][supplier_tax]" value="'+item['supplier_tax']+'" class="form-control" /></td>';
+    html += '<td class="text-left"><button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove();" data-original-title="Delete"><i class="fa fa-trash-o"></i></button>';
+    if (item['option'] != '') {
+        html += '<button type="button" class="btn btn-info showOption">Option List <span class="caret"></span></button>';
+    }
+    html += '</td>';
+    html += '</tr>';
+
+    if (item['option'] != '') {
+        html += '<tr><td class="text-left additional_options" colspan="9" id="additional_options_'+item['key']+'" style="display:none;">';
+        html += '<div class="table-responsive" style="overflow-x:unset;"><table class="table table-bordered table-hover"><thead><tr><th class="text-center">{{ column_option_name }}</th><th class="text-center">{{ column_option_value }}</th></tr></thead><tbody>';
+        for (i = 0; i < item['option'].length; i++) {
+            option = item['option'][i];
+
+            html += '<tr>';
+            if (option['type'] == 'text') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<input type="text" name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" placeholder="Option value" id="input-value' + option['product_option_id'] + '" class="form-control" />';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'textarea') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<textarea name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" rows="5" id="input-value' + option['product_option_id'] + '" class="form-control">' + option['value'] + '</textarea>';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'file') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<button type="button" id="button-upload' + option['product_option_id'] + '" data-loading-text="Loading..." class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>';
+                html += '<input type="hidden" id="input-value'+option['product_option_id']+'" name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" />';
+                html += '</div></div></td>';
+            }
+
+            if (option['type'] == 'date') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group date">';
+                html += '<input type="text" name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="YYYY-MM-DD" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'time') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group time">';
+                html += '<input type="text" name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="HH:mm" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'datetime') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8"><div class="input-group datetime">';
+                html += '<input type="text" name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" value="' + option['value'] + '" data-date-format="YYYY-MM-DD HH:mm" id="input-value' + option['product_option_id'] + '" class="form-control" /><span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button></span>';
+                html += '</div></div></div></td>';
+            }
+
+            if (option['type'] == 'select' || option['type'] == 'radio') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<select name="more_product['+item['key']+'][options][' + option['product_option_id'] + ']" id="input-value' + option['product_option_id'] + '" class="form-control">';
+                html += '<option value="">{{ text_select }}</option>';
+                  for (j = 0; j < option['product_option_value'].length; j++) {
+                    option_value = option['product_option_value'][j];
+
+        						html += '<option value="' + option_value['product_option_value_id'] + '">' + option_value['name'];
+                    if (option_value['price']) {
+        							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+        						}
+        						html += '</option>';
+                  }
+                html += '</select></div></div></td>';
+            }
+
+            if (option['type'] == 'checkbox') {
+                html += '<td class="text-center"><div class="form-group' + ((option['required'] != '0') ? ' required' : '') + '">';
+                html += '<label class="col-sm-8 control-label" for="input-value' + option['product_option_id'] + '">'+ option['name'] +'</label>';
+                html += '</div></td>';
+                html += '<td class="text-left"><div class="form-group"><div class="col-sm-8">';
+                html += '<div id="input-value' + option['product_option_id'] + '">';
+
+      					for (j = 0; j < option['product_option_value'].length; j++) {
+      						option_value = option['product_option_value'][j];
+      						html += '<div class="checkbox">';
+      						html += '  <label id="checkbox_multivalue_' + option_value['product_option_value_id'] + '"><input type="checkbox" name="more_product['+item['key']+'][options][' + option['product_option_id'] + '][]" value="' + option_value['product_option_value_id'] + '" /> ' + option_value['name'];
+
+      						if (option_value['price']) {
+      							html += ' (' + option_value['price_prefix'] + option_value['price'] + ')';
+      						}
+      						html += '  </label>';
+      						html += '</div>';
+      					}
+                html += '</div></div></div></td>';
+            }
+
+          html += '</tr>';
+        }
+        html += '</tbody></table></div></td></tr>';
+    }
+
+    if($('#moreProductTable > tbody').find('#no_supplier_product')){
+        $('#no_supplier_product').remove();
+    }
+    $('#moreProductTable > tbody').append(html);
+    $('.date').datetimepicker({
+      language: '{{ datepicker }}',
+      pickTime: false
+    });
+
+    $('.datetime').datetimepicker({
+      language: '{{ datepicker }}',
+      pickDate: true,
+      pickTime: true
+    });
+
+    $('.time').datetimepicker({
+      language: '{{ datepicker }}',
+      pickDate: false
+    });
+	}
+});
+
+$('#send_comment').on('click', function(e){
+    e.preventDefault();
+    $('#quotation_comment .alert, #quotation_comment .text-danger').remove();
+    var comment       = $(this).parent().find('textarea').val();
+    var send_mail     = $(this).parent().find('input:checked').val();
+    if(comment.length > 5 && comment.length < 500){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/saveCommentHistory&user_token={{ user_token }}',
+          data:     {quotation_id: '{{ quotation_id }}',supplier_id: '{{ supplier_details.supplier_id }}',comment: comment, send_mail: send_mail},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.warning){
+                $('#quotation_comment .panel-body').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.warning +' <button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }else{
+        $('#quotation_comment #quote_comment').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_comment_length }}</div>');
+    }
+})
+var currentValue = $('select[name=\'quotation_status\']').val();
+var count = 1;
+$('select[name=\'quotation_status\']').on('change', function(e){
+    e.preventDefault();
+    $('.alert-danger, .alert-success, .alert-warning, .text-danger').remove();
+    var nextValue     = $(this).val();
+
+    if(nextValue < count){
+        $('#quotation_left_link').parent().prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_wrong_status_selection }}<button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+    }else{
+      currentValue = nextValue;
+      count = count + 1;
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_quotation/updateQuotationStatus&user_token={{ user_token }}',
+        data:     {quotation_id: '{{ quotation_id }}',supplier_id: '{{ supplier_details.supplier_id }}',status: nextValue},
+        type:     'POST',
+        dataType: 'json',
+        success: function(json) {
+          if(json.warning){
+              $('#quotation_left_link').parent().prepend('<div class="alert alert-danger">  '+ json.warning +'</div>');
+          }else{
+              if(json.redirect){
+                location = json.redirect;
+              }
+          }
+        },
+      });
+    }
+
+})
+$(document).find("#form-more-product").on("submit",function(e) {
+  e.preventDefault();
+  $.ajax({
+    url: $(this).attr('action'),
+    data: $(this).serialize(),
+    type:     'POST',
+    dataType: 'json',
+    success: function(json) {
+      if(typeof json.success != 'undefined' || json.redirect) {
+        var redirect_link = json.redirect;
+        window.location = redirect_link.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+      } else {
+        for (i in json.error.more_product) {
+          if(json.error.more_product[i]['options']){
+            $('#additional_options_'+i).css('display', 'table-cell');
+            var optionArray = json.error.more_product[i]['options'];
+            for (j in optionArray) {
+                if(typeof(optionArray[j]) == 'object'){
+                    for (k in optionArray[j]) {
+                        if($('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().hasClass("input-group")){
+                            $('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().parent().append('<div class="text-left text-danger"> '+optionArray[j][k]+' </div>');
+                        }else{
+                            $('#additional_options_'+i).find('#checkbox_multivalue_'+k).parent().append('<div class="text-left text-danger"> '+optionArray[j][k]+' </div>');
+                        }
+                    }
+                }else{
+                    if($('#additional_options_'+i).find('#input-value'+j).parent().hasClass("input-group")){
+                        $('#additional_options_'+i).find('#input-value'+j).parent().parent().append('<div class="text-left text-danger"> '+optionArray[j]+' </div>');
+                    }else{
+                        $('#additional_options_'+i).find('#input-value'+j).parent().append('<div class="text-left text-danger"> '+optionArray[j]+' </div>');
+                    }
+                }
+            }
+          }
+
+        }
+      }
+      },
+  });
+
+});
+</script>
+{{ footer }}

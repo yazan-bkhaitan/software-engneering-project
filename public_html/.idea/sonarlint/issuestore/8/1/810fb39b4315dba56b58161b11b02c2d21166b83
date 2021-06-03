@@ -1,0 +1,80 @@
+
+j	php:S1192D"PDefine a constant instead of duplicating this literal "&filter_status=" 6 times.(‡Æˆëùÿÿÿÿ
+j	php:S3776²"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÊÍÑ
+z	php:S1192µ
+"_Define a constant instead of duplicating this literal "Content-Type: application/json" 7 times.(ßË·şşÿÿÿÿ
+o	php:S3776‰"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(·—²¥şÿÿÿÿ
+Œphp:S138¹"wThis function "getForm" has 283 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(¡’®‘
+{	php:S1192Ä"`Define a constant instead of duplicating this literal "' AND pov.product_option_id = '" 4 times.(²Öîşÿÿÿÿ
+a	php:S1192ü"KDefine a constant instead of duplicating this literal "tool/image" 4 times.(—ÀìÏ
+j	php:S3776Ş"TRefactor this function to reduce its Cognitive Complexity from 56 to the 15 allowed.(ç¯¼ 
+T	php:S1481à"9Remove this unused "$moduleConfigSetting" local variable.(Ñ½ıªşÿÿÿÿ
+d	php:S1192²"NDefine a constant instead of duplicating this literal "common/header" 4 times.(±ğÌ›
+i	php:S1192´"NDefine a constant instead of duplicating this literal "common/footer" 3 times.(Áİ‰­ûÿÿÿÿ
+a	php:S1192P"GDefine a constant instead of duplicating this literal "&page=" 6 times.(óÑšÈüÿÿÿÿ
+n	php:S3776+"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(¦¿¹÷úÿÿÿÿ
+i	php:S3776X"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(ñğ¯€
+F	php:S1481Ú"0Remove this unused "$get_filter" local variable.(ÌÈò‰
+p	php:S1192"VDefine a constant instead of duplicating this literal "po_mgmt/po_quotation" 40 times.(ÌÚáÑúÿÿÿÿ
+T	php:S1481º	"9Remove this unused "$moduleConfigSetting" local variable.(Ñ½ıªşÿÿÿÿ
+d	php:S1192Ú"NDefine a constant instead of duplicating this literal "&supplier_id=" 4 times.(˜‚â
+D	php:S1481¤")Remove this unused "$key" local variable.(ß×Ô„ıÿÿÿÿ
+i	php:S1192ó"NDefine a constant instead of duplicating this literal "j F Y, H:i A" 11 times.(Ğé«úÿÿÿÿ
+o	php:S3776ç	"TRefactor this function to reduce its Cognitive Complexity from 59 to the 15 allowed.(Œ«—úÿÿÿÿ
+i	php:S1192<"TDefine a constant instead of duplicating this literal "&filter_owner_name=" 9 times.(ñç®Ã
+o	php:S3776†"TRefactor this function to reduce its Cognitive Complexity from 50 to the 15 allowed.(ã…›Áüÿÿÿÿ
+o	php:S3776¹
+"TRefactor this function to reduce its Cognitive Complexity from 76 to the 15 allowed.(µÿòÄøÿÿÿÿ
+c	php:S1192"MDefine a constant instead of duplicating this literal "no_image.png" 6 times.(÷˜†›
+R	php:S1481Ì"7Remove this unused "$supplier_products" local variable.(àÑÌ§úÿÿÿÿ
+k	php:S3776¹"URefactor this function to reduce its Cognitive Complexity from 272 to the 15 allowed.(¡’®‘
+D	php:S1481Ö")Remove this unused "$key" local variable.(Ú· ûùÿÿÿÿ
+L	php:S1481‘
+"1Remove this unused "$option_data" local variable.(š»’ùÿÿÿÿ
+7	php:S1110î
+"!Remove these useless parentheses.(ø¸úÎ
+\	php:S1192H"GDefine a constant instead of duplicating this literal "&sort=" 5 times.(á©ˆœ
+o	php:S1192¾"TDefine a constant instead of duplicating this literal "po_mgmt/po_supplier" 6 times.(áŒş•ÿÿÿÿÿ
+Í	php:S1192Ä"±Define a constant instead of duplicating this literal "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_option_value_id = '" 4 times.(²Öîşÿÿÿÿ
+H	php:S1481"-Remove this unused "$options" local variable.(¾¨²ÿÿÿÿÿ
+j	php:S3776è"TRefactor this function to reduce its Cognitive Complexity from 24 to the 15 allowed.(¯®»³
+‘php:S138»"wThis function "getList" has 197 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(‰ı«şÿÿÿÿ
+Jphp:S121±"0Add curly braces around the nested statement(s).(èÊÆæüÿÿÿÿ
+‘	php:S1448"wClass "ControllerPOMgmtPoQuotation" has 23 methods, which is greater than 20 authorized. Split it into smaller classes.(ãÈ¹ûÿÿÿÿ
+g	php:S1192"MDefine a constant instead of duplicating this literal "user_token=" 43 times.(…¬Ìàúÿÿÿÿ
+o	php:S3776‡"TRefactor this function to reduce its Cognitive Complexity from 42 to the 15 allowed.(ããõ©ÿÿÿÿÿ
+E	php:S1066÷	"/Merge this if statement with the enclosing one.(¥İŠ¢
+b	php:S1192ı"LDefine a constant instead of duplicating this literal "tool/upload" 3 times.(€âÙÏ
+Gphp:S836"2Review the data-flow - use of uninitialized value.(«éöï
+	php:S1192Ä"dDefine a constant instead of duplicating this literal "product_option_value pov LEFT JOIN " 4 times.(²Öîşÿÿÿÿ
+t	php:S1192“"YDefine a constant instead of duplicating this literal "po_mgmt/po_quotation/add" 3 times.(¦€è†üÿÿÿÿ
+w	php:S1192É"aDefine a constant instead of duplicating this literal "po_mgmt/po_quotation/getViewForm" 5 times.(éëÍ
+k	php:S11928"VDefine a constant instead of duplicating this literal "&filter_quotation_id=" 9 times.(Ê˜Œë
+]	php:S1788¢"BMove arguments "$array_data" after arguments without default value(¼˜Ó¸ÿÿÿÿÿ
+L	php:S1481¥"1Remove this unused "$option_data" local variable.(š»’ùÿÿÿÿ
+?	php:S1481¹")Remove this unused "$key" local variable.(ŞŸô
+o	php:S3776Ç"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(İõ°úÿÿÿÿ
+W	php:S1788¹
+"<Move arguments "$data" after arguments without default value(µÿòÄøÿÿÿÿ
+o	php:S3776»"TRefactor this function to reduce its Cognitive Complexity from 53 to the 15 allowed.(‰ı«şÿÿÿÿ
+e	php:S1192½"PDefine a constant instead of duplicating this literal "setting/setting" 5 times.(şş±=
+u	php:S1192Ä"ZDefine a constant instead of duplicating this literal "' AND ovd.language_id = '" 4 times.(²Öîşÿÿÿÿ
+k	php:S1192Œ
+"PDefine a constant instead of duplicating this literal "/^[1-9][0-9]*$/" 5 times.(ğºªßÿÿÿÿÿ
+k	php:S1192@"VDefine a constant instead of duplicating this literal "&filter_created_date=" 6 times.(ùÍ
+k	php:S1192"QDefine a constant instead of duplicating this literal "common/dashboard" 4 times.(…¬Ìàúÿÿÿÿ
+php:S138•"{This function "getViewForm" has 273 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(×Ó
+D	php:S1066ı	"/Merge this if statement with the enclosing one.(Á¯Ë
+o	php:S1192Ú"YDefine a constant instead of duplicating this literal "po_mgmt/po_supplier/edit" 3 times.(˜‚â
+¥	php:S1192Ä"‰Define a constant instead of duplicating this literal "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " 4 times.(²Öîşÿÿÿÿ
+n	php:S1192³"SDefine a constant instead of duplicating this literal "common/column_left" 3 times.(·ÁÇìúÿÿÿÿ
+e	php:S1192É"ODefine a constant instead of duplicating this literal "&quotation_id=" 6 times.(éëÍ
+k	php:S3776•"URefactor this function to reduce its Cognitive Complexity from 129 to the 15 allowed.(×Ó
+D	php:S1481„	")Remove this unused "$key" local variable.(‰Ò“©üÿÿÿÿ
+?	php:S1481¨")Remove this unused "$key" local variable.(Æ¨ğÄ
+d	php:S1192—"NDefine a constant instead of duplicating this literal "Convert To PO" 4 times.(¹í†ó
+f	php:S1192ş"PDefine a constant instead of duplicating this literal "catalog/product" 4 times.(ÿ½±
+b	php:S1192L"HDefine a constant instead of duplicating this literal "&order=" 5 times.(àÜ“˜şÿÿÿÿ
+4php:S125„"Remove this commented out code.(‰øÚ
+ş	php:S1192Ä"âDefine a constant instead of duplicating this literal "SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " 4 times.(²Öîşÿÿÿÿ
+d	php:S1192ÿ"ODefine a constant instead of duplicating this literal "catalog/option" 3 times.(œ¾’

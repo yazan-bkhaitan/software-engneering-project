@@ -1,0 +1,13 @@
+
+o	php:S3776ˆ"TRefactor this function to reduce its Cognitive Complexity from 73 to the 15 allowed.(Œ«—úÿÿÿÿ
+r	php:S1192"XDefine a constant instead of duplicating this literal "extension/module/oc_pom" 8 times.(çû›øÿÿÿÿ
+b	php:S1192"MDefine a constant instead of duplicating this literal "user_token=" 12 times.(ä²’Ü
+i	php:S3776R"TRefactor this function to reduce its Cognitive Complexity from 36 to the 15 allowed.(Îò±ì
+c	php:S1871Á"MThis branch's code block is the same as the block for the branch on line 319.(áß©§
+c	php:S1871Ç"MThis branch's code block is the same as the block for the branch on line 325.(®¹ûÏ
+f	php:S11924"QDefine a constant instead of duplicating this literal "po_mgmt/po_email" 3 times.(Æüª¢
+j	php:S1192"UDefine a constant instead of duplicating this literal "/[^A-Za-z_ .\-0-9]/i" 3 times.(à¶ØN
+p	php:S1192g"VDefine a constant instead of duplicating this literal "marketplace/extension" 3 times.(á”à£úÿÿÿÿ
+c	php:S1871Í"MThis branch's code block is the same as the block for the branch on line 331.(ç‰¸¯
+g	php:S1192g"MDefine a constant instead of duplicating this literal "&type=module" 3 times.(á”à£úÿÿÿÿ
+<	php:S1110"!Remove these useless parentheses.(ÃÁ†ıÿÿÿÿ

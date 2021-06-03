@@ -1,0 +1,54 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <h1>{{ heading_title_details }}</h1>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-list"></i> {{ heading_title_details ~ text_list }}</h3>
+            </div>
+            <div class="panel-body">
+                    <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>{{ entry_details_date }}</td>
+                                        <td>{{ entry_invoice }}</td>
+                                        <td>{{ entry_details_credit }}</td>
+                                        <td>{{ entry_details_debit }}</td>
+                                        <td>{{ entry_details_status }}</td>
+                                        <td>{{ entry_details }}</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if purcahse_products is defined and purcahse_products %}
+                                        {% for product in purcahse_products %}
+                                          <tr>
+                                              <td>{{ product.purchase_date }}</td>
+                                              <td>{{ product.invoice }}</td>
+                                              <td>{{ product.credit }}</td>
+                                              <td>{{ product.debit }}</td>
+                                              <td>{{ product.status }}</td>
+                                              <td>{{ product.profit_loss }}</td>
+                                          </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">{{ text_empty }}</td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>                            
+                        </div>
+                        <div class="row">
+                                <div class="col-sm-6 text-left">{{ pagination }}</div>
+                                <div class="col-sm-6 text-right">{{ results }}</div>
+                            </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}

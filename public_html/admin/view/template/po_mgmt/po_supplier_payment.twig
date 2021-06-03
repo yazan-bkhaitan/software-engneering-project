@@ -1,0 +1,238 @@
+<div class="page-header">
+      <div class="pull-right">
+          <button type="button" form="form-payment-info" id="save_supplier_payment_data" data-toggle="tooltip" title="{{ button_save__payment_info }}" class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ button_save }}</button>
+      </div>
+    <div class="container-fluid">
+      <h3>{{ heading_title_po_list }}</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="container-fluid"  id="product_assign">
+     <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-payment-info" class="form-horizontal col-sm-12">
+      <div class="form-horizontal">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <td class="text-left">{{ '' }}</td>
+                <td class="text-left">{{ column_payment }}</td>
+                <td class="text-center">{{ column_action }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if extensions %}
+              {% for extension in extensions %}
+              <tr>
+                <td class="text-left">
+                <input type="radio" name="selected" value="{{ extension.method_id }}" class="product_row" {% if supplier_payment is defined and supplier_payment and supplier_payment.method_id == extension.method_id %}{{ "checked" }}{% endif %}/>
+                </td>
+                <td class="text-left">{{ extension.name }}</td>
+                <td class="text-center">
+                <div class="text-right payment_info_modal btn btn-warning" id="data{{ extension.method_id }}" data-toggle="modal" data-target="#payment_info" data-name="{{ extension.name }}" data-input-type="{{ extension.type }}" data-feild-id="{{  extension.method_id }}"><i class="fa fa-eye"></i> {{ button_view }}</div>
+                </td>
+              </tr>
+              {% endfor %}
+               {% else %}
+              <tr>
+                <td class="text-center" colspan="7">{{ text_no_results }}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover" id="payment-details">  
+            {% set payment_details_row = 0 %}
+            {% if supplier_payment is defined and supplier_payment %}
+              <thead>
+                <tr>
+                  <td>{{ entry_payment_name }}</td>
+                  <td>{{ supplier_payment.name }}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">{{ entry_input_details }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="payment_method_details">
+                  <td colspan="2">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <td>{{ column_name }}</td>
+                          <td>{{ column_value }}</td>
+                          <td>{{ column_action }}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% if supplier_payment_details is defined and supplier_payment_details %}
+      
+                          {% for supplier_payment_detail in supplier_payment_details %}
+                    
+                            <tr id="supllier_payment_details{{ payment_details_row }}">
+                              <td>
+                                <input type="text" class="form-control" name="payment_method_details[{{ payment_details_row }}][name]" placeholder="{{ column_name }}" value="{{ supplier_payment_detail.name }}">
+                              </td>
+                              <td>
+                                <input type="text" class="form-control" name="payment_method_details[{{ payment_details_row }}][value]" placeholder="{{ column_value }}" value="{{ supplier_payment_detail.value }}">
+                              </td>
+                              <td class="text-center">
+                                <button type="button" onclick="$('#supllier_payment_details{{ payment_details_row }}').remove();" data-toggle="tooltip" title="{{ button_remove_details }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                              </td>
+                            </tr>
+                            {% set payment_details_row = payment_details_row+1 %}
+                          {% endfor %}
+                        {% endif %}  
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="2"></td>
+                          <td class="text-center">
+                            <button type="button" onclick="addSupplierPaymentDetails();" data-toggle="tooltip" title="{{ button_add_details }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>    
+            {% endif %}
+        </table>
+      </div>
+      </form>
+    </div>
+      <div class="modal fade" id="payment_info" tabindex="-1" role="dialog" aria-labelledby="receiveStockLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body" style="overflow: hidden;">
+                <center><h4 class="modal-title" id="receiveStockLabel" style=" font-size: 20px;font-weight: 600;padding: 15px;">{{ text_payment }}</h4>
+                </center>
+                  <div class="col-sm-12 form-group">
+                    <div class="col-sm-12 pull-left" style="margin:20px 0;">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_payment_name }}:  </label>
+                          <div class="col-sm-6 payment_name" style="padding:0px;"></div>
+                      </div>
+                    </div>  
+                  </div>
+              </div>
+              <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+              </div>
+            </div>
+          </div>
+  </div>
+
+  <script type="text/javascript">
+
+    var payment_details_row = {{ payment_details_row }};
+
+    $('.payment_info_modal').on('click', function(e){
+    e.preventDefault();
+    var payment_name    = $(this).data('name');
+    $('#payment_info .payment_name').html(payment_name);
+  });  
+
+  $('input.example').on('change', function() {
+    $('input.example').not(this).prop('checked', false);  
+  });
+
+  $('.product_row').on('click', function() {
+
+    payment_details_row = 0;
+
+    var name = $('#data'+$(this).val()).data('name');
+    var feild_type = $('#data'+$(this).val()).data('feild-id');
+
+    var html = '';
+
+    html += '<thead><tr><td>{{ entry_payment_name }}</td><td>' + name + '</td></tr><tr><td colspan="2">{{ entry_input_details }}</td></tr></thead><tbody><tr id="payment_method_details"><td colspan="2"><table class="table table-bordered table-hover"><thead><tr><td>{{ column_name }}</td><td>{{ column_value }}</td><td>{{ column_action }}</td></tr></thead><tbody>';
+    html += '</tbody><tfoot><tr><td colspan="2"></td><td class="text-center"><button type="button" onclick="addSupplierPaymentDetails();" data-toggle="tooltip" title="{{ button_add_details }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td></tr></tfoot></table></td></tr></tbody>';
+
+    $('#payment-details').empty();
+    $('#payment-details').append(html);
+  });
+
+  function addSupplierPaymentDetails() {
+
+    var html = '';
+
+    var function_name =  "'" + "#supllier_payment_details" + payment_details_row + "'";
+
+    html += '<tr id="supllier_payment_details' + payment_details_row + '"><td><input type="text" class="form-control" placeholder="{{ column_name }}" name="payment_method_details[' + payment_details_row + '][name]" value=""></td><td><input type="text" class="form-control" name="payment_method_details[' + payment_details_row + '][value]"  placeholder="{{ column_value }}" value=""></td><td class="text-center"><button type="button" onclick="$(' + function_name + ').remove();" data-toggle="tooltip" title="{{ button_remove_details }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td></tr>';
+
+    $("#payment_method_details tbody").append(html);
+
+    payment_details_row++;       
+  }
+
+  $(document).on("click","#save_supplier_payment_data",function(e) {
+
+    e.preventDefault();
+
+    $(document).find("#payment-details .text-danger").remove();
+    $(document).find('#supplier_payment .alert').remove();
+
+    var i;
+    var form_status = 1;
+
+    for (i = 0; i < payment_details_row; i++) {
+
+      var name = $(document).find('[name="payment_method_details[' + i +'][name]"]').val();
+      var name_value = $(document).find('[name="payment_method_details[' + i +'][value]"]').val();
+      
+      if(typeof name == 'undefined' || name.trim() == '') {
+        form_status = 0;
+        $(document).find('[name="payment_method_details[' + i +'][name]"]').parent().append('<p class="text-danger">{{ error_name }}</p>');
+      }
+
+      if(typeof name_value == 'undefined' || name_value.trim() == '') {
+        
+        form_status = 0;
+        $(document).find('[name="payment_method_details[' + i +'][value]"]').parent().append('<p class="text-danger">{{ error_name }}</p>');
+      }
+    }
+
+    console.log(form_status);
+
+
+    if(form_status) {
+       $.ajax({
+          url : $("#form-payment-info").attr('action'),
+          datatype : 'json',
+          data: $(document).find("#form-payment-info").serialize(),
+          method : 'post',
+          success: function(json) {
+            if(json.error) {
+
+              if(typeof json.error_warning != 'undefined') {
+                  $(document).find('#supplier_payment .page-header').prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + json.error_warning + '</div>');
+              }
+
+              if(typeof json.error_empty_method != 'undefined') {
+                $(document).find('#supplier_payment #payment-details').prepend('<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + json.error_empty_method + '</div>');
+              }
+
+              if(typeof json.error_method_detail != 'undefined') {
+                $.each(json.error_method_detail,function(i,v) {
+                  if(typeof v.name != 'undefined') {
+                    $(document).find('[name="payment_method_details[' + i +'][name]"]').parent().append('<p class="text-danger">'  + v.name + '</p>');
+                  }
+                  if(typeof v.value != 'undefined') {
+                    $(document).find('[name="payment_method_details[' + i +'][value]"]').parent().append('<p class="text-danger">' + v.value + '</p>');
+                  }
+                })
+              }
+            } else {
+              $(document).find('#supplier_payment .page-header').prepend('<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>{{ text_success }}</div>');
+              setTimeout(function() {
+                location.reload();
+              },2000);              
+            }
+          },
+       });
+    }
+
+
+  });
+</script>

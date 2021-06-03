@@ -1,0 +1,93 @@
+{{ header }}
+<link type="text/css" href="view/stylesheet/pcode.css" rel="stylesheet" />
+{{ column_left }}
+<div id="content">
+  <div class="page-header">
+     <div class="container-fluid">
+     <div class="pull-right">
+       <button type="button" class="btn btn-warning howitworks" data-toggle="modal" data-target="#howitworks"><i class="fa fa-question-circle" aria-hidden="true"></i> {{ text_howitworks }}</button>
+      </div>
+    </div>
+  </div>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ insert }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-success"><i class="fa fa-plus"></i></a>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-primary"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1><i style="color:#46696B;" class="fa fa-clock-o" aria-hidden="true"></i> {{ heading_title_timelist }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+<div class="container-fluid">
+  {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_timelist }}</h3>
+      </div>
+      <div class="panel-body">
+    <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form">
+      <table class="table table-bordered table-hover">
+         <thead>
+            <tr>
+              <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\').attr('checked', this.checked);" /></td>
+              <td class="right">{{ column_time }}</td>
+              <td class="right">{{ column_action }}</td>
+            </tr>
+          </thead>
+        <tbody>
+          {% if timeslots %}
+          {% for time in timeslots %}
+          <tr>
+            <td style="text-align: center;">
+              <input type="checkbox" name="selected[]" value="{{ time.timeid }}"/>
+             </td>
+            <td class="center">{{ time.time }}   -  {{ time.notes }}</td>
+            <td class="center">{% for action in time.action %}
+              <a href="{{ action.href }}" data-toggle="tooltip" title="{{ action.text }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+              {% endfor %}</td>
+          </tr>
+          {% endfor %}
+          {% else %}
+          <tr>
+            <td class="text-center"  colspan="10">{{ text_no_results }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="howitworks" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-question-circle" style="font-size:17px;" aria-hidden="true"></i> {{ text_howitworks }}</h4>
+      </div>
+      <div class="modal-body">
+        {{ text_howitworks_trip_content }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

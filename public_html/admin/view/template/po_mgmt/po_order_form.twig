@@ -1,0 +1,984 @@
+{{ header }}{{ column_left }}
+<div id="content">
+<style type="text/css">
+  .btn{
+    border-radius: 0px;
+  }
+  .tabs-left > .li-format{
+    margin:12px 0;
+    margin-right: -18px;
+    border-left: 3px solid #1978ab;
+    float: none;
+  }
+  .tabs-left > .li-format > a{
+    border-radius: 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .tabs-left > li.active{
+    border-left: 3px solid #E22C5C;
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 1px solid #e8e8e8;
+    border-right: none;
+  }
+  .vertical-step-quotation{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .vertical-step {
+      display: table;
+      width: 50%;
+      height: 300px;
+      position: relative; }
+
+  .vertical-step-line {
+    display: table-row;
+  }
+  .vertical-step-line:before {
+      position: absolute;
+      top: 0px;
+      content: " ";
+      width: 2px;
+      height: 77%;
+      background-color: #ccc; }
+
+  .step-container {
+      display: table-cell;
+      text-align: center;
+      position: relative; left: -9px;
+      z-index: 1;
+      height: 50px;
+    }
+  .quotation-step{
+     background-color: #ccc;
+     border: 2px solid;
+     border-radius: 50%;
+     height: 20px;
+     line-height: 1.42857;
+     width: 20px;
+     content: " ";
+  }
+  .vertical-step-line > span{
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    padding: 5px;
+    width: 20%;
+  }
+  .ready_to_receive{
+    padding:5px;
+    font-weight:600;
+    color:#338fff;
+    font-size:13px;
+    cursor:pointer;
+  }
+</style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ print_po }}" class="btn btn-warning" target="_blank" id="print_po_email"  data-toggle="tooltip" title="{{ button_print }}" ><i class="fa fa-print" aria-hidden="true"></i> </a>
+
+        {% if quotation_info.quotation_status and quotation_info.quotation_status != 5 and quotation_info.quotation_status != 4 %}
+          <button type="button" class="btn btn-danger" id="cancel_purchase_order"  data-toggle="tooltip" title="{{ button_cancel_info }}" ><i class="fa fa-ban" aria-hidden="true"></i> {{ button_cancel }}</button>
+        {% endif %}
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_back }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_order_id }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-eye"></i> {{ heading_title }}</h3>
+      </div>
+      <div class="panel-body">
+
+          <div class="col-sm-3" id="order_left_link">
+              <div class="panel-group panel-primary" id="accordion_quotation" role="tablist" aria-multiselectable="true">
+              <div class="panel">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                    <center><b><a role="button" data-toggle="collapse" data-parent="#accordion_quotation" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      {{ entry_order_info|upper }}
+                    </a></b></center>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs tabs-left"><!-- 'tabs-right' for right tabs -->
+                      <li class="active li-format"><a href="#po_details" data-toggle="tab">{{ text_order_details_tab }}</a></li>
+                      <li class="li-format"><a href="#po_receive_item" data-toggle="tab">{{ text_receive_item_tab }}</a></li>
+                      {% if quotation_info.quotation_status and quotation_info.quotation_status != 2 %}
+                      <li class="li-format"><a href="#po_incoming_shipment" data-toggle="tab">{{ text_shipment_tab }}</a></li>
+                      {% endif %}
+                  </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="vertical-step-quotation">
+              <div class="vertical-step">
+                {% for key, quote_status in quotation_status %}
+                    <div class="vertical-step-line">
+                        <div class="step-container">
+                          {% if quotation_info.quotation_status and quotation_info.quotation_status >= key and key != 5 %}
+                              <div class="quotation-step" style="background-color:#05E177;border-color:#009C1A;"></div>
+                          {% else %}
+                            {% if quotation_info.quotation_status and quotation_info.quotation_status >= key and key == 5 %}
+                              <div class="quotation-step" style="background-color:#ff5252;border-color:#ff0000;"></div>
+                            {% else %}
+                              <div class="quotation-step"></div>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                        <span>{{ quote_status }}</span>
+                    </div>
+                  {% endfor %}
+              </div>
+            </div>
+
+          </div><!--Col-sm-3-->
+
+          <div class="col-sm-9">
+              <div class="tab-content" id="po_right_link">
+                  <div class="tab-pane active" id="po_details">
+                        <input type="hidden" name="purchase_id" value="{{ purchase_id }}" />
+
+                          <div class="row">
+                            <div class="col-sm-6">
+                                <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                    <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_po_details }}</h3>
+                                  </div>
+                                  <div class="panel-body" id="quotation_summery">
+                                      <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ column_purchase_order_id }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                                              {{ '#'~quotation_info.quotation_id }}
+                                          </div>
+                                      </div>
+                                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_purchase_date }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;">
+                                            {{ purchase_date }}
+                                          </div>
+                                      </div>
+                                      <!-- <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_submitted_by }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;">
+                                            {{ 'Manual' }}
+                                          </div>
+                                      </div> -->
+                                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                          <label class="col-sm-6" style="padding:0px;"> {{ entry_order_status }}:  </label>
+                                          <div class="col-sm-6" style="padding:0px;">
+                                              {% if quotation_info.quotation_status and quotation_info.quotation_status == 5 %}
+                                                <div style="color:#FF0000;font-weight:600;font-size:14px;padding: 5px">{{ quotation_status.quotation_info.quotation_status }}</div>
+                                              {% else %}
+                                                  <select class="form-control" name="order_status" style="color: rgb(0, 158, 138); font-weight: 600; font-size: 14px; padding: 5px; border-radius: 0px;" {% if quotation_info.quotation_status == 4 %}{{ "disabled" }}{% endif %}>
+                                                  {% for key, q_status in quotation_status %}
+                                                    {% if key != 5 %}
+                                                        <option value="{{ key }}" {% if key is same as (quotation_info.quotation_status) %}{{ 'selected' }}{% endif %}>{{ q_status }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                  </select>
+                                              {% endif %}
+                                          </div>
+                                      </div>
+
+                                </div>
+                              </div>
+                          </div><!--col-sm-6-->
+                          <div class="col-sm-6">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_supplier_details }}</h3>
+                                </div>
+                                <div class="panel-body" id="supplier_summery">
+                                    <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_owner_name }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          <a href="{{ quotation_info.supplier_link }}" target="_blank">
+                                              {{ supplier_details.owner_name }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_email }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          {{ supplier_details.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_contact }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                          {{ supplier_details.telephone }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                      <label>{{ entry_supplier_address }}:-</label>
+                                      <div class="col-sm-12 pull-right alert alert-info">
+                                        <i class="fa fa-building" aria-hidden="true"></i> {{ supplier_details.company_name }}<br><br>
+                                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        {{ supplier_details.address~', '~supplier_details.postcode }}
+                                      </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                          </div><!--col-sm-6-->
+                        </div><!--row-->
+
+                        <div class="row">
+                          <div class="col-sm-6">
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_shipping_details }}</h3>
+                                </div>
+                                <div class="panel-body" id="shipping_summery">
+                                    <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_by }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                                          {{ quotation_info.shipping_method }}
+                                          </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_start_date }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                        {{ quotation_info.shipping_start_date ? quotation_info.shipping_start_date : 'N/A' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_expected_delivery_date }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;">
+                                        {{ quotation_info.shipping_expected_date ? quotation_info.shipping_expected_date : 'N/A' }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                        <label class="col-sm-6" style="padding:0px;"> {{ entry_shiping_cost }}:  </label>
+                                        <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                                        {{ quotation_info.shipping_cost_formatted }}
+                                        </div>
+                                    </div>
+
+                              </div>
+                            </div>
+                        </div><!--col-sm-6-->
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_other_details }}</h3>
+                              </div>
+                              <div class="panel-body" id="other_summery">
+                                  <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                                      <label class="col-sm-6" style="padding:0px;"> {{ entry_payment_mode }}:  </label>
+                                      <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                                        {{ quotation_info.payment_term }}
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                      <label class="col-sm-6" style="padding:0px;"> {{ entry_order_source }}:  </label>
+                                      <div class="col-sm-6" style="padding:0px;">
+                                      {{ quotation_info.order_source ? quotation_info.order_source|upper : 'N/A' }}
+                                      </div>
+                                  </div>
+                            </div>
+                          </div>
+                        </div><!--col-sm-6-->
+                      </div><!--row-->
+
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-th-list" aria-hidden="true"></i> {{ panel_ordered_product }}</h3>
+                              </div>
+                              <div class="panel-body" id="panel_order_item_info">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                      <thead>
+                                        <tr>
+                                          <td class="text-center">{{ column_oc_order }}</td>
+                                          <td class="text-left">{{ column_image }}</td>
+                                          <td class="text-left">{{ column_product_name }}</td>
+                                          <td class="text-left">{{ column_supplier_sku }}</td>
+                                          <td class="text-center">{{ column_ordered_cost~' ('~currency_symbol~')' }}</td>
+                                          <td class="text-center" style="width: 12%;">
+                                            {% if quotation_info.quotation_status == 2 %}
+                                               {{ column_ordered_qty }}
+                                            {% else %}
+                                               {{ column_quantity }}
+                                            {% endif %}
+                                          </td>
+                                          <td class="text-left">{{ text_tax_per }}</td>
+                                          <td class="text-center">{{ column_sub_total }}</td>
+                                          <td class="text-center">{{ column_action }}</td>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {% if quotation_products %}
+                                        {% for key, quote_product in quotation_products %}
+                                        <tr>
+                                          <td class="text-center">
+                                            {% if oc_view_link %}
+                                              <a href="{{ oc_view_link }}" class="btn btn-info" target="_blank" data-toggle="tooltip" title="{{ button_oc_order_view }}"><i class="fa fa-eye"></i></a>
+                                            {% else %}
+                                              {{ '--N/A--' }}
+                                            {% endif %}
+                                          </td>
+                                          <td class="text-center">
+                                            <img src="{{ quote_product.image }}" alt="{{ quote_product.product_name }}" class="img-thumbnail" />
+                                          </td>
+                                          <td class="text-left">{{ quote_product.product_name }}
+                                            {% for option in quote_product.options %}
+                                            <br />
+                                            {% if option.type != 'file' %}
+                                            &nbsp;<small><i> - {{ option.name }}: {{ option.value }}</i></small>
+                                            {% else %}
+                                            &nbsp;<small><i> - {{ option.name }}: <a href="{{ option.href }}">{{ option.value }}</a></i></small>
+                                            {% endif %}
+                                            {% endfor %}
+                                            <p><i> {{ text_weight }}</i>{{ quote_product.weight }}</p>
+                                          </td>
+                                          <td class="text-left">{{ quote_product.supplier_sku }}</td>
+                                          <td class="text-center">
+                                            <input type="hidden" name="order_product[{{ quote_product.row_id }}][po_product_id]" value="{{ quote_product.row_id }}" class="form-control" id="quotation_po_product_id" />
+                                            <input type="hidden" name="order_product[{{ quote_product.row_id }}][product_id]" value="{{ quote_product.product_id }}" class="form-control" id="quotation_product_id" />
+                                            <input type="hidden" name="order_product[{{ quote_product.row_id }}][name]" value="{{ quote_product.product_name }}" class="form-control" id="quotation_product_name" />
+                                            {% if quotation_info.quotation_status != 2 %}
+                                              <b>{{ quote_product.ordered_cost ? quote_product.ordered_cost : '0.00' }} </b>
+                                            {% else %}
+                                              <input type="text" name="order_product[{{ quote_product.row_id }}][ordered_cost]" value="{{ quote_product.ordered_cost ? quote_product.ordered_cost : '0.00' }}" class="form-control"/>
+                                            {% endif %}
+                                            </td>
+                                          <td class="text-center">
+                                            {% if quotation_info.quotation_status != 2 %}
+                                              <b>{{ entry_ordered~quote_product.ordered_qty }}<br>
+                                                {{ entry_received~quote_product.received_qty }}</b>
+                                            {% else %}
+                                                <input type="text" name="order_product[{{ quote_product.row_id }}][ordered_qty]" value="{{ quote_product.ordered_qty ? quote_product.ordered_qty : '1' }}"  class="form-control"  disabled/>
+                                            {% endif %}
+                                            </td>
+                                          <td class="text-left">
+                                            {% if quotation_info.quotation_status != 2 %}
+                                              <b>{{ quote_product.tax_rate }}
+                                            {% else %}
+                                              <input type="text" name="order_product[{{ quote_product.row_id }}][tax]" value="{{ quote_product.tax_rate ? quote_product.tax_rate : '0' }}"  class="form-control"  style="width:70%;" />
+                                            {% endif %}
+                                            </td>
+                                          <td class="text-center"><b>{{ quote_product.sub_total }}</b></td>
+                                          <td class="text-center">
+                                            {% if quotation_info.quotation_status == 2 %}
+                                              <button type="button" class="btn btn-info product_update"> <i class="fa fa-refresh" aria-hidden="true"></i></button>
+                                                <button type="button" class="btn btn-danger product_delete" data-product-id="{{ quote_product.product_id }}"> <i class="fa fa-minus" aria-hidden="true"></i></button>
+                                            {% else %}
+                                              {% if quote_product.ordered_qty is same as (quote_product.received_qty) %}
+                                                <div class="text-success"style="font-weight:600;"><b>{{ text_received }}</b></div>
+                                              {% elseif quotation_info.quotation_status == 5 %}
+                                                <div class="text-danger"style="font-weight:600;"><b>{{ button_cancel }}</b></div>
+                                              {% elseif quotation_info.quotation_status == 4 %}
+                                                <div class="text-warning"style="font-weight:600;"><b>{{ text_completed }}</b></div>
+                                              {% else %}
+                                                {% set myArray = [] %}
+                                                {% for option, getOpt in quote_product.options %}
+                                                {% set getOpt1 = "<br />&nbsp;<small><i> - "~getOpt.name~":"~getOpt.value~"</i></small>" %}
+                                                  {% set myArray = myArray|merge([getOpt1]) %}
+                                                {% endfor %}
+                                                {% set myArray = myArray|join(', ') %}
+                                                  <div data-toggle="modal" data-target="#receive_stock" class="ready_to_receive" style="padding:0px;" id="{{ quote_product.row_id }}" data-product-id="{{ quote_product.product_id }}" data-quote-id="{{ quotation_info.id }}" data-sku="{{ quote_product.supplier_sku }}" data-order-qty="{{ quote_product.ordered_qty }}" data-product-name="{{ quote_product.product_name }}{{ myArray }}">{{ text_ready_to_receive }}</div>
+                                              {% endif %}
+                                            {% endif %}
+                                          </td>
+                                        </tr>
+                                        {% endfor %}
+                                         {% else %}
+                                        <tr>
+                                          <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                                        </tr>
+                                        {% endif %}
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  <button class="next btn btn-primary pull-right" type="button" name="update_product" id="update_product" style="display:none;">{{ "Update Product" }}</button>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6 pull-right">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> {{ panel_total_info }}</h3>
+                                <span style="float: right;font-weight: 600; font-size: 15px;color: #FF3C00;">
+                                {{ totals.grand.text }}</span>
+                              </div>
+                              <div class="panel-body" id="panel_total_info">
+
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-hover">
+                                      <tbody>
+                                        {% for key, total in totals %}
+                                        <tr>
+                                          <th class="text-right" scope="row">{{ total.title~'  :' }}</th>
+                                          <td class="text-right">{{ total.text }}
+                                            <input type="hidden" name="totals[{{ key }}]" value="{{ total.value }}" />
+                                          </td>
+                                        </tr>
+                                        {% endfor %}
+                                      </tbody>
+                                    </table>
+                                </div>
+
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+
+                </div><!--po_details-->
+
+                <div class="tab-pane" id="po_receive_item">
+                  <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list" aria-hidden="true"></i> {{ text_received_item_list }}</h3></div>
+
+                    <div class="panel-body">
+
+                      <div class="panel-group" id="accordion_received" role="tablist" aria-multiselectable="true">
+                        {% if quotation_products and quotation_info.quotation_status != 2 %}
+                        {% for key, quotation_product in quotation_products %}
+                          <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="product_{{ quotation_product.row_id }}"  style="overflow:hidden;padding:10px 5px;">
+                              <h4 class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion_received" href="#collapseOne_{{ quotation_product.row_id }}" aria-expanded="true" aria-controls="collapseOne">
+
+                                <div class="text-left" style="width: 4%;float:left;padding:5px;"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></div>
+
+                                <div class="col-sm-3 text-left" style="padding:5px;">{{ text_product }}<span style="font-weight:600;">{{ quotation_product.product_name }}</span></div>
+
+                                <div class="col-sm-3 text-center" style="padding:5px;">{{ text_order_qty }}  <span style="font-weight:600;">{{ quotation_product.ordered_qty }}</span></div>
+
+                                <div class="col-sm-3 text-left" style="padding:5px;">{{ text_rece_qty }} <span style="font-weight:600;">{{ quotation_product.received_qty }}</span></div>
+
+                              </h4>
+                                {% if quotation_product.ordered_qty is same as (quotation_product.received_qty) %}
+                                  <div class="text-success"style="font-weight:600;padding: 5px;font-size:14px;">{{ text_received }}</div>
+                                {% elseif quotation_info.quotation_status == 5 %}
+                                  <div class="text-danger"style="font-weight:600;"><b>{{ button_cancel }}</b></div>
+                                {% elseif quotation_info.quotation_status == 4 %}
+                                  <div class="text-warning"style="font-weight:600;"><b>{{ text_completed }}</b></div>
+                                {% else %}
+                                  {% set myArray = [] %}
+                                  {% for option, getOpt in quotation_product.options %}
+                                  {% set getOpt1 = "<br />&nbsp;<small><i> - "~getOpt.name~":"~getOpt.value~"</i></small>" %}
+                                    {% set myArray = myArray|merge([getOpt1]) %}
+                                  {% endfor %}
+                                  {% set myArray = myArray|join(', ') %}
+                                  <div class="col-sm-2 text-right ready_to_receive" data-toggle="modal" data-target="#receive_stock" id="{{ quotation_product.row_id }}" data-product-id="{{ quotation_product.product_id }}" data-quote-id="{{ quotation_info.id }}" data-sku="{{ quotation_product.supplier_sku }}" data-order-qty="{{ quotation_product.ordered_qty }}" data-product-name="{{ quotation_product.product_name }}{{ myArray }}">{{ text_ready_to_receive }}</div>
+                                {% endif %}
+                            </div>
+                            <div id="collapseOne_{{ quotation_product.row_id }}" class="panel-collapse collapse {% if key == 0 %}{{ 'in' }}{% endif %}" role="tabpanel" aria-labelledby="product_{{ quotation_product.row_id }}">
+                              <div class="panel-body">
+                                  <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead style="color:#338fff;">
+                                          <tr>
+                                            <th class="text-left">{{ entry_shipment_id }}</th>
+                                            <th class="text-center">{{ entry_received_qty }}</th>
+                                            <th class="text-left">{{ entry_date }}</th>
+                                            <th class="text-left">{{ entry_comment }}</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {% if quotation_product.shipment_histories %}
+                                          {% for key, shipment in quotation_product.shipment_histories %}
+                                          <tr>
+                                            <td class="text-left">{{ shipment.shipment_id }}</td>
+                                            <td class="text-center">{{ shipment.received_qty }}</td>
+                                            <td class="text-left">{{ shipment.date }}</td>
+                                            <td class="text-left">{{ shipment.comment }}</td>
+                                          </tr>
+                                          {% endfor %}
+                                          {% else %}
+                                            <tr><td class="text-center" colspan="4">{{ text_no_qty_received }}</td></tr>
+                                          {% endif %}
+                                        </tbody>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i>  {{ text_no_confirm_state }}</div>
+                        {% endif %}
+                        </div>
+
+                    </div>
+                  </div>
+                </div><!--po_receive_item-->
+
+                <div class="tab-pane" id="po_incoming_shipment">
+                  <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-list" aria-hidden="true"></i> {{ text_incoming_shipment_list }}</h3></div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered">
+                              <thead style="color:#338fff;">
+                                <tr>
+                                  <th class="text-left">{{ entry_purchase_id }}</th>
+                                  <th class="text-left">{{ entry_product_name }}</th>
+                                  <th class="text-left">{{ entry_product_sku }}</th>
+                                  <th class="text-left">{{ entry_schedule_date }}</th>
+                                  <th class="text-center">{{ column_ordered_qty }}</th>
+                                  <th class="text-left">{{ column_status }}</th>
+                                  {% if quotation_info.quotation_status == 3 %}
+                                  <th class="text-center">{{ column_action }}</th>
+                                  {% endif %}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% if quotation_products %}
+                                {% for key, incoming_shipment in quotation_products %}
+                                <tr>
+                                  <td class="text-left">{{ quotation_info.quotation_id }}</td>
+                                  <td class="text-left">{{ incoming_shipment.product_name }}
+                                    {% for option in incoming_shipment.options %}
+                                    <br />
+                                    &nbsp;<small><i> - {{ option.name }}: {{ option.value }}</i></small>
+                                    {% endfor %}</td>
+                                  <td class="text-left">{{ incoming_shipment.supplier_sku }}</td>
+                                  <td class="text-left">{{ incoming_shipment.schedule_date }}</td>
+                                  <td class="text-center">{{ incoming_shipment.ordered_qty }}</td>
+                                  <td class="text-left">
+                                    {% if incoming_shipment.ordered_qty is same as (incoming_shipment.received_qty) %}
+                                      <div class="text-success" style="font-weight:600;">{{ text_received }}</div>
+                                    {% elseif quotation_info.quotation_status == 5 %}
+                                      <div class="text-danger" style="font-weight:600;"><b>{{ button_cancel }}</b></div>
+                                    {% elseif quotation_info.quotation_status == 4 %}
+                                      <div class="text-warning" style="font-weight:600;">{{ text_completed }}</div>
+                                    {% else %}
+                                      <div class="text-info" style="font-weight:600;">{{ text_ready_to_receive }}</div>
+                                    {% endif %}
+                                  </td>
+                                  {% if quotation_info.quotation_status == 3 %}
+                                  <td class="text-left">
+                                    <a href="{{ incoming_shipment.shipment_print }}" class="btn btn-info" target="_blank" id="print_shipment"  data-toggle="tooltip" title="{{ heading_print_shipment }}" ><i class="fa fa-print" aria-hidden="true"></i> </a>
+                                    {% set myArray = [] %}
+                                    {% for option, getOpt in incoming_shipment.options %}
+                                    {% set getOpt1 = "<br />&nbsp;<small><i> - "~getOpt.name~":"~getOpt.value~"</i></small>" %}
+                                      {% set myArray = myArray|merge([getOpt1]) %}
+                                    {% endfor %}
+                                    {% set myArray = myArray|join(', ') %}
+                                    {% if incoming_shipment.ordered_qty != incoming_shipment.received_qty %}
+                                      <button class="btn btn-warning incoming_shipment_model" data-toggle="modal" data-target="#incoming_shipment" id="{{ incoming_shipment.product_id }}" data-po-productid="{{ incoming_shipment.row_id }}" data-cost="{{ incoming_shipment.ordered_cost }}" data-weight="{{ incoming_shipment.weight }}" data-order-qty="{{ incoming_shipment.ordered_qty }}" data-product-name="{{ incoming_shipment.product_name }}{{ myArray }}" data-schedule-date="{{ incoming_shipment.schedule_date }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> </button>
+                                    {% endif %}
+                                  </td>
+                                  {% endif %}
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                  <tr><td class="text-center" colspan="7">{{ text_no_qty_received }}</td></tr>
+                                {% endif %}
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+            </div><!--po_incoming_shipment-->
+
+          </div><!--tab-content-col-sm-9-->
+        </div><!--Col-sm-9-->
+
+        <div class="modal fade" id="receive_stock" tabindex="-1" role="dialog" aria-labelledby="receiveStockLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body" style="overflow: hidden;">
+                <center><h4 class="modal-title" id="receiveStockLabel" style=" font-size: 20px;font-weight: 600;padding: 15px;">{{ heading_order_id }}</h4>
+                <h3>{{ text_ready_to_received }}</h3></center>
+                  <form action="{{ quantity_received }}" method="post" enctype="multipart/form-data" id="form-receive-quantity" class="form-horizontal col-sm-12">
+
+                  <div class="col-sm-12 form-group">
+                    <div class="col-sm-6 pull-left" style="margin:20px 0;">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_product_name }}:  </label>
+                          <div class="col-sm-6 product_name" style="padding:0px;"></div>
+
+                          <input type="hidden" name="po_product_id" id="po_product_id" value="{{ po_product_id }}" id="po_quotation_id" class="form-control" />
+
+                          <input type="hidden" name="purchase_id" id="received_quote_id" value="{{ purchase_id }}"  class="form-control" />
+
+                          <input type="hidden" name="product_id" value="" id="received_product_id" class="form-control" />
+
+                          <input type="hidden" name="format_purchase_id" value="{{ format_purchase_id }}" id="format_po_id" class="form-control" />
+
+                          <input type="hidden" name="supplier_id" value="{{ supplier_id }}" id="format_po_id" class="form-control" />
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_product_sku }}:  </label>
+                          <div class="col-sm-6 product_sku" style="padding:0px;"></div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6 pull-right" style="margin:20px 0;">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_ordered_qty }}:  </label>
+                          <div class="col-sm-6 ordered_qty" style="padding:0px;"></div>
+                          <input type="hidden" name="ordered_qty" value="" id="received_ordered_qty" class="form-control" />
+                      </div>
+                      <div class="col-sm-12 form-group required" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6 control-label" style="padding:0px;text-align:left;"> {{ column_received_qty }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                            <input type="text" name="received_qty" value="0" id="received_qty" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : (event.charCode == 45 || event.charCode >= 48 && event.charCode <= 57)" class="form-control" />
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group required">
+                      <label class="col-sm-12 control-label" style="padding:0px;text-align:left;"> {{ entry_comment }}:  </label>
+                      <div class="col-sm-12" style="padding:0px;">
+                        <textarea name="comment" id="received_comment" class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn btn-primary" name="receive_quantity"><i class="fa fa-truck" aria-hidden="true"></i> {{ button_receive_now }}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="incoming_shipment" tabindex="-1" role="dialog" aria-labelledby="shipmentStockLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body" style="overflow: hidden;">
+                <center style="box-shadow:5px 5px #ddd;border:1px solid #CCC;"><h4 class="modal-title" id="shipmentStockLabel" style=" font-size: 20px;font-weight: 600;padding: 15px;">{{ heading_order_id }}</h4>
+                <h3>{{ text_manage_shipment }}</h3></center>
+                  <form action="{{ shipment_update }}" method="post" enctype="multipart/form-data" id="form-update-shipment" class="form-horizontal col-sm-12" style="padding: 0px;">
+
+                  <div class="col-sm-12 form-group">
+                    <div class="col-sm-6 pull-left" style="margin:20px 0;padding:5px;">
+                      <div style="font-weight: 600; font-size: 20px;"> {{ heading_incoming_info }}</div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-4" style="padding:0px;"> {{ entry_purchase_id }}:  </label>
+                          <div class="col-sm-8 purchase_order_id" style="padding:0px;"></div>
+                          <input type="hidden" name="purchase_id" id="shipment_quote_id" value="{{ purchase_id }}" id="po_quotation_id" class="form-control" />
+                          <input type="hidden" name="po_product_id" value="" id="po_product_id" class="form-control" />
+                          <input type="hidden" name="product_id" value="" id="shipment_product_id" class="form-control" />
+                          <input type="hidden" name="format_purchase_id" value="{{ format_purchase_id }}" id="format_po_id" class="form-control" />
+                          <input type="hidden" name="supplier_id" value="{{ supplier_id }}" id="format_po_id" class="form-control" />
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-4" style="padding:0px;"> {{ entry_refernce_id }}:  </label>
+                          <div class="col-sm-8 product_refernce_id" style="padding:0px;color:#338fff;"></div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <label class="col-sm-5 control-label" style="padding:0px;text-align:left;"> {{ entry_schedule_date }}:  </label>
+                          <div class="col-sm-7 schedule_date_prev" style="padding:0px;"></div>
+
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 5px;">
+                          <div class="col-sm-12 input-group datetime" style="padding:0px;">
+                              <input type="text" name="schedule_date_next" value="" id="schedule_date_next" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                              </span>
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6 pull-right" style="margin:20px 0;padding:5px;">
+                      <div style="font-weight: 600; font-size: 20px;"> {{ heading_product_info }}</div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_product_name }}:  </label>
+                          <div class="col-sm-6 product_name" style="padding:0px;"></div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_product_weight }}:  </label>
+                          <div class="col-sm-6 product_weight" style="padding:0px;"></div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_price }}:  </label>
+                          <div class="col-sm-6 ordered_cost" style="padding:0px;"></div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_ordered_qty }}:  </label>
+                          <div class="col-sm-6 ordered_qty" style="padding:0px;"></div>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-12 form-group required">
+                      <label class="col-sm-12 control-label" style="padding:0px;text-align:left;"> {{ entry_comment }}:  </label>
+                      <div class="col-sm-12" style="padding:0px;">
+                        <textarea name="shipment_comment" id="shipment_comment" class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer" style="text-align:center;">
+                <button type="submit" class="btn btn-primary" name="update_shipment"><i class="fa fa-truck" aria-hidden="true"></i> {{ button_update_shipment }}</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Close</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {{ footer }}
+</div>
+<script>
+$('.product_update').on('click', function(e){
+  e.preventDefault();
+  $('#content .alert').remove();
+  var productData = [];
+    $(this).parents('tr').find('input').each(function(key, val){
+        productData.push($(val).val());
+    })
+    if(productData.length == 6){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/updateQuotationProducts&user_token={{ user_token }}&quotation_id={{ purchase_id }}',
+          data:     {product_data: productData},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.warning){
+                for(i in json.warning){
+                  $('#panel_order_item_info').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.warning[i] +' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }
+})
+
+$('.datetime').datetimepicker({
+  pickDate: true,
+  pickTime: true
+});
+
+$('.product_delete').on('click', function(e){
+  e.preventDefault();
+  $('#content .alert').remove();
+    var po_product_id = $(this).parents('tr').find('#quotation_po_product_id').val();
+    if(po_product_id){
+        $.ajax({
+          url: 'index.php?route=po_mgmt/po_quotation/removeQuotationProducts&user_token={{ user_token }}',
+            data:     {po_product_id: po_product_id,quotation_id: '{{ purchase_id }}',supplier_id: '{{ supplier_details.supplier_id }}', product_id: product_id},
+          type:     'POST',
+          dataType: 'json',
+          success: function(json) {
+            if(json.warning){
+                for(i in json.warning){
+                  $('#panel_order_item_info').prepend('<div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> '+ json.warning[i] +'<button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+                }
+            }else{
+                if(json.success){
+                  location.reload();
+                }
+            }
+          },
+        });
+    }
+})
+
+var currentValue = $('select[name=\'order_status\']').val();
+var count = 1;
+$('select[name=\'order_status\']').on('change', function(e){
+    e.preventDefault();
+    $('.alert-danger, .alert-success, .alert-warning, .text-danger').remove();
+    var nextValue     = $(this).val();
+
+    if(nextValue < count){
+        $('#order_left_link').parent().prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_wrong_status_selection }}<button type="button" class="close" data-dismiss="alert">&times;</button> </div>');
+    }else{
+      currentValue = nextValue;
+      count = count + 1;
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_quotation/updateQuotationStatus&user_token={{ user_token }}',
+        data:     {quotation_id: '{{ purchase_id }}',supplier_id: '{{ supplier_details.supplier_id }}',status: nextValue},
+        type:     'POST',
+        dataType: 'json',
+        success: function(json) {
+          if(json.warning){
+              $('#order_left_link').parent().prepend('<div class="alert alert-danger">  '+ json.warning +'</div>');
+          }else{
+              if(json.success){
+                location.reload();
+              }
+          }
+        },
+      });
+    }
+})
+$('#cancel_purchase_order').on('click', function(e){
+    e.preventDefault();
+    $.ajax({
+      url: 'index.php?route=po_mgmt/po_quotation/updateQuotationStatus&user_token={{ user_token }}',
+      data:     {quotation_id: '{{ purchase_id }}',supplier_id: '{{ supplier_details.supplier_id }}',status: 5},
+      type:     'POST',
+      dataType: 'json',
+      success: function(json) {
+        if(json.warning){
+            $('#order_left_link').parent().prepend('<div class="alert alert-danger">  '+ json.warning +'</div>');
+        }else{
+            if(json.success){
+              location.reload();
+            }
+        }
+      },
+    });
+})
+$('.ready_to_receive').on('click', function(e){
+    e.preventDefault();
+    var po_product_id   = $(this).attr('id');
+    var product_id      = $(this).data('product-id');
+    var product_name    = $(this).data('product-name');
+    var sku             = $(this).data('sku');
+    var order_qty       = $(this).data('order-qty');
+    $('#form-receive-quantity #po_product_id').val(po_product_id);
+    $('#form-receive-quantity .product_name').html(product_name);
+    $('#form-receive-quantity #received_product_id').val(product_id);
+    $('#form-receive-quantity .product_sku').text(sku);
+    $('#form-receive-quantity .ordered_qty').text(order_qty);
+    $('#form-receive-quantity #received_ordered_qty').val(order_qty);
+})
+
+$('.incoming_shipment_model').on('click', function(e){
+    e.preventDefault();
+    $('#form-update-shipment .text-danger').remove();
+    $('#form-update-shipment #shipment_comment').val('');
+    $('#form-update-shipment #schedule_date_next').val('');
+    var quotation_id    = '{{ quotation_info.quotation_id }}';
+    var refernce_id     = $(this).data('po-productid');
+    var product_id      = $(this).attr('id');
+    var product_name    = $(this).data('product-name');
+    var weight          = $(this).data('weight');
+    var ordered_cost    = $(this).data('cost');
+    var order_qty       = $(this).data('order-qty');
+    var schedule_date   = $(this).data('schedule-date');
+
+    $('#form-update-shipment .purchase_order_id').text(quotation_id);
+    $('#form-update-shipment .product_refernce_id').text(refernce_id);
+    $('#form-update-shipment .schedule_date_prev').text(schedule_date);
+    $('#form-update-shipment #po_product_id').val(refernce_id);
+    $('#form-update-shipment #shipment_product_id').val(product_id);
+    $('#form-update-shipment .product_name').html(product_name);
+    $('#form-update-shipment .product_weight').text(weight);
+    $('#form-update-shipment .ordered_cost').text(ordered_cost);
+    $('#form-update-shipment .ordered_qty').text(order_qty);
+
+    var purchase_id = '{{ purchase_id }}';
+    {% if schedule_date_next %}
+    {% for key, shipment_product_id in schedule_date_next %}
+        var indexPurchase = '{{ key }}';
+        if(purchase_id == indexPurchase){
+          {% for product_id, schedule_date in shipment_product_id %}
+              var shipment_product_id = '{{ product_id }}';
+              if(product_id == shipment_product_id){
+                  var getProductId = $('#form-update-shipment #shipment_product_id').val();
+                  if(getProductId == shipment_product_id){
+                      $('#form-update-shipment #schedule_date_next').val('{{ schedule_date }}');
+                  }
+              }
+          {% endfor %}
+        }
+    {% endfor %}
+    {% endif %}
+    {% if shipment_comment %}
+    {% for key, shipment_product_id in shipment_comment %}
+        var indexPurchase = '{{ key }}';
+        if(purchase_id == indexPurchase){
+          {% for product_id, comment in shipment_product_id %}
+              var shipment_product_id = '{{ product_id }}';
+              if(product_id == shipment_product_id){
+                var getProductId = $('#form-update-shipment #shipment_product_id').val();
+                if(getProductId == shipment_product_id){
+                  $('#form-update-shipment #shipment_comment').val('{{ comment }}');
+                }
+              }
+          {% endfor %}
+        }
+    {% endfor %}
+    {% endif %}
+
+    {% if error_schedule_date %}
+    {% for key, shipment_product_id in error_schedule_date %}
+        var indexPurchase = '{{ key }}';
+        if(purchase_id == indexPurchase){
+          {% for product_id, error_array in shipment_product_id %}
+              var shipment_product_id = '{{ product_id }}';
+              if(product_id == shipment_product_id){
+                  {% for errorIndex, errorMsg in error_array %}
+                    var getProductId = $('#form-update-shipment #shipment_product_id').val();
+                    if(getProductId == shipment_product_id){
+                        var errorIndex = '{{ errorIndex }}';
+                        if(errorIndex == 'error_schedule_date_next'){
+                            $('#form-update-shipment #schedule_date_next').parent().parent().append('<div class="text-danger">{{ errorMsg }}</div>');
+                        }
+                        if(errorIndex == 'error_shipment_comment'){
+                            $('#form-update-shipment #shipment_comment').parent().append('<div class="text-danger">{{ errorMsg }}</div>');
+                        }
+                    }
+                  {% endfor %}
+              }
+          {% endfor %}
+        }
+    {% endfor %}
+  {% endif %}
+})
+
+$('button[name=\'receive_quantity\']').on('click', function(){
+  $('#form-receive-quantity').find('.alert').remove();
+  var ordered_qty     = $('#form-receive-quantity #received_ordered_qty').val();
+  var recevied_qty    = $('#form-receive-quantity #received_qty').val();
+
+  var comment         = $('#form-receive-quantity textarea').val();
+  if((parseInt(recevied_qty) > 0) && (!'/^\d+$/'.recevied_qty)){
+
+    if(parseInt(ordered_qty) < parseInt(recevied_qty)){
+        $('#form-receive-quantity').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_wrong_receive_qty }}</div>');
+    }else{
+        if(comment.length < 5 || comment.length > 500){
+          $('#form-receive-quantity textarea').parent().append('<div class="text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_comment_length }}</div>');
+        }else{
+            $('#form-receive-quantity').trigger('submit');
+        }
+    }
+  }else{
+      $('#form-receive-quantity').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_wrong_receive }}</div>');
+  }
+})
+
+</script>

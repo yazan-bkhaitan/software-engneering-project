@@ -1,0 +1,35 @@
+
+—	php:S1448"}Class "ModelExtensionModuleDeliveryAgent" has 26 methods, which is greater than 20 authorized. Split it into smaller classes.(Ğ·Åşÿÿÿÿ
+Q	php:S1854Ã";Remove this useless assignment to local variable '$amount'.(Ëº‹¯
+i	php:S3776O"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(­Ü·ì
+j	php:S3776´"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(á‚×
+o	php:S3776å"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(˜íëÆıÿÿÿÿ
+o	php:S3776«"TRefactor this function to reduce its Cognitive Complexity from 32 to the 15 allowed.(‹à…øÿÿÿÿ
+‰	php:S1192é"sDefine a constant instead of duplicating this literal "order` o ON (o.order_id = st.order_id) LEFT JOIN `" 4 times.(¬§îÑ
+s	php:S1192ò"]Define a constant instead of duplicating this literal " AND o.order_status_id > '0'" 5 times.(‹‘ù
+l	php:S1192"RDefine a constant instead of duplicating this literal "', commission = '" 3 times.( ‰¦‡ıÿÿÿÿ
+£	php:S1192é"ŒDefine a constant instead of duplicating this literal "deliveryagent` s ON (s.deliveryagent_id = st.deliveryagent_id) WHERE 1 = 1 " 4 times.(¬§îÑ
+x	php:S1192®"]Define a constant instead of duplicating this literal "CREATE TABLE IF NOT EXISTS `" 5 times.(”ºÒªÿÿÿÿÿ
+n	php:S1192­"SDefine a constant instead of duplicating this literal "SHOW TABLES LIKE '" 5 times.(¼¶îüÿÿÿÿ
+~	php:S1192"iDefine a constant instead of duplicating this literal "deliveryagent WHERE deliveryagent_id = '" 4 times.(Š°–Ñ
+m	php:S1192"XDefine a constant instead of duplicating this literal "SELECT DISTINCT * FROM " 3 times.(É»€î
+s	php:S1192ö"]Define a constant instead of duplicating this literal " AND DATE(o.date_added) >= '" 5 times.(ö¸½¥
+€	php:S1192é"jDefine a constant instead of duplicating this literal "deliveryagent_transaction` st LEFT JOIN `" 5 times.(¬§îÑ
+[	php:S1192e"FDefine a constant instead of duplicating this literal " AND " 4 times.(é“ø
+g	php:S1192"MDefine a constant instead of duplicating this literal "INSERT INTO " 4 times.( ‰¦‡ıÿÿÿÿ
+b	php:S1192"MDefine a constant instead of duplicating this literal "DELETE FROM " 4 times.(Š°–Ñ
+b	php:S1192	"HDefine a constant instead of duplicating this literal "UPDATE " 6 times.(°Ãğ°şÿÿÿÿ
+]	php:S1192„"HDefine a constant instead of duplicating this literal " LIMIT " 3 times.(Ï†ßH
+v	php:S1192ğ"[Define a constant instead of duplicating this literal " AND o.order_status_id = '" 5 times.(ñ¬×ùÿÿÿÿ
+x	php:S1192ú"]Define a constant instead of duplicating this literal " AND DATE(o.date_added) <= '" 5 times.(¹€üøùÿÿÿÿ
+x	php:S1192ì"]Define a constant instead of duplicating this literal " AND st.deliveryagent_id = '" 5 times.(í’Áùÿÿÿÿ
+„	php:S1192¦"iDefine a constant instead of duplicating this literal "deliveryagent_timeslots WHERE timeid = '" 3 times.(Ø¢½½üÿÿÿÿ
+9php:S125¬"Remove this commented out code.(µã¹Ÿûÿÿÿÿ
+4php:S125Ã"Remove this commented out code.(üÈå¥
+9php:S125İ"Remove this commented out code.(Ù‚ÅØûÿÿÿÿ
+4php:S125š"Remove this commented out code.(® „
+4php:S125 "Remove this commented out code.(® „
+R	php:S1788Ÿ"<Move arguments "$data" after arguments without default value(à÷Àï
+P	php:S1481"6Remove this unused "$deliveryagent_id" local variable.(ÁÑîïÿÿÿÿÿ
+@	php:S1481"*Remove this unused "$key2" local variable.(öü±Ø
+S	php:S1481µ"8Remove this unused "$deliverydate_query" local variable.(İ—¨Îıÿÿÿÿ

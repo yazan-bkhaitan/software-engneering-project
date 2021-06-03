@@ -1,0 +1,23 @@
+
+8php:S125u"Remove this commented out code.(§Ãøÿÿÿÿ
+p	php:S1192©"UDefine a constant instead of duplicating this literal "product p LEFT JOIN " 3 times.(ÕÇ¯Ùúÿÿÿÿ
+n	php:S3776"TRefactor this function to reduce its Cognitive Complexity from 20 to the 15 allowed.(ëÄá•ÿÿÿÿÿ
+c	php:S1192‘"MDefine a constant instead of duplicating this literal "INSERT INTO " 5 times.(åÍ‰
+’	php:S1192®"wDefine a constant instead of duplicating this literal " WHERE p.product_id NOT IN (SELECT sp.product_id FROM " 3 times.(åôòƒûÿÿÿÿ
+s	php:S1192²"XDefine a constant instead of duplicating this literal " AND sp.supplier_id = '" 4 times.(¨”«üÿÿÿÿ
+y	php:S1488ç"^Immediately return this expression instead of assigning it to the temporary variable "$query".(»û©ûÿÿÿÿ
+D	php:S1481ô")Remove this unused "$key" local variable.(€ÆÄ¤øÿÿÿÿ
+i	php:S1192Ì"NDefine a constant instead of duplicating this literal "DELETE FROM " 11 times.(ğÂªêøÿÿÿÿ
+o	php:S3776¨"TRefactor this function to reduce its Cognitive Complexity from 26 to the 15 allowed.(Ø‰Ö´ÿÿÿÿÿ
+k	php:S1192¢"VDefine a constant instead of duplicating this literal "' AND supplier_id = '" 3 times.(äÅŞ=
+Š	php:S1192®"oDefine a constant instead of duplicating this literal "po_supplier_product sp) AND pd.language_id = '" 3 times.(åôòƒûÿÿÿÿ
+c	php:S1192¬"MDefine a constant instead of duplicating this literal " RIGHT JOIN " 3 times.(ªÍ“
+l	php:S1192º"VDefine a constant instead of duplicating this literal " AND p.product_id = '" 3 times.(»À©¶
+s	php:S1192"YDefine a constant instead of duplicating this literal "po_supplier s LEFT JOIN " 4 times.(ä¬å£ùÿÿÿÿ
+s	php:S1192‹"XDefine a constant instead of duplicating this literal "SELECT DISTINCT * FROM " 3 times.(Óàëûÿÿÿÿ
+”	php:S1192©"yDefine a constant instead of duplicating this literal "product_description pd ON (p.product_id = pd.product_id)" 3 times.(ÕÇ¯Ùúÿÿÿÿ
+c	php:S1192"HDefine a constant instead of duplicating this literal "UPDATE " 3 times.(šòßÊøÿÿÿÿ
+©	php:S1192¬"’Define a constant instead of duplicating this literal "po_supplier_product sp ON (p.product_id = sp.product_id) WHERE pd.language_id = '" 3 times.(ªÍ“
+ 	php:S1192"…Define a constant instead of duplicating this literal "po_supplier_detail sd ON (s.supplier_id = sd.supplier_id) LEFT JOIN " 3 times.(ä¬å£ùÿÿÿÿ
+	php:S1192"vDefine a constant instead of duplicating this literal "country c ON (s.country_id = c.country_id) LEFT JOIN " 3 times.(ä¬å£ùÿÿÿÿ
+t	php:S1488à"^Immediately return this expression instead of assigning it to the temporary variable "$query".(”ºí©

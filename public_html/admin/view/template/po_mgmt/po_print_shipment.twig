@@ -1,0 +1,306 @@
+<div id="content">
+  <link href="view/javascript/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
+  <link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="screen" />
+<style type="text/css">
+  .btn{
+    border-radius: 0;
+  }
+  .tabs-left > .li-format{
+    margin:12px 0;
+    margin-right: -18px;
+    border-left: 3px solid #1978ab;
+    float: none;
+  }
+  .tabs-left > .li-format > a{
+    border-radius: 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .tabs-left > li.active{
+    border-left: 3px solid #E22C5C;
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 1px solid #e8e8e8;
+    border-right: none;
+  }
+  .vertical-step-quotation{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .vertical-step {
+      display: table;
+      width: 50%;
+      height: 300px;
+      position: relative; }
+
+  .vertical-step-line {
+    display: table-row;
+  }
+  .vertical-step-line:before {
+      position: absolute;
+      top: 0px;
+      content: " ";
+      width: 2px;
+      height: 70%;
+      background-color: #ccc; }
+
+  .step-container {
+      display: table-cell;
+      text-align: center;
+      position: relative; left: -9px;
+      z-index: 1;
+      height: 50px;
+    }
+  .quotation-step{
+     background-color: #ccc;
+     border: 2px solid;
+     border-radius: 50%;
+     height: 20px;
+     line-height: 1.42857;
+     width: 20px;
+     content: " ";
+  }
+  .vertical-step-line > span{
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    padding: 5px;
+    width: 20%;
+  }
+</style>
+<div class="container-fluid" style="margin-top: 20px;width:80%">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ text_store_information }}</h3>
+      </div>
+      <div class="panel-body" id="store_info">
+        <div class="col-sm-7">
+          <img src="{{ store_logo }}" alt="{{ config_name }}" class="img-thumbnail" style="border:none" />
+        </div>
+        <div class="col-sm-5" style="text-align: right;font-size:14px;font-weight:600;">
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ text_store_name }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_name }}
+              </div>
+          </div>
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ text_owner_name }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_owner }}
+              </div>
+          </div>
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ text_owner_email }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_email }}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ text_shipment_detail }}</h3></div>
+      <div class="panel-body">
+        {% if quotation_detail %}
+            <div class="row">
+              <div class="col-sm-6">
+                  <div class="panel panel-success">
+                    <div class="panel-heading">
+                      <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_po_details }}</h3>
+                    </div>
+                    <div class="panel-body" id="quotation_summery">
+                        <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                            <label class="col-sm-6" style="padding:0px;"> {{ column_purchase_order_id }}:  </label>
+                            <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                                {{ quotation_detail.po_id }}
+                            </div>
+                        </div>
+                        <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                            <label class="col-sm-6" style="padding:0px;"> {{ entry_status }}:  </label>
+                            <div class="col-sm-6" style="color:#009e8a;font-weight:600;font-size:14px;padding:0px;">
+                                {{ quotation_detail.po_status }}
+                            </div>
+                        </div>
+                        <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                            <label class="col-sm-6" style="padding:0px;"> {{ entry_purchase_date }}:  </label>
+                            <div class="col-sm-6" style="padding:0px;">
+                              {{ quotation_detail.po_date }}
+                            </div>
+                        </div>
+                        {% if quotation_detail.order_details %}
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                                <label class="col-sm-6" style="padding:0px;"> {{ column_oc_order_id }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                                  {{ quotation_detail.order_details.order_id }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                              <label class="col-sm-6" style="padding:0px;"> {{ column_customer_name }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;">
+                                  {{ quotation_detail.order_details.customer_name }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                              <label class="col-sm-6" style="padding:0px;"> {{ column_customer_email }}:  </label>
+                                <div class="col-sm-6" style="padding:0px;">
+                                  {{ quotation_detail.order_details.customer_email }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                              <label> {{ column_customer_address }}:  </label>
+                                <div class="col-sm-12 pull-right alert alert-info">
+                                  {{ quotation_detail.order_details.customer_address }}
+                                </div>
+                            </div>
+                        {% endif %}
+                  </div>
+                </div>
+            </div><!--col-sm-6-->
+            <div class="col-sm-6">
+                <div class="panel panel-success">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_supplier_details }}</h3>
+                  </div>
+                  <div class="panel-body" id="supplier_summery">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_owner_name }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;color:#338fff;">
+                                {{ quotation_detail.supplier_name }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_email }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                            {{ quotation_detail.supplier_email }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_contact }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                            {{ quotation_detail.supplier_telephone }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                        <label>{{ entry_supplier_address }}:-</label>
+                        <div class="col-sm-12 pull-right alert alert-info">
+                          <i class="fa fa-building" aria-hidden="true"></i><b>Company Name:</b> {{ quotation_detail.supplier_company }}<br><br>
+                          <i class="fa fa-map-marker" aria-hidden="true"></i>
+                          {{ quotation_detail.supplier_address }}
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+            </div><!--col-sm-6-->
+          </div><!--row-->
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_shipping_details }}</h3>
+                </div>
+                <div class="panel-body" id="shipping_summery">
+                    <div class="col-sm-6">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_product_name }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                            <img src="{{ quotation_detail.product_detail.product_image }}" alt="{{ quotation_detail.product_detail.product_name }}" class="img-thumbnail" />
+                            <br>
+                            {{ quotation_detail.product_detail.product_name }}
+                            {% if quotation_detail.product_detail.options %}
+                              {% for option in quotation_detail.product_detail.options %}
+                                <br />
+                                &nbsp;<small><i> - {{ option.name }}: {{ option.value }}</i></small>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_product_sku }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                          {{ quotation_detail.product_detail.product_sku }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_ordered_qty }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                          {{ quotation_detail.product_detail.ordered_qty }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_received_qty }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                          {{ quotation_detail.product_detail.received_qty }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ column_ordered_cost }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                          {{ quotation_detail.product_detail.ordered_cost }}
+                          </div>
+                      </div>
+                    </div><!--col-sm-6-->
+
+                    <div class="col-sm-6">
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_by }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                            {{ quotation_detail.shipping_method }}
+                            </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_expected_delivery_date }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;">
+                          {{ quotation_detail.product_detail.expected_date }}
+                          </div>
+                      </div>
+                      <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                          <label class="col-sm-6" style="padding:0px;"> {{ entry_shiping_cost }}:  </label>
+                          <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                          {{ quotation_detail.shipping_cost }}
+                          </div>
+                      </div>
+                    </div><!--col-sm-6-->
+
+                    <div class="col-sm-12" style="margin-top:20px;">
+                        <div class="table-responsive">
+                          <table class="table table-striped table-bordered">
+                              <thead style="color:#338fff;">
+                                <tr>
+                                  <th class="text-left">{{ entry_shipment_id }}</th>
+                                  <th class="text-center">{{ entry_received_qty }}</th>
+                                  <th class="text-left">{{ entry_added_date }}</th>
+                                  <th class="text-left">{{ entry_comment }}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% if quotation_detail.shipment_histories %}
+                                {% for key, shipment in quotation_detail.shipment_histories %}
+                                <tr>
+                                  <td class="text-left">{{ shipment.shipment_id }}</td>
+                                  <td class="text-center">{{ shipment.received_qty }}</td>
+                                  <td class="text-left">{{ shipment.added_date }}</td>
+                                  <td class="text-left">{{ shipment.comment }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                  <tr><td class="text-center" colspan="4">{{ text_no_qty_received }}</td></tr>
+                                {% endif %}
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div><!--col-sm-12-->
+        </div><!--row-->
+        {% endif %}
+    </div>
+  </div>
+
+  </div>
+</div>

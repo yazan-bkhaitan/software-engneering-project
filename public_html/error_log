@@ -1,0 +1,8 @@
+[07-Feb-2021 08:42:26 UTC] PHP Fatal error:  Uncaught Exception: Error: MySQL server has gone away<br />Error No: 2006<br />REPLACE INTO `oc_session` SET session_id = 'e6ecece498e4e945fe56742aea', `data` = '{\"language\":\"ar\",\"currency\":\"USD\"}', expire = '2021-02-07 09:42:26' in /home4/teleptkr/public_html/system/library/db/mysqli.php:40
+Stack trace:
+#0 /home4/teleptkr/storage/modification/system/library/db.php(55): DB\MySQLi->query('REPLACE INTO `o...')
+#1 /home4/teleptkr/public_html/system/library/session/db.php(32): DB->query('REPLACE INTO `o...')
+#2 /home4/teleptkr/public_html/system/library/session.php(81): Session\DB->write('e6ecece498e4e94...', Array)
+#3 [internal function]: Session->close()
+#4 {main}
+  thrown in /home4/teleptkr/public_html/system/library/db/mysqli.php on line 40

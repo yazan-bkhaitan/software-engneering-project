@@ -1,0 +1,6 @@
+
+m	php:S1192ž"RDefine a constant instead of duplicating this literal "report/statistics" 3 times.(éŸŸÈøÿÿÿÿ
+‰php:S138"uThis function "index" has 586 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(Îò±ì
+j	php:S3776"URefactor this function to reduce its Cognitive Complexity from 161 to the 15 allowed.(Îò±ì
+b	php:S1192"MDefine a constant instead of duplicating this literal "user_token=" 59 times.(¿•Ë¶
+a	php:S1192†"KDefine a constant instead of duplicating this literal "sale/order" 3 times.(ä˜ÞÄ

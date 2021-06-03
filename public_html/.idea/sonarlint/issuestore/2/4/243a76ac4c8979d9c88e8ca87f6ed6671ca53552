@@ -1,0 +1,9 @@
+
+n	php:S3776q"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(‰ı«şÿÿÿÿ
+o	php:S3776ú"TRefactor this function to reduce its Cognitive Complexity from 52 to the 15 allowed.(ûƒåüüÿÿÿÿ
+o	php:S3776¨"TRefactor this function to reduce its Cognitive Complexity from 30 to the 15 allowed.(Œ«—úÿÿÿÿ
+b	php:S1192)"MDefine a constant instead of duplicating this literal "user_token=" 17 times.(áŞÛ£
+e	php:S1192"KDefine a constant instead of duplicating this literal "user/user" 20 times.(Ê´‹íøÿÿÿÿ
+a	php:S1192&"GDefine a constant instead of duplicating this literal "&page=" 6 times.(óÑšÈüÿÿÿÿ
+\	php:S1192"GDefine a constant instead of duplicating this literal "&sort=" 6 times.(á©ˆœ
+b	php:S1192""HDefine a constant instead of duplicating this literal "&order=" 6 times.(àÜ“˜şÿÿÿÿ

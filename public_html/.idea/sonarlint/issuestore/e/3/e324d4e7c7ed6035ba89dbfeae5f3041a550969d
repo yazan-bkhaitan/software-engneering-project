@@ -1,0 +1,40 @@
+
+Œ	php:S1192‡"qDefine a constant instead of duplicating this literal "</td><td style="padding:10px;text-align: left;">" 4 times.(ƒì¨­øÿÿÿÿ
+y	php:S1488ƒ"^Immediately return this expression instead of assigning it to the temporary variable "$query".(¨óÖöıÿÿÿÿ
+t	php:S1192’"YDefine a constant instead of duplicating this literal "</td></tr></table></div>" 3 times.(Õ÷ëÿÿÿÿÿ
+c	php:S1192ƒ"MDefine a constant instead of duplicating this literal "Asia/Kolkata" 3 times.(®Áõí
+h	php:S1192‚"MDefine a constant instead of duplicating this literal "DELETE FROM " 7 times.(³ ±¿ùÿÿÿÿ
+o	php:S1192"ZDefine a constant instead of duplicating this literal "po_quotation q LEFT JOIN " 3 times.(´€˜
+	php:S1192}"sDefine a constant instead of duplicating this literal "po_quotation_product_option WHERE quotation_id = '" 3 times.(à’µıÿÿÿÿ
+u	php:S1192ß"ZDefine a constant instead of duplicating this literal "<br />&nbsp;<small><i> - " 4 times.(®¶ˆôüÿÿÿÿ
+s	php:S1488ú"^Immediately return this expression instead of assigning it to the temporary variable "$query".(âşék
+©	php:S1192"“Define a constant instead of duplicating this literal "po_supplier_detail sd ON (q.supplier_id = sd.supplier_id) WHERE sd.language_id = '" 3 times.(´€˜
+j	php:S3776‚"TRefactor this function to reduce its Cognitive Complexity from 43 to the 15 allowed.(·û†Ê
+t	php:S1488ì"^Immediately return this expression instead of assigning it to the temporary variable "$query".(‰ËÒ
+D	php:S1481")Remove this unused "$key" local variable.(­Š•üÿÿÿÿ
+x	php:S1192w"cDefine a constant instead of duplicating this literal "po_quotation_product qp LEFT JOIN " 3 times.(ğßªŞ
+m	php:S1192‚"XDefine a constant instead of duplicating this literal "' AND `supplier_id` = '" 3 times.(ø}
+D	php:S1481Ò")Remove this unused "$key" local variable.(«Ã…äúÿÿÿÿ
+g	php:S1192¢"QDefine a constant instead of duplicating this literal "po_mgmt/po_email" 5 times.( öÌÄ
+i	php:S3776"TRefactor this function to reduce its Cognitive Complexity from 19 to the 15 allowed.(ì„ŸÆ
+v	php:S1192ç"`Define a constant instead of duplicating this literal "</td><td style="padding:10px;">" 7 times.(ÉÌ
+t	php:S1488ó"^Immediately return this expression instead of assigning it to the temporary variable "$query".(›œŒ
+\	php:S1192D"HDefine a constant instead of duplicating this literal " LIMIT " 3 times.(Ï†ßH
+h	php:S1192ß"MDefine a constant instead of duplicating this literal "</i></small>" 4 times.(®¶ˆôüÿÿÿÿ
+h	php:S1192"NDefine a constant instead of duplicating this literal " AND q.id = '" 4 times.(ƒ»Ş—úÿÿÿÿ
+D	php:S1656".Remove or correct this useless self-assignment(Á×š
+b	php:S1192‘"MDefine a constant instead of duplicating this literal "', `tax` = '" 3 times.(¢
+j	php:S3776Å"URefactor this function to reduce its Cognitive Complexity from 122 to the 15 allowed.(°®¾j
+h	php:S1192†"MDefine a constant instead of duplicating this literal "INSERT INTO " 8 times.(·¯ôôúÿÿÿÿ
+j	php:S3776ˆ"TRefactor this function to reduce its Cognitive Complexity from 32 to the 15 allowed.(Ö°ôû
+h	php:S1192‘"SDefine a constant instead of duplicating this literal "', `sub_total` = '" 4 times.(¢
+l	php:S1192"ODefine a constant instead of duplicating this literal "' WHERE id = '" 3 times.(øÓ¤8…Ş¹øø.
+t	php:S1488w"_Immediately return this expression instead of assigning it to the temporary variable "$result".(ğßªŞ
+j	php:S1192‘"UDefine a constant instead of duplicating this literal "', `ordered_qty` = '" 3 times.(¢
+D	php:S1481é")Remove this unused "$key" local variable.(«Ã…äúÿÿÿÿ
+D	php:S1481Ö")Remove this unused "$key" local variable.(Ñ±åûÿÿÿÿ
+I	php:S1481Ã"4Remove this unused "$quotation_info" local variable.(»æ«
+‘	php:S1192"|Define a constant instead of duplicating this literal "po_supplier s ON (q.supplier_id = s.supplier_id) LEFT JOIN " 3 times.(´€˜
+e	php:S1192"HDefine a constant instead of duplicating this literal "UPDATE " 7 times.(øÓ¤8éÁ¹øø.
+u	php:S1192ç"_Define a constant instead of duplicating this literal "<tr><td style="padding:10px;">" 3 times.(ÉÌ
+b	php:S1192„"LDefine a constant instead of duplicating this literal "Y-m-d H:i:s" 3 times.(éî‘…

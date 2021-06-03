@@ -1,0 +1,346 @@
+<div id="content">
+  <link href="view/javascript/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
+  <link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="screen" />
+<style type="text/css">
+  .btn{
+    border-radius: 0;
+  }
+  .tabs-left > .li-format{
+    margin:12px 0;
+    margin-right: -18px;
+    border-left: 3px solid #1978ab;
+    float: none;
+  }
+  .tabs-left > .li-format > a{
+    border-radius: 0;
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .tabs-left > li.active{
+    border-left: 3px solid #E22C5C;
+  }
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+    border-bottom: 1px solid #e8e8e8;
+    border-right: none;
+  }
+  .vertical-step-quotation{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  .vertical-step {
+      display: table;
+      width: 50%;
+      height: 300px;
+      position: relative; }
+
+  .vertical-step-line {
+    display: table-row;
+  }
+  .vertical-step-line:before {
+      position: absolute;
+      top: 0px;
+      content: " ";
+      width: 2px;
+      height: 70%;
+      background-color: #ccc; }
+
+  .step-container {
+      display: table-cell;
+      text-align: center;}}
+      position: relative; left: -9px;
+      z-index: 1;
+      height: 50px;
+    }
+  .quotation-step{
+     background-color: #ccc;
+     border: 2px solid;
+     border-radius: 50%;
+     height: 20px;
+     line-height: 1.42857;
+     width: 20px;
+     content: " ";
+  }
+  .vertical-step-line > span{
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    padding: 5px;
+    width: 20%;
+  }
+</style>
+<div class="container-fluid" style="margin-top: 20px;width:80%">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> Store Information</h3>
+      </div>
+      <div class="panel-body" id="store_info">
+        <div class="col-sm-7">
+          <img src="{{ store_logo }}" alt="{{ config_name }}" class="img-thumbnail" style="border:none" />
+        </div>
+        <div class="col-sm-5" style="text-align: right;font-size:14px;font-weight:600;">
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ "Store Name: " }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_name }}
+              </div>
+          </div>
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ "Owner Name: " }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_owner }}
+              </div>
+          </div>
+          <div class="col-sm-12 form-group" style="padding: 5px 0px;">
+              <label class="col-sm-4" style="padding:0px;"> {{ "Email Address: " }}</label>
+              <div class="col-sm-8" style="padding:0px;">
+                {{ config_email }}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ heading_title }}</h3></div>
+      <div class="panel-body">
+
+        <div class="row">
+          <div class="col-sm-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_po_details }}</h3>
+                </div>
+                <div class="panel-body" id="quotation_summery">
+                    <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                        <label class="col-sm-6" style="padding:0px;"> {{ column_purchase_order_id }}:  </label>
+                        <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                            {{ '#'~quotation_info.quotation_id }}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                        <label class="col-sm-6" style="padding:0px;"> {{ entry_purchase_date }}:  </label>
+                        <div class="col-sm-6" style="padding:0px;">
+                          {{ purchase_date }}
+                        </div>
+                    </div>
+                    <!-- <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                        <label class="col-sm-6" style="padding:0px;"> {{ entry_submitted_by }}:  </label>
+                        <div class="col-sm-6" style="padding:0px;">
+                          {{ 'Manual' }}
+                        </div>
+                    </div> -->
+                    <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                        <label class="col-sm-6" style="padding:0px;"> {{ entry_order_status }}:  </label>
+                        <div class="col-sm-6" style="padding:0px;">
+                          {% if quotation_info.quotation_status == 5 %}
+                            <div style="color:#FF0000;font-weight:600;font-size:14px;">{{ quotation_status.quotation_info.quotation_status }}</div>
+                          {% else %}
+                            <div style="color:#009e8a;font-weight:600;font-size:14px;">{% if quotation_status[quotation_info.quotation_status] %}{{ quotation_status[quotation_info.quotation_status] }}{% else %}{{ 'N/A' }}{% endif %}</div>
+                          {% endif %}
+                        </div>
+                    </div>
+
+              </div>
+            </div>
+        </div><!--col-sm-6-->
+        <div class="col-sm-6">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_supplier_details }}</h3>
+              </div>
+              <div class="panel-body" id="supplier_summery">
+                  <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_owner_name }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;color:#338fff;">
+                            {{ supplier_details.owner_name }}
+                      </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_email }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;">
+                        {{ supplier_details.email }}
+                      </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_supplierinfo_contact }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;">
+                        {{ supplier_details.telephone }}
+                      </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                    <label>{{ entry_supplier_address }}:-</label>
+                    <div class="col-sm-12 pull-right alert alert-info">
+                      <i class="fa fa-building" aria-hidden="true"></i> {{ supplier_details.company_name }}<br><br>
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      {{ supplier_details.address~', '~supplier_details.postcode }}
+                    </div>
+                  </div>
+
+            </div>
+          </div>
+        </div><!--col-sm-6-->
+      </div><!--row-->
+
+      <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_shipping_details }}</h3>
+              </div>
+              <div class="panel-body" id="shipping_summery">
+                  <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_by }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                        {{ quotation_info.shipping_method }}
+                        </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_shipment_start_date }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;">
+                      {{ quotation_info.shipping_start_date ? quotation_info.shipping_start_date : 'N/A' }}
+                      </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_expected_delivery_date }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;">
+                      {{ quotation_info.shipping_expected_date ? quotation_info.shipping_expected_date : 'N/A' }}
+                      </div>
+                  </div>
+                  <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                      <label class="col-sm-6" style="padding:0px;"> {{ entry_shiping_cost }}:  </label>
+                      <div class="col-sm-6" style="padding:0px;font-weight: 600;font-size: 15px;color: #FF3C00;">
+                      {{ quotation_info.shipping_cost_formatted }}
+                      </div>
+                  </div>
+
+            </div>
+          </div>
+      </div><!--col-sm-6-->
+      <div class="col-sm-6">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> {{ tab_other_details }}</h3>
+            </div>
+            <div class="panel-body" id="other_summery">
+                <div class="col-sm-12 form-group" style="padding: 0px 5px 5px 25px;">
+                    <label class="col-sm-6" style="padding:0px;"> {{ entry_payment_mode }}:  </label>
+                    <div class="col-sm-6" style="padding:0px;font-weight:600;color:#338fff;">
+                      {{ quotation_info.payment_term }}
+                    </div>
+                </div>
+                <div class="col-sm-12 form-group" style="padding: 10px 5px 5px 25px;">
+                    <label class="col-sm-6" style="padding:0px;"> {{ entry_order_source }}:  </label>
+                    <div class="col-sm-6" style="padding:0px;">
+                    {{ quotation_info.order_source ? quotation_info.order_source|capitalize : 'N/A' }}
+                    </div>
+                </div>
+
+          </div>
+        </div>
+      </div><!--col-sm-6-->
+    </div><!--row-->
+
+    <div class="row">
+      <div class="col-sm-12">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-th-list" aria-hidden="true"></i> {{ panel_ordered_product }}</h3>
+            </div>
+            <div class="panel-body" id="panel_order_item_info">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td class="text-left">{{ column_image }}</td>
+                        <td class="text-left">{{ column_product_name }}</td>
+                        <td class="text-left">{{ column_supplier_sku }}</td>
+                        <td class="text-center">{{ column_ordered_cost~' ('~currency_symbol~')' }}</td>
+                        <td class="text-center" style="width: 12%;">
+                          {% if quotation_info.quotation_status == 2 %}
+                             {{ column_ordered_qty }}
+                          {% else %}
+                             {{ column_quantity }}
+                          {% endif %}
+                        </td>
+                        <td class="text-center">{{ text_tax_per }}</td>
+                        <td class="text-center">{{ column_sub_total }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if quotation_products %}
+                      {% for key, quote_product in quotation_products %}
+                      <tr>
+                        <td class="text-center">
+                          <img src="{{ quote_product.image }}" alt="{{ quote_product.product_name }}" class="img-thumbnail" />
+                        <td class="text-left">{{ quote_product.product_name }}
+                          {% for option in quote_product.options %}
+                          <br />
+                          {% if option.type != 'file' %}
+                          &nbsp;<small><i> - {{ option.name }}: {{ option.value }}</i></small>
+                          {% else %}
+                          &nbsp;<small><i> - {{ option.name }}: <a href="{{ option.href }}">{{ option.value }}</a></i></small>
+                          {% endif %}
+                          {% endfor %}
+                          <p><i> {{ text_weight }}</i>{{ quote_product.weight }}</p>
+                        </td>
+                        <td class="text-left">{{ quote_product.supplier_sku }}</td>
+                        <td class="text-center">
+                          <b>{{ quote_product.ordered_cost ? quote_product.ordered_cost : '0.00' }}</b>
+                          </td>
+                        <td class="text-center">
+                          <b>{{ entry_ordered~quote_product.ordered_qty }}<br>
+                            {{ entry_received~quote_product.received_qty }}</b>
+                          </td>
+                        <td class="text-center">
+                          <b>{{ quote_product.tax_rate }}</b>
+                          </td>
+                        <td class="text-center"><b>{{ quote_product.sub_total }}</b></td>
+                      </tr>
+                      {% endfor %}
+                       {% else %}
+                      <tr>
+                        <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                      </tr>
+                      {% endif %}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6 pull-right">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title"><i class="fa fa-file-text" aria-hidden="true"></i> {{ panel_total_info }}</h3>
+              <span style="float: right;font-weight: 600; font-size: 15px;color: #FF3C00;">
+                {{ totals.grand.text }}</span>
+            </div>
+            <div class="panel-body" id="panel_total_info">
+
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <tbody>
+                      {% for key, total in totals %}
+                      <tr>
+                        <th class="text-right" scope="row">{{ total.title~'  :' }}</th>
+                        <td class="text-right">{{ total.text }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+
+            </div>
+          </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+  </div>
+</div>

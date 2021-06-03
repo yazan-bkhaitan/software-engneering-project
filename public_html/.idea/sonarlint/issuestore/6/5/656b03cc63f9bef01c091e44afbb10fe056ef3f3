@@ -1,0 +1,20 @@
+
+H	php:S1172–"-Remove the unused function parameter "$type".(õþ‰Úÿÿÿÿÿ
+H	php:S1172Œ"-Remove the unused function parameter "$type".(éôò¦þÿÿÿÿ
+a	php:S1940Þ"FUse the opposite operator '<=' instead and remove complement operator.(ôöë¤ûÿÿÿÿ
+G	php:S1144¢",Remove this unused private "getslug" method.(±´æ¨ûÿÿÿÿ
+i	php:S3776Ÿ"TRefactor this function to reduce its Cognitive Complexity from 36 to the 15 allowed.(³—Â$
+M	php:S1155Û"7Use empty() to check whether the array is empty or not.(¼ðîç
+a	php:S1192¥"FDefine a constant instead of duplicating this literal " AND " 5 times.(ªÇÞ‡üÿÿÿÿ
+a	php:S1192£"KDefine a constant instead of duplicating this literal "WHERE 1=1 " 4 times.(¶¢¦´
+v	php:S1488ß"`Immediately return this expression instead of assigning it to the temporary variable "$mapping".(ü±þÓ
+y	php:S1488"cImmediately return this expression instead of assigning it to the temporary variable "$attributes".(“‰Ö¡
+y	php:S1488—"^Immediately return this expression instead of assigning it to the temporary variable "$index".(…ž‰Òûÿÿÿÿ
+@	php:S1481Þ"*Remove this unused "$type" local variable.(Õí
+I	php:S1481‰".Remove this unused "$response" local variable.(±Î‹Çúÿÿÿÿ
+J	php:S1481ü"/Remove this unused "$languages" local variable.(­¨±¡ûÿÿÿÿ
+G	php:S1481ç",Remove this unused "$return" local variable.(ÑÎÄúùÿÿÿÿ
+D	php:S1481è")Remove this unused "$key" local variable.(Íç¤Þýÿÿÿÿ
+“php:S138"This function "getIndexMapping" has 202 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(ƒ•øê
+7	php:S1116Î"Remove this empty statement.(Åñ­õþÿÿÿÿ
+Qphp:S131í"7Add a "case default" clause to this "switch" statement.(ÍÊž—üÿÿÿÿ

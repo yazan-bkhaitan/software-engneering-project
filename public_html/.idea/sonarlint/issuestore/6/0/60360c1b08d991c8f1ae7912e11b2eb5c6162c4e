@@ -1,0 +1,44 @@
+
+‰	php:S1192»"gDefine a constant instead of duplicating this literal "product_to_layout WHERE product_id = '" 3 times.(¿ÉºÆşÿÿÿÿ8ò¦¤ùø.
+†	php:S1192¤"dDefine a constant instead of duplicating this literal "product_reward WHERE product_id = '" 3 times.(á¦˜¼ûÿÿÿÿ8ò¦¤ùø.
+‚	php:S1192É"`Define a constant instead of duplicating this literal "SELECT COUNT(*) AS total FROM " 10 times.(Ş÷­ñıÿÿÿÿ8ò¦¤ùø.
+ˆ	php:S1192$"gDefine a constant instead of duplicating this literal "product_attribute WHERE product_id = '" 7 times.(Õ­µ«úÿÿÿÿ8ò¦¤ùø.
+u	php:S1192I"YDefine a constant instead of duplicating this literal "', customer_group_id = '" 6 times.(—¶¸¹8ò¦¤ùø.
+	php:S1448"oClass "ModelCatalogProduct" has 34 methods, which is greater than 20 authorized. Split it into smaller classes.(‡ÕÃıÿÿÿÿ8ò¦¤ùø.
+„	php:S1192n"cDefine a constant instead of duplicating this literal "product_related SET product_id = '" 4 times.(€µŸ¿üÿÿÿÿ8ò¦¤ùø.
+v	php:S3776„"TRefactor this function to reduce its Cognitive Complexity from 23 to the 15 allowed.(æ§ØÔøÿÿÿÿ8ò¦¤ùø.
+†	php:S1192m"eDefine a constant instead of duplicating this literal "product_related WHERE product_id = '" 7 times.(„Õ¶ÿÿÿÿÿ8ò¦¤ùø.
+n	php:S1192U"RDefine a constant instead of duplicating this literal "', sort_order = '" 3 times.(ášğ¾8ò¦¤ùø.
+‹	php:S1192¨"iDefine a constant instead of duplicating this literal "product_description WHERE product_id = '" 3 times.(¹„·Õüÿÿÿÿ8ò¦¤ùø.
+r	php:S1192…"PDefine a constant instead of duplicating this literal "SELECT * FROM " 16 times.(ÁÒ³îùÿÿÿÿ8ò¦¤ùø.
+n	php:S1192I"RDefine a constant instead of duplicating this literal "', date_start = '" 4 times.(—¶¸¹8ò¦¤ùø.
+q	php:S1192"PDefine a constant instead of duplicating this literal "', quantity = '" 5 times.( ÑœÜÿÿÿÿÿ8ò¦¤ùø.
+	php:S1192"dDefine a constant instead of duplicating this literal "product_filter WHERE product_id = '" 3 times.(¿£Ç˜8ò¦¤ùø.
+‚	php:S1192®"fDefine a constant instead of duplicating this literal "product_to_store WHERE product_id = '" 3 times.(İÌz8ò¦¤ùø.
+r	php:S1192ÿ"UDefine a constant instead of duplicating this literal "product p LEFT JOIN " 4 times.(¥›¼÷8ò¦¤ùø.
+q	php:S1192"PDefine a constant instead of duplicating this literal "', store_id = '" 4 times.(º€—“ùÿÿÿÿ8ò¦¤ùø.
+o	php:S1192"NDefine a constant instead of duplicating this literal "', weight = '" 4 times.(çÎÈÓüÿÿÿÿ8ò¦¤ùø.
+q	php:S1192"PDefine a constant instead of duplicating this literal "', subtract = '" 4 times.(ğè½Çüÿÿÿÿ8ò¦¤ùø.
+u	php:S3776"TRefactor this function to reduce its Cognitive Complexity from 77 to the 15 allowed.(„¦¡ùÿÿÿÿ8ò¦¤ùø.
+‹	php:S1192ˆ"iDefine a constant instead of duplicating this literal "product_to_category WHERE product_id = '" 3 times.(½‘¿üÿÿÿÿ8ò¦¤ùø.
+€	php:S1192¯"cDefine a constant instead of duplicating this literal "seo_url WHERE query = 'product_id=" 3 times.(èÄÏ8ò¦¤ùø.
+v	php:S3776—"TRefactor this function to reduce its Cognitive Complexity from 77 to the 15 allowed.(ïÇŒŞüÿÿÿÿ8ò¦¤ùø.
+†	php:S1192€"iDefine a constant instead of duplicating this literal "product_to_download WHERE product_id = '" 3 times.(Ù”šñ8ò¦¤ùø.
+j	php:S1192"NDefine a constant instead of duplicating this literal "INSERT INTO " 37 times.(úğúª8ò¦¤ùø.
+o	php:S1192$"NDefine a constant instead of duplicating this literal "DELETE FROM " 44 times.(Õ­µ«úÿÿÿÿ8ò¦¤ùø.
+l	php:S11923"PDefine a constant instead of duplicating this literal "', required = '" 4 times.(üŞ¬—8ò¦¤ùø.
+l	php:S1192I"PDefine a constant instead of duplicating this literal "', date_end = '" 4 times.(—¶¸¹8ò¦¤ùø.
+s	php:S1192n"RDefine a constant instead of duplicating this literal "', related_id = '" 4 times.(€µŸ¿üÿÿÿÿ8ò¦¤ùø.
+h	php:S1192
+"MDefine a constant instead of duplicating this literal "', price = '" 7 times.(‡èÇ8ò¦¤ùø.
+l	php:S1192I"PDefine a constant instead of duplicating this literal "', priority = '" 4 times.(—¶¸¹8ò¦¤ùø.
+‚	php:S1192è"fDefine a constant instead of duplicating this literal "product_discount WHERE product_id = '" 3 times.(ÀÒf8ò¦¤ùø.
+x	php:S1192$"WDefine a constant instead of duplicating this literal "' AND attribute_id = '" 4 times.(Õ­µ«úÿÿÿÿ8ò¦¤ùø.
+i	php:S1192"HDefine a constant instead of duplicating this literal "UPDATE " 3 times.(“ıëÌüÿÿÿÿ8ò¦¤ùø.
+n	php:S11928"RDefine a constant instead of duplicating this literal "', product_id = '" 4 times.(ıöìÑ8ò¦¤ùø.
+v	php:S1192m"UDefine a constant instead of duplicating this literal "' AND related_id = '" 4 times.(„Õ¶ÿÿÿÿÿ8ò¦¤ùø.
+n	php:S1192"SDefine a constant instead of duplicating this literal "', language_id = '" 6 times.(ª¢Ûe8ò¦¤ùø.
+m	php:S11923"QDefine a constant instead of duplicating this literal "', option_id = '" 6 times.(üŞ¬—8ò¦¤ùø.
+‡	php:S1192ğ"eDefine a constant instead of duplicating this literal "product_special WHERE product_id = '" 3 times.(Ìí¿®ıÿÿÿÿ8ò¦¤ùø.
+…	php:S1192ø"cDefine a constant instead of duplicating this literal "product_image WHERE product_id = '" 3 times.(†êÙĞşÿÿÿÿ8ò¦¤ùø.
+o	php:S1192"NDefine a constant instead of duplicating this literal "', points = '" 6 times.(çÎÈÓüÿÿÿÿ8ò¦¤ùø.

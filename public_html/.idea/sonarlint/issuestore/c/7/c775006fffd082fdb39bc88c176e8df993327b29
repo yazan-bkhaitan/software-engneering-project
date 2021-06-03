@@ -1,0 +1,41 @@
+
+p	php:S1192ö"NDefine a constant instead of duplicating this literal "common/footer" 6 times.(Áİ‰­ûÿÿÿÿ8ÛÀ€äù.
+{	php:S1192Ñ"YDefine a constant instead of duplicating this literal "&filter_order_status_id=" 5 times.(ª¡ù­ùÿÿÿÿ8½ßœåù.
+q	php:S3776Š"TRefactor this function to reduce its Cognitive Complexity from 65 to the 15 allowed.(œäëØ8½ßœåù.
+v	php:S3776‘"TRefactor this function to reduce its Cognitive Complexity from 25 to the 15 allowed.(…å¼øıÿÿÿÿ8½ßœåù.
+	php:S1192"`Define a constant instead of duplicating this literal "extension/module/deliveryagent" 44 times.(š¾»îùÿÿÿÿ8ÛÀ€äù.
+’php:S138c"wThis function "getList" has 265 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(ûñ¿¸8„˜Ñäù.
+i	php:S1192 "HDefine a constant instead of duplicating this literal "&order=" 8 times.(àÜ“˜şÿÿÿÿ8ÛÀ€äù.
+q	php:S1192Ô"ODefine a constant instead of duplicating this literal "&filter_total=" 3 times.(á¤¢²ÿÿÿÿÿ8½ßœåù.
+k	php:S1192ô"NDefine a constant instead of duplicating this literal "common/header" 6 times.(±ğÌ›8½ßœåù.
+\	php:S5527Æ"?Enable server hostname verification on this SSL/TLS connection.(ú¦ãò8„˜Ñäù.
+k	php:S1192"ODefine a constant instead of duplicating this literal "&filter_email=" 7 times.(²©ÇÁ8ÛÀ€äù.
+o	php:S1192Ë"RDefine a constant instead of duplicating this literal "&filter_customer=" 3 times.(¦¢ü®8½ßœåù.
+\	php:S5527£"?Enable server hostname verification on this SSL/TLS connection.(…¤úº8„˜Ñäù.
+v	php:S1192×"TDefine a constant instead of duplicating this literal "&filter_date_added=" 3 times.(˜¢úüÿÿÿÿ8½ßœåù.
+n	php:S1192%"MDefine a constant instead of duplicating this literal "user_token=" 55 times.(¸»ú´ıÿÿÿÿ8ÛÀ€äù.
+j	php:S1192ã"MDefine a constant instead of duplicating this literal "&page={page}" 3 times.(Üíä¾8½ßœåù.
+y	php:S1192İ"WDefine a constant instead of duplicating this literal "&filter_delivery_time=" 3 times.(Ë¬ˆ™ùÿÿÿÿ8½ßœåù.
+j	php:S1192"NDefine a constant instead of duplicating this literal "&filter_name=" 7 times.(Íä­Š8ÛÀ€äù.
+c	php:S1192"GDefine a constant instead of duplicating this literal "&sort=" 8 times.(á©ˆœ8ÛÀ€äù.
+•php:S138Š"yThis function "getReport" has 271 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(œäëØ8½ßœåù.
+w	php:S1192é"ZDefine a constant instead of duplicating this literal "localisation/order_status" 3 times.(¶€°Ì8½ßœåù.
+h	php:S1192#"GDefine a constant instead of duplicating this literal "&page=" 9 times.(óÑšÈüÿÿÿÿ8ÛÀ€äù.
+“	php:S1192ğ"qDefine a constant instead of duplicating this literal "extension/module/deliveryagent/transactionreport" 3 times.(Ó³şÆÿÿÿÿÿ8ÛÀ€äù.
+b	php:S1126„"EReplace this "if-then-else" statement by a single "return" statement.(ñØéÚ8½ßœåù.
+]	php:S4830Ç"@Enable server certificate validation on this SSL/TLS connection.(ÚóÀ›8½ßœåù.
+q	php:S3776Æ"TRefactor this function to reduce its Cognitive Complexity from 22 to the 15 allowed.(ŞùÆ¨8½ßœåù.
+o	php:S1871×"MThis branch's code block is the same as the block for the branch on line 341.(£¢Èìùÿÿÿÿ8½ßœåù.
+p	php:S3776c"TRefactor this function to reduce its Cognitive Complexity from 87 to the 15 allowed.(ûñ¿¸8ÛÀ€äù.
+y	php:S1192Ú"WDefine a constant instead of duplicating this literal "&filter_date_modified=" 3 times.(ëû¬´ùÿÿÿÿ8½ßœåù.
+o	php:S1192È"RDefine a constant instead of duplicating this literal "&filter_order_id=" 3 times.(€¦Ô¦8½ßœåù.
+]	php:S4830¤"@Enable server certificate validation on this SSL/TLS connection.(Ïø‘Ë8½ßœåù.
+	php:S1192î"kDefine a constant instead of duplicating this literal "extension/module/deliveryagent/getTimeList" 7 times.(ƒ—À¦ıÿÿÿÿ8½ßœåù.
+Œ	php:S1192ï"jDefine a constant instead of duplicating this literal "extension/module/deliveryagent/getReport" 10 times.(ÓÌ¯áÿÿÿÿÿ8ÛÀ€äù.
+Ÿ	php:S1448"‚Class "ControllerExtensionModuleDeliveryAgent" has 21 methods, which is greater than 20 authorized. Split it into smaller classes.(ùœå8ÛÀ€äù.
+u	php:S1192õ"SDefine a constant instead of duplicating this literal "common/column_left" 6 times.(·ÁÇìúÿÿÿÿ8ÛÀ€äù.
+s	php:S1192Î"VDefine a constant instead of duplicating this literal "&filter_order_status=" 3 times.(Şíœœ8½ßœåù.
+“php:S138í"wThis function "getForm" has 164 lines, which is greater than the 150 lines authorized. Split it into smaller functions.(ÆÉğ¢8½ßœåù.
+q	php:S3776í"TRefactor this function to reduce its Cognitive Complexity from 60 to the 15 allowed.(ÆÉğ¢8¼ßœåù.
+s	php:S1192‘"QDefine a constant instead of duplicating this literal "common/dashboard" 3 times.(Î¼¦âûÿÿÿÿ8ÛÀ€äù.
+b	php:S1126À"EReplace this "if-then-else" statement by a single "return" statement.(ñØéÚ8½ßœåù.

@@ -1,0 +1,217 @@
+{{ header }}{{ column_left }}
+<div id="content" class="supplier_mgmt">
+  <style>
+    .btn{
+      border-radius: 0;
+    }
+  </style>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <a href="{{ add }}" data-toggle="tooltip" title="{{ button_create_quotation }}" class="btn btn-primary"><i class="fa fa-plus"></i> {{ button_create_quotation }}</a>
+        <!-- <button type="button" data-toggle="tooltip" title="{{ button_export_quotation }}" class="btn btn-warning" ><i class="fa fa-upload" aria-hidden="true"></i> {{ button_export_quotation }}</button> -->
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>{{ heading_title_list }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-quotation-id">{{ entry_quotation_id }}</label>
+                <input type="text" name="filter_quotation_id" value="{{ filter_quotation_id }}" placeholder="{{ entry_quotation_id }}" id="input-quotation-id" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="input-status">{{ entry_status }}</label>
+                <select name="filter_status" id="input-status" class="form-control">
+                  <option value="*">{{ entry_select }}</option>
+                  {% for key, status in quotation_status %}
+                    {% if key is not same as ('3') %}
+                      <option value="{{ key }}" {% if filter_status is same as (key) %}{{ 'selected' }}{% endif %}>{{ status }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-owner">{{ entry_owner_name }}</label>
+                <div class='input-group'>
+                  <input type="text" name="filter_owner_name" value="{{ filter_owner_name }}" placeholder="{{ entry_owner_name }}" id="input-owner" class="form-control" />
+                  <span class="input-group-addon">
+                    <span class="fa fa-angle-double-down"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-created-date">{{ entry_created_date }}</label>
+                <div class='input-group date'>
+                  <input type="text" name="filter_created_date" value="{{ filter_created_date }}" placeholder="{{ entry_created_date }}" id="input-created-date" class="form-control" data-date-format="YYYY-MM-DD" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                  </span>
+                </div>
+              </div>
+
+              <a href="{{ clear }}" id="button-clear" class="btn btn-default pull-right"><i class="fa fa-eraser" aria-hidden="true"></i> {{ button_clear }}</a>
+
+              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-product">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                  <td class="text-left">{% if sort is same as ('q.quotation_id') %}
+                    <a href="{{ sort_quotation_id }}" class="{{ order|lower }}">{{ column_quotation_id }}</a>
+                    {% else %}
+                    <a href="{{ sort_quotation_id }}">{{ column_quotation_id }}</a>
+                    {% endif %}
+                  </td>
+                  <td class="text-left">{% if sort is same as ('sd.owner_name') %}
+                    <a href="{{ sort_owner_name }}" class="{{ order|lower }}">{{ column_owner_name }}</a>
+                    {% else %}
+                    <a href="{{ sort_owner_name }}">{{ column_owner_name }}</a>
+                    {% endif %}</td>
+                  <td class="text-center">{{ column_ordered_qty }}</td>
+                  <td class="text-center">{{ column_order_total }}</td>
+                  <td class="text-center">{% if sort is same as ('q.created_date') %}
+                    <a href="{{ sort_created_date }}" class="{{ order|lower }}">{{ column_created_date }}</a>
+                    {% else %}
+                    <a href="{{ sort_created_date }}">{{ column_created_date }}</a>
+                    {% endif %}</td>
+                  <td class="text-left">{% if sort is same as ('q.status') %}
+                    <a href="{{ sort_status }}" class="{{ order|lower }}">{{ column_status }}</a>
+                    {% else %}
+                    <a href="{{ sort_status }}">{{ column_status }}</a>
+                    {% endif %}</td>
+                  <td class="text-right">{{ column_action }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% if po_quotations %}
+                {% for quotation in po_quotations %}
+                <tr>
+                  <td class="text-center">{% if quotation.id in selected %}
+                    <input type="checkbox" name="selected[]" value="{{ quotation.id}}" checked="checked" />
+                    {% else %}
+                    <input type="checkbox" name="selected[]" value="{{ quotation.id }}" />
+                    {% endif %}</td>
+                  <td class="text-left">{{ quotation.format_quote_id }}</td>
+                  <td class="text-left">{{ quotation.supplier_name }}</td>
+                  <td class="text-center">{{ quotation.ordered_qty }}</td>
+                  <td class="text-center">{{ quotation.ordered_total }}</td>
+                  <td class="text-center">{{ quotation.created_date }}</td>
+                  <td class="text-left" style="color:{{ quotation.status_color }};font-size:14px;font-weight:600;">{{ quotation.status }}</td>
+                  <td class="text-right"><a href="{{ quotation.view }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                </tr>
+                {% endfor %}
+                 {% else %}
+                <tr>
+                  <td class="text-center" colspan="8">{{ text_no_record }}</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="row" id="pagination">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	var url = 'index.php?route=po_mgmt/po_quotation&user_token={{ user_token }}';
+
+	var filter_quotation_id = $('input[name=\'filter_quotation_id\']').val();
+
+	if (filter_quotation_id) {
+    var getQuotationId = filter_quotation_id.split('#');
+    if(getQuotationId[1]){
+        url += '&filter_quotation_id=' + encodeURIComponent(getQuotationId[1]);
+    }else{
+        url += '&filter_quotation_id=' + encodeURIComponent(getQuotationId);
+    }
+
+	}
+
+	var filter_owner_name = $('input[name=\'filter_owner_name\']').val();
+
+	if (filter_owner_name) {
+		url += '&filter_owner_name=' + encodeURIComponent(filter_owner_name);
+	}
+
+	var filter_created_date = $('input[name=\'filter_created_date\']').val();
+
+	if (filter_created_date) {
+		url += '&filter_created_date=' + encodeURIComponent(filter_created_date);
+	}
+
+	var filter_status = $('select[name=\'filter_status\']').val();
+
+	if (filter_status != '*') {
+		url += '&filter_status=' + encodeURIComponent(filter_status);
+	}
+	location = url;
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter_owner_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=po_mgmt/po_supplier/autocomplete&user_token={{ user_token }}&filter_owner_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['supplier_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_owner_name\']').val(item['label']);
+	}
+});
+
+$('.date').datetimepicker({
+  pickDate: true,
+  pickTime: false
+});
+//--></script></div>
+{{ footer }}

@@ -1,0 +1,19 @@
+
+a	php:S1192"MDefine a constant instead of duplicating this literal "INSERT INTO " 9 times.(”¦ó
+h	php:S1192g"NDefine a constant instead of duplicating this literal "DELETE FROM `" 7 times.(İ›¼¯ûÿÿÿÿ
+g	php:S1192"MDefine a constant instead of duplicating this literal "', total = '" 4 times.(½‰ãúıÿÿÿÿ
+]	php:S1192!"HDefine a constant instead of duplicating this literal "UPDATE " 5 times.(ÙÅù
+i	php:S1192"ODefine a constant instead of duplicating this literal "', comment = '" 3 times.(½‰ãúıÿÿÿÿ
+M	php:S1481‰"1Remove this unused "$stock_check" local variable.(æ»å8¬ğúø.
+`	php:S1192"LDefine a constant instead of duplicating this literal "', name = '" 4 times.(”¦ó
+f	php:S1192"LDefine a constant instead of duplicating this literal "', code = '" 4 times.(şŠÆãúÿÿÿÿ
+p	php:S1192Æ"UDefine a constant instead of duplicating this literal "' AND subtract = '1'" 4 times.(ß²Ù ÿÿÿÿÿ
+g	php:S1192"QDefine a constant instead of duplicating this literal "account/customer" 3 times.(ÓëÌĞ
+c	php:S11923"IDefine a constant instead of duplicating this literal "UPDATE `" 3 times.(å­•ƒşÿÿÿÿ
+e	php:S1192ñ"ODefine a constant instead of duplicating this literal "SELECT * FROM " 3 times.(ÅÏ±
+b	php:S11925"MDefine a constant instead of duplicating this literal "DELETE FROM " 4 times.(„²Ö
+r	php:S1192"XDefine a constant instead of duplicating this literal "extension/total/voucher" 3 times.(ªõ©£ùÿÿÿÿ
+e	php:S1192z"PDefine a constant instead of duplicating this literal "SELECT * FROM `" 5 times.(¯àú†
+n	php:S3776v"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(À±Ïéùÿÿÿÿ
+d	php:S1192"ODefine a constant instead of duplicating this literal "', `value` = '" 4 times.(¶¯
+o	php:S3776ˆ"TRefactor this function to reduce its Cognitive Complexity from 84 to the 15 allowed.(„ Õõÿÿÿÿÿ

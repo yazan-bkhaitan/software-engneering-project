@@ -1,0 +1,311 @@
+<div class="page-header">
+    <div class="container-fluid">
+
+      <div class="pull-right">
+
+        {% if assign_products %}
+          <button type="submit" form="form_supplier_product" id="save_product_data" data-toggle="tooltip" title="{{ button_save_info }}" class="btn btn-success"><i class="fa fa-floppy-o"></i> {{ button_save }}</button>
+        {% endif %}
+        {% if not tab_option %}
+          <a href="{{ assign_store_product }}" id="assign_store_product" data-toggle="tooltip" title="{{ button_assign_store_product }}" class="btn btn-primary"><i class="fa fa-plus-square" aria-hidden="true"></i> {{ button_assign_store_product }}</a>
+          {% if assign_products %}
+            <button type="button" id="delete_supplier_product" data-toggle="tooltip" title="{{ button_delete_product }}" class="btn btn-danger"><i class="fa fa-trash-o"></i> {{ button_delete_product }}</button>
+          {% endif %}
+        {% endif %}
+
+        {% if tab_option %}
+          <a href="{{ back_to_product_list }}" id="assign_store_product" data-toggle="tooltip" title="{{ button_back }}" class="btn btn-default"><i class="fa fa fa-reply" aria-hidden="true"></i> {{ button_back }}</a>
+        {% endif %}
+      </div>
+      <h3>{{ heading_title_product }}</h3>
+      <hr>
+    </div>
+  </div>
+
+  <div class="container-fluid"  id="product_assign">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+      <div class="well">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-supplier-product-id">{{ column_product_id }}</label>
+                <input type="text" name="filter_product_id" value="{{ filter_product_id }}" placeholder="{{ column_product_id }}" id="input-supplier-product-id" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="input-oc-price">{{ column_oc_price }}</label>
+                <input type="text" name="filter_oc_price" value="{{ filter_oc_price }}" placeholder="{{ column_oc_price }}" id="input-oc-price" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-supplier-product-name">{{ column_product_name }}</label>
+                <div class='input-group'>
+                  <input type="text" name="filter_product_name" value="{{ filter_product_name }}" placeholder="{{ column_product_name }}" id="input-supplier-product-name" class="form-control"/>
+                  <span class="input-group-addon">
+                    <span class="fa fa-angle-double-down"></span>
+                  </span>
+                </div>
+              </div>
+              {% if not tab_option %}
+              <div class="form-group">
+                <label class="control-label" for="input-supplier-sku">{{ column_supplier_sku }}</label>
+                  <div class='input-group'>
+                    <input type="text" name="filter_supplier_sku" value="{{ filter_supplier_sku }}" placeholder="{{ column_supplier_sku }}" id="input-supplier-sku" class="form-control"/>
+                    <span class="input-group-addon">
+                      <span class="fa fa-angle-double-down"></span>
+                    </span>
+                  </div>
+              </div>
+              {% endif %}
+          </div>
+
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label class="control-label" for="input-oc-model">{{ column_oc_model }}</label>
+              <div class='input-group'>
+                <input type="text" name="filter_oc_model" value="{{ filter_oc_model }}" placeholder="{{ column_oc_model }}" id="input-oc-model" class="form-control"/>
+                <span class="input-group-addon">
+                  <span class="fa fa-angle-double-down"></span>
+                </span>
+              </div>
+            </div>
+            {% if not tab_option %}
+            <div class="form-group">
+              <label class="control-label" for="input-supplier-cost">{{ column_supplier_cost }}</label>
+                <input type="text" name="filter_supplier_cost" value="{{ filter_supplier_cost }}" placeholder="{{ column_supplier_cost }}" id="input-supplier-cost" class="form-control"/>
+            </div>
+            {% endif %}
+          </div>
+          <div class="pull-right">
+            <button type="button" onclick="filter_supplier_product();" class="btn btn-info" style="border-radius:0px;">
+              <i class="fa fa-search"></i>{{ button_supplier_product_filter }}</button>
+            <a href="{{ clear_supplier_product_filter }}" class="btn btn-default" style="border-radius:0px;"><i class="fa fa-eraser" aria-hidden="true"></i>{{ button_clear_filter }}</a>
+          </div>
+        </div>
+      </div>
+      {% if not tab_option or tab_option is same as ('assign') %}
+          <form action="{{ assign_product_link }}"  method="post" enctype="multipart/form-data" id="form_supplier_product">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('#product_assign input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                    <td class="text-left">{{ column_product_id }}</td>
+                    <td class="text-left">{{ column_product_name }}</td>
+                    <td class="text-left">{{ column_oc_model }}</td>
+                    <td class="text-left">{{ column_oc_price~' ('~currency_symbol~')' }}</td>
+                    <td class="text-left">{{ column_supplier_sku }}</td>
+                    <td class="text-left">{{ column_supplier_cost~' ('~currency_symbol~')' }}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <input type="hidden" name="supplier_id" value="{{ supplier_id }}" />
+                  {% if assign_products %}
+                  {% for product in assign_products %}
+                  <tr>
+                    <td class="text-center">
+                      {% if post_data.product.product_id %}
+                        <input type="checkbox" name="selected[]" value="{{ product.product_id }}" class="product_row" checked="checked" />
+                      {% else %}
+                        <input type="checkbox" name="selected[]" value="{{ product.product_id }}" class="product_row" />
+                      {% endif %}
+                    </td>
+                    <td class="text-left">{{ product.product_id }}</td>
+                    <td class="text-left">{{ product.product_name }}</td>
+                    <td class="text-left">{{ product.model }}</td>
+                    <td class="text-left">{{ product.price }}</td>
+                    <td class="text-left">
+                      <input type="text" class="form-control" name="product_details[{{ product.product_id }}][supplier_sku]" value="{{ post_data.product.product_id.supplier_sku ? post_data.product.product_id.supplier_sku : product.supplier_sku }}" placeholder="SKU" />
+                      {% if error_supplier_sku.product.product_id %}
+                        <div class="text-danger"> {{ error_supplier_sku.product.product_id }}</div>
+                      {% endif %}
+                      </td>
+                    <td class="text-left">
+                      <input type="text" class="form-control" name="product_details[{{ product.product_id }}][supplier_cost]" value="{{ post_data.product.product_id.supplier_cost ? post_data.product.product_id.supplier_cost : product.supplier_cost }}" placeholder="SKU" />
+                      {% if error_supplier_cost.product.product_id %}
+                        <div class="text-danger"> {{ error_supplier_cost.product.product_id }}</div>
+                      {% endif %}
+                      </td>
+                  </tr>
+                  {% endfor %}
+                   {% else %}
+                  <tr>
+                    <td class="text-center" colspan="7">{{ text_no_results }}</td>
+                  </tr>
+                  {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        {% endif %}
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+  </div>
+
+  <script type="text/javascript"><!--
+  function filter_supplier_product() {
+    var getFilterType = '{{ tab_option }}';
+    if(getFilterType){
+        url = 'index.php?route=po_mgmt/po_supplier/edit&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_active=supplier_product&tab_option={{ tab_option }}';
+    }else{
+        url = 'index.php?route=po_mgmt/po_supplier/edit&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_active=supplier_product';
+    }
+
+    var filter_product_id = $('input[name=\'filter_product_id\']').val();
+
+    if (filter_product_id) {
+      url += '&filter_product_id=' + encodeURIComponent(filter_product_id);
+    }
+
+  	var filter_product_name = $('input[name=\'filter_product_name\']').val();
+
+  	if (filter_product_name) {
+  		url += '&filter_product_name=' + encodeURIComponent(filter_product_name);
+  	}
+
+  	var filter_oc_model = $('input[name=\'filter_oc_model\']').val();
+
+  	if (filter_oc_model) {
+  		url += '&filter_oc_model=' + encodeURIComponent(filter_oc_model);
+  	}
+
+    var filter_oc_price = $('input[name=\'filter_oc_price\']').val();
+
+    if (filter_oc_price) {
+      url += '&filter_oc_price=' + encodeURIComponent(filter_oc_price);
+    }
+
+    var filter_supplier_sku = $('input[name=\'filter_supplier_sku\']').val();
+
+    if (filter_supplier_sku) {
+      url += '&filter_supplier_sku=' + encodeURIComponent(filter_supplier_sku);
+    }
+
+    var filter_supplier_cost = $('input[name=\'filter_supplier_cost\']').val();
+
+    if (filter_supplier_cost) {
+      url += '&filter_supplier_cost=' + encodeURIComponent(filter_supplier_cost);
+    }
+
+  	location = url;
+  }
+
+  $('input[name=\'filter_oc_model\']').autocomplete({
+    delay: 0,
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_supplier_product/autocomplete&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_option={{ tab_option }}&filter_oc_model=' +  encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item.name,
+              value: item.item_id
+            }
+          }));
+        }
+      });
+    },
+    select: function(item) {
+      $('input[name=\'filter_oc_model\']').val(item.label);
+      return false;
+    },
+    focus: function(item) {
+        return false;
+    }
+  });
+
+  $('input[name=\'filter_product_name\']').autocomplete({
+    delay: 0,
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_supplier_product/autocomplete&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_option={{ tab_option }}&filter_product_name=' +  encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item.name,
+              value: item.item_id
+            }
+          }));
+        }
+      });
+    },
+    select: function(item) {
+      $('input[name=\'filter_product_name\']').val(item.label);
+      return false;
+    },
+    focus: function(item) {
+        return false;
+    }
+  });
+
+
+  $('input[name=\'filter_supplier_sku\']').autocomplete({
+    delay: 0,
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=po_mgmt/po_supplier_product/autocomplete&user_token={{ user_token }}&supplier_id={{ supplier_id }}&tab_option={{ tab_option }}&filter_supplier_sku=' +  encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item.name,
+              value: item.item_id
+            }
+          }));
+        }
+      });
+    },
+    select: function(item) {
+      $('input[name=\'filter_supplier_sku\']').val(item.label);
+      return false;
+    },
+    focus: function(item) {
+        return false;
+    }
+  });
+
+  $('#delete_supplier_product').on('click', function(e){
+    e.preventDefault();
+    $('#product_assign .alert').remove();
+    var collectProductRow = [];
+      $('#form_supplier_product .product_row:checked').each(function(){
+        collectProductRow.push($(this).val());
+      })
+      if(collectProductRow.length > 0){
+          $.ajax({
+              url     : 'index.php?route=po_mgmt/po_supplier_product/deleteSupplierProduct&user_token={{ user_token }}&tab_active=supplier_product',
+              data: {selected: collectProductRow, supplier_id : '{{ supplier_id }}'},
+              dataType:'json',
+              type:'POST',
+              beforeSend: function() {
+                $('.container-fluid > .alert').remove();
+              },
+              success: function(json) {
+                if(json['redirect']){
+                  location  = json['redirect'];
+                }
+              },
+              error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+              }
+          })
+      }else{
+          $('#product_assign').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> Warning: Select at least one entry to perform delete operation!<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+      }
+  })
+  //--></script>

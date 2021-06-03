@@ -1,0 +1,287 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+          <div class="pull-right">
+           <button type="button" class="btn btn-info howitworks" data-toggle="modal" data-target="#howitworks">{{ text_howitworks }} <i class="fa fa-question" aria-hidden="true"></i></button>
+         </div>
+    </div>
+  </div>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#settings"><i class="fa fa-cogs"></i></button>
+        {{ menu }}
+      </div>
+      <h1><i class="fa fa-truck fa-fw" style="color:skyblue;"></i> {{ heading_title_list }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+         <a href="{{ add }}" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-success"><i class="fa fa-plus"></i></a>
+          <button type="button" data-toggle="tooltip" title="yoyo" class="btn btn-danger" onclick="confirm('{{ text_confirm }}') ? $('#form-deliveryagent').submit() : false;"><i class="fa fa-trash-o"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_deliveryboyslist }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label class="control-label" for="input-name">{{ entry_firstname }}</label>
+                <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_firstname }}" id="input-name" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label" for="input-email">{{ entry_email }}</label>
+                <input type="text" name="filter_email" value="{{ filter_email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-deliveryagent">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                  <td class="text-left">{% if sort == 'name' %}
+                    <a href="{{ sort_name }}" class="{{ order|lower }}">{{ column_name }}</a>
+                    {% else %}
+                    <a href="{{ sort_name }}">{{ column_name }}</a>
+                    {% endif %}</td>
+                  <td class="text-left">{% if sort == 'c.email' %}
+                    <a href="{{ sort_email }}" class="{{ order|lower }}">{{ column_email }}</a>
+                    {% else %}
+                    <a href="{{ sort_email }}">{{ column_email }}</a>
+                    {% endif %}</td>
+                  <td class="text-left">{% if sort == 'c.date_added' %}
+                    <a href="{{ sort_date_added }}" class="{{ order|lower }}">{{ column_date_added }}</a>
+                    {% else %}
+                    <a href="{{ sort_date_added }}">{{ column_date_added }}</a>
+                    {% endif %}</td>
+                  <td class="text-right">{{ column_action }}</td>
+                </tr>
+              </thead>
+              <tbody>
+                {% if deliveryagents %}
+                {% for deliveryagent in deliveryagents %}
+                <tr>
+                  <td class="text-center">{% if deliveryagent.deliveryagent_id in selected %}
+                    <input type="checkbox" name="selected[]" value="{{ deliveryagent.deliveryagent_id }}" checked="checked" />
+                    {% else %}
+                    <input type="checkbox" name="selected[]" value="{{ deliveryagent.deliveryagent_id }}" />
+                    {% endif %}</td>
+                  <td class="text-left">{{ deliveryagent.name }}</td>
+                  <td class="text-left">{{ deliveryagent.email }}</td>
+                  <td class="text-left">{{ deliveryagent.date_added }}</td>
+                  <td class="text-right">
+                    <a href="{{ deliveryagent.edit }}" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                  <td class="text-center" colspan="5">{{ text_no_results }}</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="settings" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Settings</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="control-label" for="input-frontendlogin">{{ text_frontendlogin }}</label>
+          <div>
+            <a href="{{ frontendlogin }}" target="_blank">{{ frontendlogin }}</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="input-orderstatus">{{ text_orderstatus }}</label>
+            <div class="well well-sm" style="height: 150px; overflow: auto;">
+              {% for order_status in order_statuses %}
+              <div class="checkbox">
+                <label>
+                  {% if order_status['order_status_id'] in deliveryagent_orderstatus %}
+                  <input type="checkbox" name="deliveryagent_orderstatus[]" value="{{ order_status['order_status_id'] }}" checked="checked" />
+                  {{ order_status['name'] }}
+                  {% else %}
+                  <input type="checkbox" name="deliveryagent_orderstatus[]" value="{{ order_status['order_status_id'] }}" />
+                  {{ order_status['name'] }}
+                  {% endif %}
+                </label>
+              </div>
+              {% endfor %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="input-orderstatuschange">{{ text_orderstatuschange }}</label>
+            <div class="well well-sm" style="height: 150px; overflow: auto;">
+              {% for order_status in order_statuses %}
+              <div class="checkbox">
+                <label>
+                  {% if order_status['order_status_id'] in deliveryagent_orderstatuschange %}
+                  <input type="checkbox" name="deliveryagent_orderstatuschange[]" value="{{ order_status['order_status_id'] }}" checked="checked" />
+                  {{ order_status['name'] }}
+                  {% else %}
+                  <input type="checkbox" name="deliveryagent_orderstatuschange[]" value="{{ order_status['order_status_id'] }}" />
+                  {{ order_status['name'] }}
+                  {% endif %}
+                </label>
+              </div>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        &nbsp;<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>&nbsp;
+        <button id="saveSettings" class="btn btn-success">Save Settings</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+  <div id="howitworks" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{ text_howitworks }}</h4>
+      </div>
+      <div class="modal-body">
+        {{ text_howitworks_list_content }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+  url = 'index.php?route=extension/module/deliveryagent&user_token={{ user_token }}';
+
+  var filter_name = $('input[name=\'filter_name\']').val();
+
+  if (filter_name) {
+    url += '&filter_name=' + encodeURIComponent(filter_name);
+  }
+
+  var filter_email = $('input[name=\'filter_email\']').val();
+
+  if (filter_email) {
+    url += '&filter_email=' + encodeURIComponent(filter_email);
+  }
+
+  location = url;
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('input[name=\'filter_name\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=extension/module/deliveryagent/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item.firstname+" "+item.lastname,
+            value: item.deliveryagent_id
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'filter_name\']').val(item.label);
+  }
+});
+
+$('input[name=\'filter_email\']').autocomplete({
+  'source': function(request, response) {
+    $.ajax({
+      url: 'index.php?route=extension/module/deliveryagent/autocomplete&user_token={{ user_token }}&filter_email=' +  encodeURIComponent(request),
+      dataType: 'json',
+      success: function(json) {
+        response($.map(json, function(item) {
+          return {
+            label: item.email,
+            value: item.deliveryagent_id
+          }
+        }));
+      }
+    });
+  },
+  'select': function(item) {
+    $('input[name=\'filter_email\']').val(item.label);
+  }
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('.date').datetimepicker({
+  pickTime: false
+});
+//--></script>
+<script type="text/javascript">
+$('button#saveSettings').on("click",function(){
+  $.ajax({
+     url: 'index.php?route=extension/module/deliveryagent/savesettings&user_token={{ user_token }}',
+     data: $('#settings .modal-body select,#settings .modal-body input[type=checkbox]:checked'),
+      dataType: 'json',
+      success: function(json) {
+        $('.alert').remove();
+        if(json.success != undefined) {
+          $('.modal-body').prepend('<div class="alert alert-success">' + json.success + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+          document.location.reload(true);
+        } else {
+          $('.modal-body').prepend('<div class="alert alert-warning">' + json.error + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        }
+      }
+    });
+});
+</script>
+</div>
+{{ footer }}
